@@ -10,12 +10,14 @@ public class Player extends Entity{
     GamePanel gp;
     //keylissener (main. [me lo fa mettere lui non so cosa serva])
     main.KeyHandler keyH;
+    main.MouseHandler mousH; 
     
 
 
-    public Player(GamePanel gp, main.KeyHandler keyH2) {
+    public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH) {
         this.gp = gp;
         this.keyH = keyH2;
+        this.mousH = mousH;
 
         setDefaultValues();
         getPlayerImg();
@@ -27,7 +29,7 @@ public class Player extends Entity{
         y = 100;
         speed = 4;
         direction = "rg1";
-
+    
     }
     //carichiamo sulle immagini Buffer le immagini nella cartella con segunete posizione
     public void getPlayerImg(){
@@ -49,6 +51,24 @@ public class Player extends Entity{
             lf6 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left6.png"));
             lf7 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left7.png"));
             lf8 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left8.png"));
+
+            rgA1 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right1.png"));
+            rgA2 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right2.png"));
+            rgA3 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right3.png"));
+            rgA4 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right4.png"));
+            rgA5 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right5.png"));
+            rgA6 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right6.png"));
+            rgA7 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right7.png"));
+            rgA8 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right8.png"));
+
+            lfA1 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left8.png"));
+            lfA2 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left7.png"));
+            lfA3 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left6.png"));
+            lfA4 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left5.png"));
+            lfA5 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left4.png"));
+            lfA6 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left3.png"));
+            lfA7 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left2.png"));
+            lfA8 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left1.png"));
         }
         catch(IOException e)
         {
@@ -83,7 +103,10 @@ public class Player extends Entity{
             direction = "right"; //sto dicendo che deve guardare gli sprite di destra
             x += speed;   
         }
+
+
         SpriteCounter++; //2
+        if(mousH.leftPressed != true){
         if(SpriteCounter > 10){ //3
             if(SpriteNum == 1) //4
             {
@@ -119,13 +142,72 @@ public class Player extends Entity{
             }
 
             SpriteCounter = 0; //setto a 0
+            }
+          }
         }
-    }
+
+        //se mouse premuto
+         if (mousH.leftPressed) {
+            //da 0 passo a 1
+            AttackSpriteCounter++;
+            //guardo la direzione del Player
+            if(direction.equals("left"))
+            {
+                Attack = "left";
+            }
+            if(direction.equals("right"))
+            {
+                 Attack = "right";
+            }
+        }
+
+        //scorro direzione
+        if(AttackSpriteCounter > 2){ 
+            if(AttackSpriteNum == 1) //in base a il frame in qui mi trovo setto il prossimo
+            {
+                AttackSpriteNum = 2;
+            }
+            else if(AttackSpriteNum == 2)
+            {
+                AttackSpriteNum = 3;
+            }
+            else if(AttackSpriteNum == 3)
+            {
+                AttackSpriteNum = 4;
+            }
+            else if(AttackSpriteNum == 4)
+            {
+                AttackSpriteNum = 5;
+            }
+            else if(AttackSpriteNum == 5)
+            {
+                AttackSpriteNum = 6;
+            }
+            else if(AttackSpriteNum == 6)
+            {
+                AttackSpriteNum = 7;
+            }
+            else if(AttackSpriteNum == 7)
+            {
+                AttackSpriteNum = 8;
+            }
+            else if(AttackSpriteNum == 8)
+            {
+                AttackSpriteNum = 1;
+            }
+
+            AttackSpriteCounter = 0; //setto a 0
+        }
+
     }
 
     public void draw(Graphics2D g2)
     {
-        BufferedImage image = null; // immagine che verra stampata: a null;
+        BufferedImage image = null; // immagine che verra stampata: a null Player che cammina
+        BufferedImage Aimage = null; // immagine che verra stampata: a null Player che attacca
+        //finche il mouse non e premuto (tasto sinistro)
+        if(mousH.leftPressed != true)
+        {
         switch (direction) {
             case "left":
                 if(SpriteNum == 1) //in base a left o right e allo spriteNum decido che immagine caricare su image
@@ -199,8 +281,87 @@ public class Player extends Entity{
                 image = rg1;
                 break;
         }
+    }
+    else{
 
+    switch (Attack) {
+            case "left":
+                if(AttackSpriteNum == 1) //in base a left o right e allo AttackSpriteNum decido che immagine caricare su image
+                {
+                    Aimage = lfA1;
+                }
+                if(AttackSpriteNum == 2)
+                {
+                    Aimage = lfA2;
+                }
+                if(AttackSpriteNum == 3)
+                {
+                    Aimage = lfA3;
+                }
+                if(AttackSpriteNum == 4)
+                {
+                    Aimage = lfA4;
+                }
+                if(AttackSpriteNum == 5)
+                {
+                    Aimage = lfA5;
+                }
+                if(AttackSpriteNum == 6)
+                {
+                    Aimage = lfA6;
+                }
+                if(AttackSpriteNum == 7)
+                {
+                    Aimage = lfA7;
+                }
+                if(AttackSpriteNum == 8)
+                {
+                    Aimage = lfA8;
+                }
+                break;
+            case "right":
+                if(AttackSpriteNum == 1)
+                {
+                    Aimage = rgA1;
+                }
+                if(AttackSpriteNum == 2)
+                {
+                    Aimage = rgA2;
+                }
+                if(AttackSpriteNum == 3)
+                {
+                    Aimage = rgA3;
+                }
+                if(AttackSpriteNum == 4)
+                {
+                    Aimage = rgA4;
+                }
+                if(AttackSpriteNum == 5)
+                {
+                    Aimage = rgA5;
+                }
+                if(AttackSpriteNum == 6)
+                {
+                    Aimage = rgA6;
+                }
+                if(AttackSpriteNum == 7)
+                {
+                    Aimage = rgA7;
+                }
+                if(AttackSpriteNum == 8)
+                {
+                    Aimage = rgA8;
+                }
+                break;
+            default: 
+                Aimage = rg1;
+                break;
+        }
+        }
+
+        //DISEGNO USANDO LA GRAPHIC2D LE IMMAGINI
         g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null); //disegno image con x e y del player (o dovuto aumentare la dimensione del immagine[*4] )
+        g2.drawImage(Aimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null); //disegno image con x e y del player (o dovuto aumentare la dimensione del immagine[*4] )
     }
     
 }

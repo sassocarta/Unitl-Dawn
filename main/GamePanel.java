@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseListener;
+
 import javax.swing.JPanel;
 
 import entity.Player;
@@ -34,9 +36,10 @@ public class GamePanel extends JPanel implements Runnable{
     //FPS 
     int FPS = 60;
     
-    KeyHandler KeyH = new KeyHandler();
+    KeyHandler KeyH = new KeyHandler(); //aggiungo un KeyHendler
+    MouseHandler MouseH = new MouseHandler(); //aggiungo un MouseHendler
     Thread gamThread;
-    Player player = new Player(this, KeyH);
+    Player player = new Player(this, KeyH, MouseH);
 
     //set paleyer defoult posizione
     int playerX = 100;
@@ -50,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(KeyH);
+        this.addMouseListener((MouseListener) MouseH); //aggiungo a questo JPnale il Mouse lissener (MouseH)
         this.setFocusable(true);
 
     }
@@ -99,6 +103,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update(){
         //chimao il metodo Update di player 
         player.update();
+
     }
 
     public void paintComponent(Graphics g){
