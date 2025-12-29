@@ -37,7 +37,7 @@ public TileManager(GamePanel gp,Player pl){
     maptileNum = new int[gp.MaxScreenCol][gp.MaxScreenRow];
     this.pl = pl;
     //carico mappa centrale
-    LoadMap("/Asset/maps/center.txt");
+    LoadMap("/src/maps/center.txt");
     //segno che mappo stiamo mostrando
     currentMap = "center";
     //setto il ciclo a DAY
@@ -58,7 +58,7 @@ public void update()
     //se il palyer dopo la riga 0 e la mappa e center:
     if (pl.playerRow < 0 && currentMap.equals("center")) {
     //carico la mappa per la stanza inalto
-    LoadMap("/Asset/maps/top.txt");
+    LoadMap("/src/maps/top.txt");
     //dico che la mappa che stiamo usando e top
     currentMap = "top";
     //metto il player alle cordinate che diano l'illusione si uscire dalla porta di stanza top
@@ -71,7 +71,7 @@ public void update()
     }
     //COSI PER RIGHT LEFT DOWN e tutti gli altri casi:
     else if (pl.playerRow > 9 && currentMap.equals("top")) {
-    LoadMap("/Asset/maps/center.txt");
+    LoadMap("/src/maps/center.txt");
     currentMap = "center";
     pl.x = 300;
     pl.y = 0;
@@ -79,7 +79,7 @@ public void update()
     transiton.play();
     }
     else if (pl.playerCol < -1 && currentMap.equals("center")) {
-    LoadMap("/Asset/maps/right.txt");
+    LoadMap("/src/maps/right.txt");
     currentMap = "right";
     pl.x = 600;
     pl.y = 200;
@@ -87,7 +87,7 @@ public void update()
     transiton.play();
     }
     else if (pl.playerCol > 13 && currentMap.equals("right")) {
-    LoadMap("/Asset/maps/center.txt");
+    LoadMap("/src/maps/center.txt");
     currentMap = "center";
     pl.x = -50;
     pl.y = 200;
@@ -95,7 +95,7 @@ public void update()
     transiton.play();
     }
     else if (pl.playerCol > 13 && currentMap.equals("center")) {
-    LoadMap("/Asset/maps/left.txt"); 
+    LoadMap("/src/maps/left.txt"); 
     currentMap = "left";
     pl.x = -50;
     pl.y = 200;
@@ -103,7 +103,7 @@ public void update()
     transiton.play();
     }
     else if (pl.playerCol < -1 && currentMap.equals("left")) {
-    LoadMap("/Asset/maps/center.txt");
+    LoadMap("/src/maps/center.txt");
     currentMap = "center";
     pl.x = 630;
     pl.y = 200;
@@ -111,7 +111,7 @@ public void update()
     transiton.play();
     }
     else if (pl.playerRow > 9 && currentMap.equals("center")) {
-    LoadMap("/Asset/maps/down.txt");
+    LoadMap("/src/maps/down.txt");
     currentMap = "down";
     pl.x = 300;
     pl.y = -60;
@@ -119,7 +119,7 @@ public void update()
     transiton.play();
     }
     else if (pl.playerRow < -1 && currentMap.equals("down")) {
-    LoadMap("/Asset/maps/center.txt");
+    LoadMap("/src/maps/center.txt");
     currentMap = "center";
     pl.x = 300;
     pl.y = 450;
@@ -133,25 +133,25 @@ public void GetTileImgNight()
     //carico nel vettore i tile che devo usare (LA VERSIONE NOTTURNA) /Asset/Tile/NIGHT
     try{
         tile[0] = new Tile();
-        tile[0].image = ImageIO.read(getClass().getResource("/Asset/Tile/NIGHT/grass1.png"));
+        tile[0].image = ImageIO.read(getClass().getResource("/src/Tile/NIGHT/grass1.png"));
         
         tile[1] = new Tile(); 
-        tile[1].image = ImageIO.read(getClass().getResource("/Asset/Tile/NIGHT/rock.png"));
+        tile[1].image = ImageIO.read(getClass().getResource("/src/Tile/NIGHT/rock.png"));
 
         tile[2] = new Tile();
-        tile[2].image = ImageIO.read(getClass().getResource("/Asset/Tile/NIGHT/water.png"));
+        tile[2].image = ImageIO.read(getClass().getResource("/src/Tile/NIGHT/water.png"));
 
         tile[3] = new Tile();
-        tile[3].image = ImageIO.read(getClass().getResource("/Asset/Tile/NIGHT/gras.png"));
+        tile[3].image = ImageIO.read(getClass().getResource("/src/Tile/NIGHT/gras.png"));
 
         tile[4] = new Tile();
-        tile[4].image = ImageIO.read(getClass().getResource("/Asset/Tile/NIGHT/grasss.png"));
+        tile[4].image = ImageIO.read(getClass().getResource("/src/Tile/NIGHT/grasss.png"));
 
         tile[5] = new Tile();
-        tile[5].image = ImageIO.read(getClass().getResource("/Asset/Tile/NIGHT/tree.png"));
+        tile[5].image = ImageIO.read(getClass().getResource("/src/Tile/NIGHT/tree.png"));
 
         tile[6] = new Tile();
-        tile[6].image = ImageIO.read(getClass().getResource("/Asset/Tile/NIGHT/bush.png"));
+        tile[6].image = ImageIO.read(getClass().getResource("/src/Tile/NIGHT/bush.png"));
 
 
 
@@ -167,25 +167,25 @@ public void GetTileImgDay(){
 try{
     //carico nel vettore i tile che devo usare (LA VERSIONE GIORNO) /Asset/Tile/DAY
         tile[0] = new Tile();
-        tile[0].image = ImageIO.read(getClass().getResource("/Asset/Tile/DAY/grass1.png"));
+        tile[0].image = ImageIO.read(getClass().getResource("/src/Tile/DAY/grass1.png"));
         
         tile[1] = new Tile(); 
-        tile[1].image = ImageIO.read(getClass().getResource("/Asset/Tile/DAY/rock.png"));
+        tile[1].image = ImageIO.read(getClass().getResource("/src/Tile/DAY/rock.png"));
 
         tile[2] = new Tile();
-        tile[2].image = ImageIO.read(getClass().getResource("/Asset/Tile/DAY/water.png"));
+        tile[2].image = ImageIO.read(getClass().getResource("/src/Tile/DAY/water.png"));
 
         tile[3] = new Tile();
-        tile[3].image = ImageIO.read(getClass().getResource("/Asset/Tile/DAY/gras.png"));
+        tile[3].image = ImageIO.read(getClass().getResource("/src/Tile/DAY/gras.png"));
 
         tile[4] = new Tile();
-        tile[4].image = ImageIO.read(getClass().getResource("/Asset/Tile/DAY/grasss.png"));
+        tile[4].image = ImageIO.read(getClass().getResource("/src/Tile/DAY/grasss.png"));
 
         tile[5] = new Tile();
-        tile[5].image = ImageIO.read(getClass().getResource("/Asset/Tile/DAY/tree.png"));
+        tile[5].image = ImageIO.read(getClass().getResource("/src/Tile/DAY/tree.png"));
 
         tile[6] = new Tile();
-        tile[6].image = ImageIO.read(getClass().getResource("/Asset/Tile/DAY/bush.png"));
+        tile[6].image = ImageIO.read(getClass().getResource("/src/Tile/DAY/bush.png"));
 
 
 

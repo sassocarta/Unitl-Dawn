@@ -56,123 +56,123 @@ public class Player extends Entity {
     // posizione
     public void getPlayerImg() {
         try {
-            rg1 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile1.png"));
+            rg1 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile1.png"));
 
-            rg2 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile2.png"));
+            rg2 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile2.png"));
 
-            rg3 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile3.png"));
+            rg3 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile3.png"));
 
-            rg4 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile4.png"));
+            rg4 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile4.png"));
 
-            rg5 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile5.png"));
+            rg5 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile5.png"));
 
-            rg6 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile6.png"));
+            rg6 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile6.png"));
 
-            rg7 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile7.png"));
+            rg7 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile7.png"));
 
-            rg8 = ImageIO.read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_walk_right/tile8.png"));
+            rg8 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile8.png"));
 
-            lf1 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left1.png"));
+            lf1 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left1.png"));
 
-            lf2 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left2.png"));
+            lf2 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left2.png"));
 
-            lf3 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left3.png"));
+            lf3 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left3.png"));
 
-            lf4 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left4.png"));
+            lf4 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left4.png"));
 
-            lf5 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left5.png"));
+            lf5 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left5.png"));
 
-            lf6 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left6.png"));
+            lf6 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left6.png"));
 
-            lf7 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left7.png"));
+            lf7 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left7.png"));
 
-            lf8 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left8.png"));
+            lf8 = ImageIO.read(getClass().getResource("/src/Player/Player_LEFT/Player_walk_left/tile_left8.png"));
 
             rgA1 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right1.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right1.png"));
             rgA2 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right2.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right2.png"));
             rgA3 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right3.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right3.png"));
             rgA4 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right4.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right4.png"));
             rgA5 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right5.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right5.png"));
             rgA6 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right6.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right6.png"));
             rgA7 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right7.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right7.png"));
             rgA8 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right8.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_attack1_right/tile_attack1_right8.png"));
 
             lfA1 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left8.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left8.png"));
             lfA2 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left7.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left7.png"));
             lfA3 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left6.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left6.png"));
             lfA4 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left5.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left5.png"));
             lfA5 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left4.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left4.png"));
             lfA6 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left3.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left3.png"));
             lfA7 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left2.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left2.png"));
             lfA8 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_LEFT/Player_attack1_left/tile_attack1_left1.png"));
+                    getClass().getResource("/src/Player/Player_LEFT/Player_attack1_left/tile_attack1_left1.png"));
 
             blR1 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_block_right/tile_block_right1.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_block_right/tile_block_right1.png"));
             blR2 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_block_right/tile_block_right2.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_block_right/tile_block_right2.png"));
             blR3 = ImageIO.read(
-                    getClass().getResource("/Asset/Player/Player_RIGHT/Player_block_right/tile_block_right3.png"));
+                    getClass().getResource("/src/Player/Player_RIGHT/Player_block_right/tile_block_right3.png"));
 
             // pre qualche motvo gli sheet della parata a destra erano al contrario, quindi
             // gli ultimi sono i primi
             blL1 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_block_left/tile_block_left6.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_block_left/tile_block_left6.png"));
             blL2 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_block_left/tile_block_left5.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_block_left/tile_block_left5.png"));
             blL3 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_block_left/tile_block_left4.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_block_left/tile_block_left4.png"));
 
             Rid1 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right1.png"));
+                    .read(getClass().getResource("/src/Player/Player_RIGHT/Player_idel_right/tile_idel_right1.png"));
 
             Rid2 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right2.png"));
+                    .read(getClass().getResource("/src/Player/Player_RIGHT/Player_idel_right/tile_idel_right2.png"));
 
             Rid3 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right3.png"));
+                    .read(getClass().getResource("/src/Player/Player_RIGHT/Player_idel_right/tile_idel_right3.png"));
 
             Rid4 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right4.png"));
+                    .read(getClass().getResource("/src/Player/Player_RIGHT/Player_idel_right/tile_idel_right4.png"));
 
             Rid5 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right5.png"));
+                    .read(getClass().getResource("/src/Player/Player_RIGHT/Player_idel_right/tile_idel_right5.png"));
 
             Rid6 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right6.png"));
+                    .read(getClass().getResource("/src/Player/Player_RIGHT/Player_idel_right/tile_idel_right6.png"));
 
             Lid1 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left1.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_idel_left/tile_idel_left1.png"));
 
             Lid2 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left2.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_idel_left/tile_idel_left2.png"));
 
             Lid3 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left3.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_idel_left/tile_idel_left3.png"));
 
             Lid4 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left4.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_idel_left/tile_idel_left4.png"));
 
             Lid5 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left5.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_idel_left/tile_idel_left5.png"));
 
             Lid6 = ImageIO
-                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left6.png"));
+                    .read(getClass().getResource("/src/Player/Player_LEFT/Player_idel_left/tile_idel_left6.png"));
 
         } catch (IOException e) {
             // se non trova le immagini stamapa
