@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -20,12 +21,12 @@ public class GamePanel extends JPanel implements Runnable {
      * rappresenta un pezzo del mondo di gioco (erba, muro, acqua, strada…)
      */
 
-    final int originalTileSize = 16; // 16x16 tile //standard size per npc player pezzi mappa etc..
-    final int scale = 3; // scale 16x3(scale) = 48
+    public final int originalTileSize = 16; // 16x16 tile //standard size per npc player pezzi mappa etc..
+    public final int scale = 3; // scale 16x3(scale) = 48
 
     public final int tileSize = originalTileSize * scale; // 48x48
-    final int MaxScreenCol = 16;
-    final int MaxScreenRow = 12; // 16 tile orizzontali, e 12 tile verticali, ogni tile gia come detto prima
+    public final int MaxScreenCol = 16;
+    public final int MaxScreenRow = 12; // 16 tile orizzontali, e 12 tile verticali, ogni tile gia come detto prima
                                  // 48x48
 
     // dimesione dello schermo
@@ -35,10 +36,15 @@ public class GamePanel extends JPanel implements Runnable {
     // FPS
     int FPS = 60;
 
+
     KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
     MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
-    Thread gamThread;
-    Player player = new Player(this, KeyH, MouseH);
+    Thread gamThread; // thread del game loop
+    Player player = new Player(this, KeyH, MouseH); // aggiugo Player
+    TileManager tileM = new TileManager(this, player); //aggiugo TileManager
+    Sound soundBG = new Sound(); // aggiungo il suono del BG
+
+    public String cicle;
 
     // set paleyer defoult posizione
     int playerX = 100;
@@ -53,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(KeyH);
         this.addMouseListener((MouseListener) MouseH); // aggiungo a questo JPnale il Mouse lissener (MouseH)
         this.setFocusable(true);
+        
 
     }
 
@@ -103,7 +110,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         // chimao il metodo Update di player
-        player.update();
+        player.update(); // player update
+        tileM.update(); // tileM update
+
 
     }
 
@@ -113,10 +122,22 @@ public class GamePanel extends JPanel implements Runnable {
         // Graphics2D a piu funzioni, meglio di Graphics
         Graphics2D g2 = (Graphics2D) g;
 
+        tileM.draw(g2);
         // chimao il metodo draw di player (gli devo passare g2 per funzionare)
         player.draw(g2);
+        
 
         // disegna
         g2.dispose();
+    }
+    public void avviaMusica(int i)
+    {
+        soundBG.setFile(i);//setta il file con numero int i
+        soundBG.play(); //lo riproduce
+        soundBG.loop();//lo mette in loop
+    }
+    public void FermaMusica()
+    {
+        soundBG.stop(); // ferma il file musicale riprodotto
     }
 }

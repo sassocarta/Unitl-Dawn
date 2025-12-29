@@ -12,13 +12,11 @@ public class MouseHandler extends MouseAdapter {
     @Override
     // Se tasto sinistro mouse premuto
     public void mousePressed(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e)) {
+        if (SwingUtilities.isLeftMouseButton(e) && rightPressed == false) {
             leftPressed = true;
-            System.out.println("Premuto tasto sinistro");
         }
-        if (SwingUtilities.isRightMouseButton(e)) {
+        if (SwingUtilities.isRightMouseButton(e) && leftPressed == false) {
             rightPressed = true;
-            System.out.println("Premuto tasto destro");
         }
     }
 
@@ -27,11 +25,9 @@ public class MouseHandler extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             leftPressed = false;
-            System.out.println("Rilasciato tasto sinistro");
         }
         if (SwingUtilities.isRightMouseButton(e)) {
             rightPressed = false;
-            System.out.println("Rilasciato tasto destro");
         }
     }
 }

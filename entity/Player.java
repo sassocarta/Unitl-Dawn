@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.Sound;
 
 public class Player extends Entity {
     // Jpanel
@@ -12,10 +13,22 @@ public class Player extends Entity {
     // keylissener (main. [me lo fa mettere lui non so cosa serva])
     main.KeyHandler keyH;
     main.MouseHandler mousH;
+
+    Sound hitSound;
+    boolean attackSoundPlayed = false;
+
     BufferedImage blR1, blR2, blR3, blL1, blL2, blL3;
     int BlockSpriteCounter = 0;
     int BlockSpriteNum = 1;
     String bolck;
+
+    BufferedImage Rid1, Rid2, Rid3, Rid4, Rid5, Rid6, Lid1, Lid2, Lid3, Lid4, Lid5, Lid6;
+    int IdelSpriteCpunter = 0;
+    int IdelSpriteNum = 1;
+    String idel;
+
+    public int playerCol;
+    public int playerRow;
 
     public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH) {
         this.gp = gp;
@@ -24,6 +37,9 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImg();
+
+        hitSound = new Sound();
+        hitSound.setFile(1);
     }
 
     public void setDefaultValues() {
@@ -32,6 +48,7 @@ public class Player extends Entity {
         y = 100;
         speed = 4;
         direction = "rg1";
+        idel = "right";
 
     }
 
@@ -68,7 +85,7 @@ public class Player extends Entity {
             lf6 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left6.png"));
 
             lf7 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left7.png"));
-            
+
             lf8 = ImageIO.read(getClass().getResource("/Asset/Player/Player_LEFT/Player_walk_left/tile_left8.png"));
 
             rgA1 = ImageIO.read(
@@ -111,14 +128,51 @@ public class Player extends Entity {
                     getClass().getResource("/Asset/Player/Player_RIGHT/Player_block_right/tile_block_right2.png"));
             blR3 = ImageIO.read(
                     getClass().getResource("/Asset/Player/Player_RIGHT/Player_block_right/tile_block_right3.png"));
-                    
-            // pre qualche motvo gli sheet della parata a destra erano al contrario, quindi gli ultimi sono i primi
+
+            // pre qualche motvo gli sheet della parata a destra erano al contrario, quindi
+            // gli ultimi sono i primi
             blL1 = ImageIO
                     .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_block_left/tile_block_left6.png"));
             blL2 = ImageIO
                     .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_block_left/tile_block_left5.png"));
             blL3 = ImageIO
                     .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_block_left/tile_block_left4.png"));
+
+            Rid1 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right1.png"));
+
+            Rid2 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right2.png"));
+
+            Rid3 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right3.png"));
+
+            Rid4 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right4.png"));
+
+            Rid5 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right5.png"));
+
+            Rid6 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_RIGHT/Player_idel_right/tile_idel_right6.png"));
+
+            Lid1 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left1.png"));
+
+            Lid2 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left2.png"));
+
+            Lid3 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left3.png"));
+
+            Lid4 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left4.png"));
+
+            Lid5 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left5.png"));
+
+            Lid6 = ImageIO
+                    .read(getClass().getResource("/Asset/Player/Player_LEFT/Player_idel_left/tile_idel_left6.png"));
 
         } catch (IOException e) {
             // se non trova le immagini stamapa
@@ -128,6 +182,10 @@ public class Player extends Entity {
 
     // metodo update del player
     public void update() {
+
+        playerCol = x / gp.tileSize; //restituisce la colonna su qui si trova il player nei tile della mappa
+        playerRow = y / gp.tileSize; //restituisce la righa su qui si trova il player nei tile della mappa
+
         // se tasto premuto:
         // 1.sposto posizione player
         // 2.vado avanti di uno sprite nella animazione
@@ -179,6 +237,10 @@ public class Player extends Entity {
         if (mousH.leftPressed && mousH.rightPressed != true) {
             // da 0 passo a 1
             AttackSpriteCounter++;
+
+            if (!attackSoundPlayed) {
+                attackSoundPlayed = true; // non farlo ripartire finché il tasto è premuto
+            }
             // guardo la direzione del Player
             if (direction.equals("left")) {
                 Attack = "left";
@@ -186,10 +248,10 @@ public class Player extends Entity {
             if (direction.equals("right")) {
                 Attack = "right";
             }
+
         }
         // se mouse tasto destro premuto
         if (mousH.rightPressed) {
-
             BlockSpriteCounter++;
 
             bolck = direction;
@@ -218,6 +280,7 @@ public class Player extends Entity {
             } else if (AttackSpriteNum == 2) {
                 AttackSpriteNum = 3;
             } else if (AttackSpriteNum == 3) {
+                hitSound.play();
                 AttackSpriteNum = 4;
             } else if (AttackSpriteNum == 4) {
                 AttackSpriteNum = 5;
@@ -229,9 +292,12 @@ public class Player extends Entity {
                 AttackSpriteNum = 8;
             } else if (AttackSpriteNum == 8) {
                 AttackSpriteNum = 1;
+                attackSoundPlayed = false;
+
             }
 
             AttackSpriteCounter = 0; // setto a 0
+
         }
 
         if (BlockSpriteCounter > 2) {
@@ -246,12 +312,32 @@ public class Player extends Entity {
             }
         }
 
+        if (keyH.upPressed == false && keyH.dowPressed == false && keyH.leftPressed == false
+                && keyH.rightPressed == false && mousH.leftPressed == false && mousH.rightPressed == false) {
+            IdelSpriteCpunter++;
+            if (direction.equals("left")) {
+                idel = "left";
+            }
+            if (direction.equals("right")) {
+                idel = "right";
+            }
+
+            if (IdelSpriteCpunter > 10) {
+                IdelSpriteNum++;
+
+                if (IdelSpriteNum > 6) {
+                    IdelSpriteNum = 1;
+                }
+                IdelSpriteCpunter = 0;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null; // immagine che verra stampata: a null Player che cammina
         BufferedImage Aimage = null; // immagine che verra stampata: a null Player che attacca
         BufferedImage Blimage = null; // immagine che verra stampata: a null Player che attacca
+        BufferedImage Idlimage = null; // immagine che verra stampata: a null Player che attacca
 
         // finche il mouse non e premuto (tasto sinistro)
         if (mousH.leftPressed != true && mousH.rightPressed != true) {
@@ -411,16 +497,70 @@ public class Player extends Entity {
             }
         }
 
+        if (keyH.upPressed == false && keyH.dowPressed == false && keyH.leftPressed == false
+                && keyH.rightPressed == false && mousH.leftPressed == false && mousH.rightPressed == false) {
+            switch (idel) {
+                case "left":
+                    if (IdelSpriteNum == 1) // in base a left o right e allo AttackSpriteNum decido che immagine
+                                            // caricare su image
+                    {
+                        Idlimage = Lid1;
+                    }
+                    if (IdelSpriteNum == 2) {
+                        Idlimage = Lid2;
+                    }
+                    if (IdelSpriteNum == 3) {
+                        Idlimage = Lid3;
+                    }
+                    if (IdelSpriteNum == 4) {
+                        Idlimage = Lid4;
+                    }
+                    if (IdelSpriteNum == 5) {
+                        Idlimage = Lid5;
+                    }
+                    if (IdelSpriteNum == 6) {
+                        Idlimage = Lid6;
+                    }
+                    break;
+                case "right":
+                    if (IdelSpriteNum == 1) {
+                        Idlimage = Rid1;
+                    }
+                    if (IdelSpriteNum == 2) {
+                        Idlimage = Rid2;
+                    }
+                    if (IdelSpriteNum == 3) {
+                        Idlimage = Rid3;
+                    }
+                    if (IdelSpriteNum == 4) {
+                        Idlimage = Rid4;
+                    }
+                    if (IdelSpriteNum == 5) {
+                        Idlimage = Rid5;
+                    }
+                    if (IdelSpriteNum == 6) {
+                        Idlimage = Rid6;
+                    }
+                    break;
+                default:
+                    Idlimage = Rid1;
+                    break;
+            }
+        }
+
         // DISEGNO USANDO LA GRAPHIC2D LE IMMAGINI
-        g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null); // disegno image con x e y del player (o
-                                                                           // dovuto aumentare la dimensione del
-                                                                           // immagine[*4] )
-        g2.drawImage(Aimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null); // disegno image con x e y del player (o
-                                                                            // dovuto aumentare la dimensione del
-                                                                            // immagine[*4] )
-        g2.drawImage(Blimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null); // disegno image con x e y del player (o
-                                                                             // dovuto aumentare la dimensione del
-                                                                             // immagine[*4] )
+        if (mousH.leftPressed) {
+            g2.drawImage(Aimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
+        } else if (mousH.rightPressed) {
+
+            g2.drawImage(Blimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
+        } else if (!keyH.upPressed && !keyH.dowPressed && !keyH.leftPressed && !keyH.rightPressed) {
+
+            g2.drawImage(Idlimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
+        } else {
+
+            g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
+        } 
     }
 
 }

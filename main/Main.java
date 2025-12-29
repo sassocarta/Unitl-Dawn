@@ -13,7 +13,7 @@ public class Main {
         // dimesione fissa, non modificabile
         window.setResizable(false);
         // titolo
-        window.setTitle("PROVA1.GAME");
+        window.setTitle("PROVA2.GAME");
         // aggiungiamo al JFrame il nostro Jpanel(GamePanel)
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
