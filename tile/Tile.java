@@ -1,8 +1,9 @@
 package tile;
+
 import java.awt.image.BufferedImage;
 
 public class Tile {
-    //IMMAGINE
+    // IMMAGINE
     public BufferedImage image;
 
 }

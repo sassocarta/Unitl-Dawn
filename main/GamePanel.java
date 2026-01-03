@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import collision.CollisionManager;
 import entity.Player;
 import tile.TileManager;
 
@@ -27,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = originalTileSize * scale; // 48x48
     public final int MaxScreenCol = 16;
     public final int MaxScreenRow = 12; // 16 tile orizzontali, e 12 tile verticali, ogni tile gia come detto prima
-                                 // 48x48
+    // 48x48
 
     // dimesione dello schermo
     final int ScreeWidth = tileSize * MaxScreenCol; // 768 pixels
@@ -36,13 +37,13 @@ public class GamePanel extends JPanel implements Runnable {
     // FPS
     int FPS = 60;
 
-
-    KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
     MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
     Thread gamThread; // thread del game loop
+    KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
     Player player = new Player(this, KeyH, MouseH); // aggiugo Player
-    TileManager tileM = new TileManager(this, player); //aggiugo TileManager
+    TileManager tileM = new TileManager(this, player); // aggiugo TileManager
     Sound soundBG = new Sound(); // aggiungo il suono del BG
+    CollisionManager cl = new CollisionManager(player, tileM, this);
 
     public String cicle;
 
@@ -59,7 +60,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(KeyH);
         this.addMouseListener((MouseListener) MouseH); // aggiungo a questo JPnale il Mouse lissener (MouseH)
         this.setFocusable(true);
-        
 
     }
 
@@ -112,8 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
         // chimao il metodo Update di player
         player.update(); // player update
         tileM.update(); // tileM update
-
-
+        cl.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -125,19 +124,20 @@ public class GamePanel extends JPanel implements Runnable {
         tileM.draw(g2);
         // chimao il metodo draw di player (gli devo passare g2 per funzionare)
         player.draw(g2);
-        
+
+        cl.draw(g2);
 
         // disegna
         g2.dispose();
     }
-    public void avviaMusica(int i)
-    {
-        soundBG.setFile(i);//setta il file con numero int i
-        soundBG.play(); //lo riproduce
-        soundBG.loop();//lo mette in loop
+
+    public void avviaMusica(int i) {
+        soundBG.setFile(i);// setta il file con numero int i
+        soundBG.play(); // lo riproduce
+        soundBG.loop();// lo mette in loop
     }
-    public void FermaMusica()
-    {
+
+    public void FermaMusica() {
         soundBG.stop(); // ferma il file musicale riprodotto
     }
 }

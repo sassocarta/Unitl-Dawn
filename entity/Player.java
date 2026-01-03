@@ -22,6 +22,8 @@ public class Player extends Entity {
     int BlockSpriteNum = 1;
     String bolck;
 
+    public boolean mov = true;
+
     BufferedImage Rid1, Rid2, Rid3, Rid4, Rid5, Rid6, Lid1, Lid2, Lid3, Lid4, Lid5, Lid6;
     int IdelSpriteCpunter = 0;
     int IdelSpriteNum = 1;
@@ -180,11 +182,57 @@ public class Player extends Entity {
         }
     }
 
+    public void movimento(boolean mov) {
+        if (mov == true) {
+            if (keyH.upPressed == true || keyH.dowPressed == true || keyH.leftPressed == true
+                    || keyH.rightPressed == true) {
+                if (keyH.upPressed == true && mousH.rightPressed != true) {
+                    y -= speed; // 1
+                } else if (keyH.dowPressed == true && mousH.rightPressed != true) {
+                    y += speed;
+                } else if (keyH.leftPressed == true && mousH.rightPressed != true) {
+                    direction = "left"; // sto dicendo che deve guardare gli sprite di sinistra
+                    x -= speed;
+                } else if (keyH.rightPressed == true && mousH.rightPressed != true) {
+                    direction = "right"; // sto dicendo che deve guardare gli sprite di destra
+                    x += speed;
+                }
+
+                SpriteCounter++; // 2
+                if (mousH.leftPressed != true && mousH.rightPressed != true) {
+                    if (SpriteCounter > 5) { // 3
+                        if (SpriteNum == 1) // 4
+                        {
+                            SpriteNum = 2;
+                        } else if (SpriteNum == 2) {
+                            SpriteNum = 3;
+                        } else if (SpriteNum == 3) {
+                            SpriteNum = 4;
+                        } else if (SpriteNum == 4) {
+                            SpriteNum = 5;
+                        } else if (SpriteNum == 5) {
+                            SpriteNum = 6;
+                        } else if (SpriteNum == 6) {
+                            SpriteNum = 7;
+                        } else if (SpriteNum == 7) {
+                            SpriteNum = 8;
+                        } else if (SpriteNum == 8) {
+                            SpriteNum = 1;
+                        }
+
+                        SpriteCounter = 0; // setto a 0
+                    }
+                }
+            }
+
+        }
+    }
+
     // metodo update del player
     public void update() {
 
-        playerCol = x / gp.tileSize; //restituisce la colonna su qui si trova il player nei tile della mappa
-        playerRow = y / gp.tileSize; //restituisce la righa su qui si trova il player nei tile della mappa
+        playerCol = x / gp.tileSize; // restituisce la colonna su qui si trova il player nei tile della mappa
+        playerRow = y / gp.tileSize; // restituisce la righa su qui si trova il player nei tile della mappa
 
         // se tasto premuto:
         // 1.sposto posizione player
@@ -192,47 +240,7 @@ public class Player extends Entity {
         // 3.se sprite counter e minore di 10 (velocita animazione) piu basso numero piu
         // veloce animazione
         // 4.in base allo sprite precedente setto quello succesivo
-        if (keyH.upPressed == true || keyH.dowPressed == true || keyH.leftPressed == true
-                || keyH.rightPressed == true) {
-            if (keyH.upPressed == true && mousH.rightPressed != true) {
-                y -= speed; // 1
-            } else if (keyH.dowPressed == true && mousH.rightPressed != true) {
-                y += speed;
-            } else if (keyH.leftPressed == true && mousH.rightPressed != true) {
-                direction = "left"; // sto dicendo che deve guardare gli sprite di sinistra
-                x -= speed;
-            } else if (keyH.rightPressed == true && mousH.rightPressed != true) {
-                direction = "right"; // sto dicendo che deve guardare gli sprite di destra
-                x += speed;
-            }
-
-            SpriteCounter++; // 2
-            if (mousH.leftPressed != true && mousH.rightPressed != true) {
-                if (SpriteCounter > 5) { // 3
-                    if (SpriteNum == 1) // 4
-                    {
-                        SpriteNum = 2;
-                    } else if (SpriteNum == 2) {
-                        SpriteNum = 3;
-                    } else if (SpriteNum == 3) {
-                        SpriteNum = 4;
-                    } else if (SpriteNum == 4) {
-                        SpriteNum = 5;
-                    } else if (SpriteNum == 5) {
-                        SpriteNum = 6;
-                    } else if (SpriteNum == 6) {
-                        SpriteNum = 7;
-                    } else if (SpriteNum == 7) {
-                        SpriteNum = 8;
-                    } else if (SpriteNum == 8) {
-                        SpriteNum = 1;
-                    }
-
-                    SpriteCounter = 0; // setto a 0
-                }
-            }
-        }
-
+        movimento(mov);
         // se mouse tasto sinistro premuto
         if (mousH.leftPressed && mousH.rightPressed != true) {
             // da 0 passo a 1
@@ -560,7 +568,7 @@ public class Player extends Entity {
         } else {
 
             g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
-        } 
+        }
     }
 
 }

@@ -21,6 +21,7 @@ public class Sound {
             soundURL[0] = getClass().getResource("/src/Sound/BGN1.wav");
             soundURL[1] = getClass().getResource("/src/Sound/hit.wav");
             soundURL[2] = getClass().getResource("/src/Sound/BGD1.wav");
+            soundURL[3] = getClass().getResource("/src/Sound/transiton.wav");
         } catch (Exception e) {
             // In caso di errore nel caricamento dei file
             e.printStackTrace();
@@ -48,7 +49,8 @@ public class Sound {
     public void play() {
 
         // Se il clip non è stato inizializzato, esce dal metodo
-        if (clip == null) return;
+        if (clip == null)
+            return;
 
         // Ferma il clip se è già in riproduzione
         clip.stop();
