@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -13,6 +14,8 @@ public class Player extends Entity {
     // keylissener (main. [me lo fa mettere lui non so cosa serva])
     main.KeyHandler keyH;
     main.MouseHandler mousH;
+
+    int Damage;
 
     Sound hitSound;
     boolean attackSoundPlayed = false;
@@ -31,6 +34,9 @@ public class Player extends Entity {
 
     public int playerCol;
     public int playerRow;
+
+    //Interact Rect
+    public Rectangle PlInteractRect = null;
 
     public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH) {
         this.gp = gp;
@@ -230,6 +236,7 @@ public class Player extends Entity {
 
     // metodo update del player
     public void update() {
+         PlInteractRect =  new Rectangle(x + 70 ,y + 78 ,48,48);
 
         playerCol = x / gp.tileSize; // restituisce la colonna su qui si trova il player nei tile della mappa
         playerRow = y / gp.tileSize; // restituisce la righa su qui si trova il player nei tile della mappa

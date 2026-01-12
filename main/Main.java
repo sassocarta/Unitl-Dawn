@@ -1,13 +1,14 @@
 package main;
-
 import javax.swing.JFrame;
+
+
 
 public class Main {
 
     public static void main(String[] args) {
 
         // nuova finestra
-        JFrame window = new JFrame();
+        JFrame window = new JFrame(); 
         // close operation X finstra = out
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // dimesione fissa, non modificabile
@@ -16,6 +17,7 @@ public class Main {
         window.setTitle("PROVA2.GAME");
         // aggiungiamo al JFrame il nostro Jpanel(GamePanel)
         GamePanel gamePanel = new GamePanel();
+
         window.add(gamePanel);
 
         // per vedere il Jpanel sul Jframe

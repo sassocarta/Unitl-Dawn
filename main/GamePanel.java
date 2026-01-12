@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 
 import collision.CollisionManager;
 import entity.Player;
+import entity.NPCS.NPC_TR;
+import entity.NPCS.TR_menu;
+import entity.NPCS.weapons;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -31,19 +34,24 @@ public class GamePanel extends JPanel implements Runnable {
     // 48x48
 
     // dimesione dello schermo
-    final int ScreeWidth = tileSize * MaxScreenCol; // 768 pixels
-    final int ScreeHeight = tileSize * MaxScreenRow; // 576 pixel
+    public final int ScreeWidth = tileSize * MaxScreenCol; // 768 pixels
+    public final int ScreeHeight = tileSize * MaxScreenRow; // 576 pixel
 
     // FPS
     int FPS = 60;
 
     MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
     Thread gamThread; // thread del game loop
+
     KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
     Player player = new Player(this, KeyH, MouseH); // aggiugo Player
     TileManager tileM = new TileManager(this, player); // aggiugo TileManager
     Sound soundBG = new Sound(); // aggiungo il suono del BG
     CollisionManager cl = new CollisionManager(player, tileM, this);
+    NPC_TR Trader = new NPC_TR(this, player, soundBG, tileM);
+    weapons WP = new weapons();
+     Sound speek = new Sound(); // aggiungo il suono del BG
+    TR_menu TR_menu = new TR_menu(Trader, null, KeyH, WP, speek);
 
     public String cicle;
 
@@ -108,11 +116,13 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void update() {
+    public void update() { 
         // chimao il metodo Update di player
         player.update(); // player update
         tileM.update(); // tileM update
-        cl.update();
+        cl.update(); //collision update
+        Trader.update();
+        TR_menu.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -120,13 +130,13 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         // Graphics2D a piu funzioni, meglio di Graphics
         Graphics2D g2 = (Graphics2D) g;
-
         tileM.draw(g2);
+        Trader.draw(g2);
         // chimao il metodo draw di player (gli devo passare g2 per funzionare)
         player.draw(g2);
 
-        cl.draw(g2);
-
+        TR_menu.draw(g2);
+        //cl.draw(g2);
         // disegna
         g2.dispose();
     }
@@ -140,4 +150,5 @@ public class GamePanel extends JPanel implements Runnable {
     public void FermaMusica() {
         soundBG.stop(); // ferma il file musicale riprodotto
     }
+
 }

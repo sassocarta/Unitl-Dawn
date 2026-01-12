@@ -21,9 +21,9 @@ public class TileManager {
     // matrice di posizionameto Tile
     public int maptileNum[][];
     // mappa che e attualmete visualizzata
-    String currentMap = "";
+    public String currentMap = "";
     // cicle del giorno (DAY) (NIGHT)
-    int CurrentCicle = 0;
+    public boolean npcForcingNight = false;
     // music (ON) (OFF) se riproduci musica o no
     boolean music = false;
     // aggiungo suono per transizione
@@ -50,8 +50,6 @@ public class TileManager {
 
     public void update() {
         // OGNI SECONDO
-        // aumento di uno CurrentCicle per vedere tra quanto cambiare da giorno a notte
-        CurrentCicle++;
         // poi controllo se devo cambiare i tile da usare per disegnare la mappa
         CurrentCicleSet();
         // in base a dove si trova il Player cambio la mappa da far vedere
@@ -268,7 +266,7 @@ public class TileManager {
         // la musica DI BG
         SetMUSIC();
         // dopo che il tick = currentCicle a raggiunto i 1000 cambio ciclo
-        if (CurrentCicle >= 1000) {
+        if (npcForcingNight && gp.cicle.equals("DAY")) {
             // se era giorno
             if (gp.cicle.equals("DAY")) {
                 // notte
@@ -276,15 +274,13 @@ public class TileManager {
                 // fermo musica giorno
                 gp.FermaMusica();
 
-            } else {
+            }if(!npcForcingNight && gp.cicle.equals("NIGHT") ){
                 // se era notte metto giorno
                 gp.cicle = "DAY";
                 // fermo musica notte
                 gp.FermaMusica();
 
             }
-            // rifaccio ripartire il tick
-            CurrentCicle = 0;
             // setto i tile in base al cicle cosi se e notte usiamo i tile di notte
             GetTileBaseCicle();
             // dico che non sta andando nessuna musica di BG
@@ -297,7 +293,7 @@ public class TileManager {
         // se il ciclo e uguale a day e non ce muscia
         if (gp.cicle.equals("DAY") && !music) {
             // faccio partire la muscia numero 2 (MUSICA BG DEL GIORNO)
-            gp.avviaMusica(2);
+            gp.avviaMusica(5);
             // ora sta andando della musica
             music = true;
         }

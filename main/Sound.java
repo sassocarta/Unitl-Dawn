@@ -22,6 +22,10 @@ public class Sound {
             soundURL[1] = getClass().getResource("/src/Sound/hit.wav");
             soundURL[2] = getClass().getResource("/src/Sound/BGD1.wav");
             soundURL[3] = getClass().getResource("/src/Sound/transiton.wav");
+            soundURL[4] = getClass().getResource("/src/Sound/entering.wav");
+            soundURL[5] = getClass().getResource("/src/Sound/menuBG.wav");
+            soundURL[6] = getClass().getResource("/src/Sound/speek.wav");
+            
         } catch (Exception e) {
             // In caso di errore nel caricamento dei file
             e.printStackTrace();

@@ -56,7 +56,7 @@ public class CollisionManager {
             
             if (row >= 0 && row < tm.maptileNum[0].length) {
                 int nextTileTop = tm.maptileNum[nextCol][row];
-                if (nextTileTop == 2 || nextTileTop == 1) {
+                if (nextTileTop == 2 || nextTileTop == 1 || nextTileTop == 5) {
                     //System.out.println("HIT DESTRA");
                     pl.x -= pl.speed;
                     return;
@@ -66,7 +66,7 @@ public class CollisionManager {
             if (rowBottom >= 0 && rowBottom < tm.maptileNum[0].length) {
                 int nextTileBottom = tm.maptileNum[nextCol][rowBottom];
 
-                if (nextTileBottom == 2 || nextTileBottom == 1) {
+                if (nextTileBottom == 2 || nextTileBottom == 1 || nextTileBottom == 5) {
                     //System.out.println("HIT DESTRA (alto)");
                     pl.y -= pl.speed;
                     return;
@@ -92,7 +92,7 @@ public class CollisionManager {
            
             if (row1 >= 0 && row1 < tm.maptileNum[0].length) {
                 int nextTileTop1 = tm.maptileNum[nextCol1][row1];
-                if (nextTileTop1 == 2 || nextTileTop1 == 1) {
+                if (nextTileTop1 == 2 || nextTileTop1 == 1 || nextTileTop1 == 5 ) {
                    //System.out.println("HIT SINISTRA");
                     pl.x += pl.speed;
                     return;
@@ -102,7 +102,7 @@ public class CollisionManager {
             if (rowBottom1 >= 0 && rowBottom1 < tm.maptileNum[0].length) {
                 int nextTileBottom1 = tm.maptileNum[nextCol1][rowBottom1];
 
-                if (nextTileBottom1 == 2 || nextTileBottom1 == 1) {
+                if (nextTileBottom1 == 2 || nextTileBottom1 == 1 || nextTileBottom1 == 5) {
                     //System.out.println("HIT SINISTRA (BASSO)");
                     pl.y += pl.speed;
                     return;
