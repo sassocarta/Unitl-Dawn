@@ -1,4 +1,4 @@
-package entity.NPCS;
+package entity.NPCS.NPC_Trader;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -10,7 +10,7 @@ import main.Sound;
 
 public class TR_menu {
 
-    NPC_TR Trader;
+    NPC_Tio Trader;
     MouseHandler Mh;
     main.KeyHandler Kh;
 
@@ -23,8 +23,8 @@ public class TR_menu {
     BufferedImage tioshop;
 
     int Imgchat1 = 1;
-    int ImgChat2 = 250;
-    int endChat = 350;
+    int ImgChat2 = 350;
+    int endChat = 500;
 
     // da mettere classe comune
 
@@ -47,7 +47,7 @@ public class TR_menu {
     Sound speek;
     int n = 0;
 
-    public TR_menu(NPC_TR trader, MouseHandler mh, KeyHandler kh, weapons wp,Sound speek) {
+    public TR_menu(NPC_Tio trader, MouseHandler mh, KeyHandler kh, weapons wp,Sound speek) {
         Trader = trader;
         Mh = mh;
         Kh = kh;
@@ -133,7 +133,7 @@ public class TR_menu {
                 if (chat == 2) {
                     g2.drawImage(chatt2, ChatX, ChatY, Chatsize, Chatsize, null);
                 }
-                g2.drawImage(TraderFace, -50, 176, 400, 400, null);
+                g2.drawImage(TraderFace, -40, 176, 400, 400, null);
             }
         }
     }
@@ -174,7 +174,7 @@ public class TR_menu {
 
     public void SelectWeapond()
     {
-        if ( seeDialog() == false )
+        if (seeDialog() == false)
         {
         if(Kh.Pressed1 == true){
             wp1size = 200;

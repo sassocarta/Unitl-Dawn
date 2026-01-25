@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 
-import entity.Player;
+import entity.Player.Player;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import main.GamePanel;

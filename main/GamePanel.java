@@ -9,10 +9,11 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 import collision.CollisionManager;
-import entity.Player;
-import entity.NPCS.NPC_TR;
-import entity.NPCS.TR_menu;
-import entity.NPCS.weapons;
+import entity.NPCS.NPC_Vector_main;
+import entity.NPCS.NPC_Trader.NPC_Tio;
+import entity.NPCS.NPC_Trader.TR_menu;
+import entity.NPCS.NPC_Trader.weapons;
+import entity.Player.Player;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -48,10 +49,11 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this, player); // aggiugo TileManager
     Sound soundBG = new Sound(); // aggiungo il suono del BG
     CollisionManager cl = new CollisionManager(player, tileM, this);
-    NPC_TR Trader = new NPC_TR(this, player, soundBG, tileM);
+    NPC_Tio Trader = new NPC_Tio(this, player, soundBG, tileM);
     weapons WP = new weapons();
-     Sound speek = new Sound(); // aggiungo il suono del BG
+    Sound speek = new Sound(); // aggiungo il suono del BG
     TR_menu TR_menu = new TR_menu(Trader, null, KeyH, WP, speek);
+    NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
 
     public String cicle;
 
@@ -117,10 +119,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() { 
-        // chimao il metodo Update di player
-        player.update(); // player update
-        tileM.update(); // tileM update
-        cl.update(); //collision update
+
+        player.update(); 
+        tileM.update(); 
+        cl.update(); 
+        NPCS.update();
         Trader.update();
         TR_menu.update();
     }
@@ -128,20 +131,18 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
-        // Graphics2D a piu funzioni, meglio di Graphics
         Graphics2D g2 = (Graphics2D) g;
         tileM.draw(g2);
-        Trader.draw(g2);
-        // chimao il metodo draw di player (gli devo passare g2 per funzionare)
         player.draw(g2);
-
+        Trader.draw(g2);
         TR_menu.draw(g2);
-        //cl.draw(g2);
-        // disegna
+        NPCS.draw(g2);
         g2.dispose();
+
     }
 
     public void avviaMusica(int i) {
+        
         soundBG.setFile(i);// setta il file con numero int i
         soundBG.play(); // lo riproduce
         soundBG.loop();// lo mette in loop

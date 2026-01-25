@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import entity.Player;
+import entity.Player.Player;
 import main.GamePanel;
 import tile.TileManager;
 

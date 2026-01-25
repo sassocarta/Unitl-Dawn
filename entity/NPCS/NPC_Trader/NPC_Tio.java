@@ -1,10 +1,10 @@
-package entity.NPCS;
+package entity.NPCS.NPC_Trader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import entity.Player;
+import entity.Player.Player;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -12,21 +12,26 @@ import main.GamePanel;
 import main.Sound;
 import tile.TileManager;
 
-public class NPC_TR {
+public class NPC_Tio {
     GamePanel gp;
     Player pl;
 
     Sound InteractSound;
-    BufferedImage id1, id2, id3;
+
+    BufferedImage []idel;
+
     BufferedImage btnUp, btnDw;
 
-    BufferedImage Idup, Iddow;
+    BufferedImage []jump;
+
     int IdSpriteCounter = 0;
     int IdSpriteNum = 1;
     BufferedImage chillImage = null;
     boolean chill = false;
 
     Rectangle InteractSquare;
+
+
     TileManager tm;
     String MapSpaw;
     int col, row, tileNum;
@@ -46,16 +51,24 @@ public class NPC_TR {
     boolean activeZone = false;
 
 
-    public NPC_TR(GamePanel gp, Player pl, Sound interactSound, TileManager tm) {
+    public NPC_Tio(GamePanel gp, Player pl, Sound interactSound, TileManager tm) {
+        idel = new BufferedImage[3];
+        jump = new BufferedImage[2];
         this.gp = gp;
         this.pl = pl;
         InteractSound = interactSound;
         this.tm = tm;
         deicidiMappaSpawn();
+        GetAllImage();
+        SpwanNpc();
+    }
+
+
+    public  void GetAllImage()
+    {
         getBtnImages();
         GetChillImages();
         getNPCImages();
-        SpwanNpc();
     }
 
     public void update() {
@@ -72,15 +85,15 @@ public class NPC_TR {
         return;
     }
 
-    if (SpriteNum == 1) idleImage = id1;
-    if (SpriteNum == 2) idleImage = id2;
-    if (SpriteNum == 3) idleImage = id3;
+    if (SpriteNum == 1) idleImage = idel[0];
+    if (SpriteNum == 2) idleImage = idel[1];
+    if (SpriteNum == 3) idleImage = idel[2];
 
     if(BTNSpriteNum == 1) BtnImage = btnUp;
     if(BTNSpriteNum == 2) BtnImage = btnDw;
 
-    if(IdSpriteNum == 1)  chillImage = Idup;
-    if(IdSpriteNum == 2)  chillImage = Iddow;
+    if(IdSpriteNum == 1)  chillImage = jump[0];
+    if(IdSpriteNum == 2)  chillImage = jump[1];
 
 
 
@@ -134,9 +147,9 @@ public class NPC_TR {
     {
         try{    
 
-            id1 =  ImageIO.read(getClass().getResource("/src/Trader/npc_1.png"));
-            id2 =  ImageIO.read(getClass().getResource("/src/Trader/npc_2.png"));
-            id3 =  ImageIO.read(getClass().getResource("/src/Trader/npc_3.png"));
+            idel[0] =  ImageIO.read(getClass().getResource("/src/Trader/npc_1.png"));
+            idel[1] =  ImageIO.read(getClass().getResource("/src/Trader/npc_2.png"));
+            idel[2]=  ImageIO.read(getClass().getResource("/src/Trader/npc_3.png"));
 
 
         }catch(IOException e)
@@ -162,8 +175,8 @@ public class NPC_TR {
     {
         try{    
 
-        Idup =  ImageIO.read(getClass().getResource("/src/Trader/npc_1.png"));
-        Iddow = ImageIO.read(getClass().getResource("/src/Trader/npc_4.png"));
+        jump[0] =  ImageIO.read(getClass().getResource("/src/Trader/npc_1.png"));
+        jump[1] = ImageIO.read(getClass().getResource("/src/Trader/npc_4.png"));
 
         }catch(IOException e)
         {

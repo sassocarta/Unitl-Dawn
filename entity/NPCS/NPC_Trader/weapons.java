@@ -1,4 +1,4 @@
-package entity.NPCS;
+package entity.NPCS.NPC_Trader;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 

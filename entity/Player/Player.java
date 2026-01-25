@@ -1,10 +1,12 @@
-package entity;
+package entity.Player;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
 
@@ -236,7 +238,8 @@ public class Player extends Entity {
 
     // metodo update del player
     public void update() {
-         PlInteractRect =  new Rectangle(x + 70 ,y + 78 ,48,48);
+        
+        PlInteractRect =  new Rectangle(x + 70 ,y + 78 ,48,48);
 
         playerCol = x / gp.tileSize; // restituisce la colonna su qui si trova il player nei tile della mappa
         playerRow = y / gp.tileSize; // restituisce la righa su qui si trova il player nei tile della mappa

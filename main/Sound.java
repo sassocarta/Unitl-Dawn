@@ -1,5 +1,4 @@
 package main;
-
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
