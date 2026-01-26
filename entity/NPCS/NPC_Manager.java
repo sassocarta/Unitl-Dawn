@@ -39,9 +39,13 @@ public class NPC_Manager {
     public BufferedImage []NPCRh;
 
     public BufferedImage []NPCfaces;
+    public BufferedImage []NPCchats;
+
     public BufferedImage []NPCdialog;
 
     BufferedImage face;
+
+    BufferedImage chat;
 
     public int UpSpriteCounter = 0;
     public int UpSpriteNum = 1;
@@ -60,6 +64,8 @@ public class NPC_Manager {
     public String MapSpaw;
 
     public String nowFace = "";
+
+    public String nowChat = "";
 
     public int col;
     public int row;

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import collision.CollisionManager;
 import entity.NPCS.NPC_Vector_main;
+import entity.NPCS.Enemy.Enemy_Vector_main;
 import entity.NPCS.NPC_Trader.NPC_Tio;
 import entity.NPCS.NPC_Trader.TR_menu;
 import entity.NPCS.NPC_Trader.weapons;
@@ -54,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
     Sound speek = new Sound(); // aggiungo il suono del BG
     TR_menu TR_menu = new TR_menu(Trader, null, KeyH, WP, speek);
     NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
+    Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM);
 
     public String cicle;
 
@@ -124,6 +126,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileM.update(); 
         cl.update(); 
         NPCS.update();
+        ENEMIES.update();
         Trader.update();
         TR_menu.update();
     }
@@ -137,6 +140,7 @@ public class GamePanel extends JPanel implements Runnable {
         Trader.draw(g2);
         TR_menu.draw(g2);
         NPCS.draw(g2);
+        ENEMIES.draw(g2);
         g2.dispose();
 
     }

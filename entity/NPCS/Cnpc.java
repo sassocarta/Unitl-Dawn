@@ -343,6 +343,9 @@ public class Cnpc extends NPC_Manager {
     }
 
     public void moveNPC() {
+        int originalX = x;
+        int originalY = y;
+        
         if (direction.equals("up")) {
             y--;
             UpSpriteCounter++;
@@ -359,6 +362,15 @@ public class Cnpc extends NPC_Manager {
             x++;
             RhSpriteCounter++;
             randomMove("right");
+        }
+        
+        //Controlla de collide con tile no camminabili
+        if (checkCollision()) {
+            //ritorna alle x e y precedenti
+            x = originalX;
+            y = originalY;
+            //cambia direzione
+            changeDirection();
         }
     }
 
@@ -399,6 +411,47 @@ public class Cnpc extends NPC_Manager {
                 nowFace = "soldi";
                 break;
         }
+    }
 
+    //Controlla collisioni
+    public boolean checkCollision() {
+        //hitbox
+        int npcHitboxX = x + 84;
+        int npcHitboxY = y + 97;
+        int hitboxWidth = 20;
+        int hitboxHeight = 20;
+        
+        //lati della hitbox
+        int leftCol = npcHitboxX / gp.tileSize;
+        int rightCol = (npcHitboxX + hitboxWidth) / gp.tileSize;
+        int topRow = npcHitboxY / gp.tileSize;
+        int bottomRow = (npcHitboxY + hitboxHeight) / gp.tileSize;
+        
+        //controlla se i lati sono su un tile non camminabile
+        return isSolidTile(leftCol, topRow) || isSolidTile(rightCol, topRow) || isSolidTile(leftCol, bottomRow) || isSolidTile(rightCol, bottomRow);
+    }
+    
+    //controlla se è in un tile non camminabile
+    private boolean isSolidTile(int col, int row) {
+        //controllo sui limiti della mappa
+        if (col < 0 || col >= tm.maptileNum.length || row < 0 || row >= tm.maptileNum[0].length) {
+            return true;
+        }
+        
+        int tileNum = tm.maptileNum[col][row];
+        return tileNum == 1 || tileNum == 2 || tileNum == 5;
+    }
+    
+    //cambia direzione
+    private void changeDirection() {
+        //scegli una direziona casuale diversa da quella attuale
+        String[] directions = {"up", "down", "left", "right"};
+        String newDirection;
+        do {
+            int randomIndex = (int) (Math.random() * 4);
+            newDirection = directions[randomIndex];
+        } while (newDirection.equals(direction));
+        
+        direction = newDirection;
     }
 }

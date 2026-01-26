@@ -64,7 +64,7 @@ public class NPC_Tio {
     }
 
 
-    public  void GetAllImage()
+    public void GetAllImage()
     {
         getBtnImages();
         GetChillImages();
@@ -81,38 +81,39 @@ public class NPC_Tio {
 
     public void draw(Graphics2D g2) {
 
-    if (!tm.currentMap.equals(MapSpaw)) {
-        return;
-    }
+        if (!tm.currentMap.equals(MapSpaw)) {
+            return;
+        }
 
-    if (SpriteNum == 1) idleImage = idel[0];
-    if (SpriteNum == 2) idleImage = idel[1];
-    if (SpriteNum == 3) idleImage = idel[2];
+        if (SpriteNum == 1) idleImage = idel[0];
+        if (SpriteNum == 2) idleImage = idel[1];
+        if (SpriteNum == 3) idleImage = idel[2];
 
-    if(BTNSpriteNum == 1) BtnImage = btnUp;
-    if(BTNSpriteNum == 2) BtnImage = btnDw;
+        if(BTNSpriteNum == 1) BtnImage = btnUp;
+        if(BTNSpriteNum == 2) BtnImage = btnDw;
 
-    if(IdSpriteNum == 1)  chillImage = jump[0];
-    if(IdSpriteNum == 2)  chillImage = jump[1];
+        if(IdSpriteNum == 1)  chillImage = jump[0];
+        if(IdSpriteNum == 2)  chillImage = jump[1];
 
 
 
-    if(gp.cicle.equals("DAY"))
-    {
-    if(chill == true)
-    {
-    g2.drawImage(chillImage,col * gp.tileSize,row * gp.tileSize,gp.tileSize * 4 ,gp.tileSize  * 4  , null);
-    }
-    }
-    if(activeZone == true)
-    {
-    chill = false;
-    g2.drawImage(idleImage,col * gp.tileSize,row * gp.tileSize,gp.tileSize * 4  ,gp.tileSize  * 4, null);
-    g2.drawImage(BtnImage,col * gp.tileSize + 50,row * gp.tileSize + 20 ,gp.tileSize * 2 ,gp.tileSize  * 2, null);  
-    }
+        if(gp.cicle.equals("DAY"))
+        {
+            if(chill == true)
+            {
+                g2.drawImage(chillImage,col * gp.tileSize,row * gp.tileSize,gp.tileSize * 4 ,gp.tileSize  * 4  , null);
+            }
+            }
+            if(activeZone == true)
+                
+            {
+            chill = false;
+            g2.drawImage(idleImage,col * gp.tileSize,row * gp.tileSize,gp.tileSize * 4  ,gp.tileSize  * 4, null);
+            g2.drawImage(BtnImage,col * gp.tileSize + 50,row * gp.tileSize + 20 ,gp.tileSize * 2 ,gp.tileSize  * 2, null);  
+        }
 
-    //g2.draw(InteractSquare);
-    //g2.draw(pl.PlInteractRect);
+        //g2.draw(InteractSquare);
+        //g2.draw(pl.PlInteractRect);
     }
 
     public void MapSpawSet(int n) {

@@ -35,11 +35,9 @@ public class NPC_Vector_main {
 
     public void CreateNpcs()
     {
-        npcs[0] = new Cnpc(gp, pl, sd, tm,6,"/src/NPC/NPC_type1/FACE/face",3,"/src/NPC/NPC_type1/up/.",3,"/src/NPC/NPC_type1/down/.",3,"/src/NPC/NPC_type1/left/.",3,"/src/NPC/NPC_type1/right/.");
-        npcs[1] = new Cnpc(gp, pl, sd, tm,6,"/src/NPC/NPC_type1/FACE/face",3,"/src/NPC/NPC_type1/up/.",3,"/src/NPC/NPC_type1/down/.",3,"/src/NPC/NPC_type1/left/.",3,"/src/NPC/NPC_type1/right/.");
-        npcs[2] = new Cnpc(gp, pl, sd, tm,6,"/src/NPC/NPC_type1/FACE/face",3,"/src/NPC/NPC_type1/up/.",3,"/src/NPC/NPC_type1/down/.",3,"/src/NPC/NPC_type1/left/.",3,"/src/NPC/NPC_type1/right/.");
-        npcs[3] = new Cnpc(gp, pl, sd, tm,6,"/src/NPC/NPC_type1/FACE/face",3,"/src/NPC/NPC_type1/up/.",3,"/src/NPC/NPC_type1/down/.",3,"/src/NPC/NPC_type1/left/.",3,"/src/NPC/NPC_type1/right/.");
-        npcs[4] = new Cnpc(gp, pl, sd, tm,6,"/src/NPC/NPC_type1/FACE/face",3,"/src/NPC/NPC_type1/up/.",3,"/src/NPC/NPC_type1/down/.",3,"/src/NPC/NPC_type1/left/.",3,"/src/NPC/NPC_type1/right/.");     
+        for(int i =0;i<numeroNpc;i++){
+            npcs[i] = new Cnpc(gp, pl, sd, tm,6,"/src/NPC/NPC_type1/FACE/face",3,"/src/NPC/NPC_type1/up/.",3,"/src/NPC/NPC_type1/down/.",3,"/src/NPC/NPC_type1/left/.",3,"/src/NPC/NPC_type1/right/.");
+        }
     }
 
 
