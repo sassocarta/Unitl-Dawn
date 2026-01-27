@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+import entity.NPCS.NPC_Trader.TR_menu;
 import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
@@ -16,6 +17,7 @@ public class Enemy extends Enemy_Manager{
     public Rectangle stayin = null;
 
     Rectangle detectionRange = null;
+    TR_menu trm;
 
 
 
@@ -54,6 +56,7 @@ public class Enemy extends Enemy_Manager{
                  Player pl, 
                  Sound sd, 
                  TileManager tm,
+                 TR_menu trm,
                  int NFWalkRight, 
                  String urlWalkRight,
                  int NFWalkLeft, 
@@ -73,12 +76,14 @@ public class Enemy extends Enemy_Manager{
                  int NFAttackRight, 
                  String urlAttackRight,
                  int NFAttackLeft, 
-                 String urlAttackLeft) {
+                 String urlAttackLeft
+                ) {
 
         this.gp = gp;
         this.tm = tm;
         this.pl = pl;
         this.sd = sd;
+        this.trm = trm;
 
         StayinZone = new Rectangle(96, 96, 576, 384);
         stayin = new Rectangle(0, 0, 46, 48);
@@ -302,6 +307,8 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void draw(Graphics2D g2) {
+        if(gp.cicle == "NIGHT" && trm.isOpen != true)
+        {
         if (!tm.currentMap.equalsIgnoreCase(MapSpawn)) return;
 
         spriteSet();
@@ -359,6 +366,7 @@ public class Enemy extends Enemy_Manager{
         g2.draw(stayin);
     
     }
+}
 
     public void spriteSet() {
         if (WalkRightSpriteNum == 1)
@@ -566,6 +574,8 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void update() {
+        if(gp.cicle == "NIGHT" && trm.isOpen == false)
+        {
         //imposta il nemico al centro di stayin (con valori fissi)
         stayin.x = x + 73;
         stayin.y = y + 77;
@@ -633,6 +643,10 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
+}
+
+
+
     public void followPlayer() {
         //Salva la posizione attuale
         int oldX = x;
@@ -687,7 +701,7 @@ public class Enemy extends Enemy_Manager{
         //Attacco a destra e su
         if (direction.equals("right") || direction.equals("up")) {
             AttackRightSpriteCounter++;
-            if (AttackRightSpriteCounter > 8) {
+            if (AttackRightSpriteCounter > 4) {
                 AttackRightSpriteNum++;
                 AttackRightSpriteCounter = 0;
                 

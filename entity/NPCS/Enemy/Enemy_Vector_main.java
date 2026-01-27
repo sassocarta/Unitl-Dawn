@@ -1,6 +1,8 @@
 package entity.NPCS.Enemy;
 
 import java.awt.Graphics2D;
+
+import entity.NPCS.NPC_Trader.TR_menu;
 import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
@@ -13,15 +15,17 @@ public class Enemy_Vector_main {
     Player pl;
     Sound sd;
     TileManager tm;
+    TR_menu trm;
     int nEnemies = 5;
 
-    public Enemy_Vector_main(GamePanel gp, Player pl, Sound sd, TileManager tm)
+    public Enemy_Vector_main(GamePanel gp, Player pl, Sound sd, TileManager tm, TR_menu trm)
     {
         
         this.gp = gp;
         this.pl = pl;
         this.sd = sd;
         this.tm = tm;
+        this.trm = trm;
 
         this.EM = new Enemy_Manager();
         this.enemies = new Enemy[nEnemies];
@@ -37,7 +41,7 @@ public class Enemy_Vector_main {
     public void CreateNpcs()
     {
         for(int i=0;i<nEnemies;i++){
-            enemies[i] = new Enemy(gp, pl, sd, tm,8,"/src/Enemies/Slime/RIGHT/SlimeWalk/", //walk right
+            enemies[i] = new Enemy(gp, pl, sd, tm, trm,8,"/src/Enemies/Slime/RIGHT/SlimeWalk/", //walk right
                                                   8,"/src/Enemies/Slime/LEFT/SlimeWalk/", //walk left
                                                   6,"/src/Enemies/Slime/RIGHT/SlimeIdle/", //Idle right
                                                   6,"/src/Enemies/Slime/LEFT/SlimeIdle/", //idle left

@@ -97,15 +97,12 @@ public class NPC_Tio {
 
 
 
-        if(gp.cicle.equals("DAY"))
-        {
             if(chill == true)
             {
                 g2.drawImage(chillImage,col * gp.tileSize,row * gp.tileSize,gp.tileSize * 4 ,gp.tileSize  * 4  , null);
             }
-            }
+            
             if(activeZone == true)
-                
             {
             chill = false;
             g2.drawImage(idleImage,col * gp.tileSize,row * gp.tileSize,gp.tileSize * 4  ,gp.tileSize  * 4, null);
@@ -208,7 +205,6 @@ public class NPC_Tio {
         InteractSquare = new Rectangle(col*gp.tileSize + 45 ,row*gp.tileSize + 50, 100,100);
         if(InteractSquare.intersects(pl.PlInteractRect))
         {
-        SpriteCounter++;
         if (SpriteCounter > 10) {
             if (SpriteNum == 1)
             {

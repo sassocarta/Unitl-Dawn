@@ -140,6 +140,8 @@ public class Cnpc extends NPC_Manager {
     }
 
     public void draw(Graphics2D g2) {
+        if(gp.cicle == "DAY")
+        {
         if (!tm.currentMap.equals(MapSpaw)) {
             return;
         }
@@ -160,6 +162,7 @@ public class Cnpc extends NPC_Manager {
             g2.drawImage(face, -10, 130 ,96 * 4, 112 * 4, null);
         }
     }
+}
 
     public void spriteSet() {
         if (UpSpriteNum == 1)
@@ -257,6 +260,8 @@ public class Cnpc extends NPC_Manager {
     }
 
     public void update() {
+        if(gp.cicle == "DAY")
+        {
         stayin.x = x + 70;
         stayin.y = y + 70;
         if (tm.currentMap.equals(MapSpaw)) {
@@ -289,6 +294,7 @@ public class Cnpc extends NPC_Manager {
         }
 
     }
+}
 
     public void randomMove(String dir) {
         if (dir == "up") {

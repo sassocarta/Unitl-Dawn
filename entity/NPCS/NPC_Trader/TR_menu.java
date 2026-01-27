@@ -14,7 +14,7 @@ public class TR_menu {
     MouseHandler Mh;
     main.KeyHandler Kh;
 
-    boolean isOpen = false;
+    public boolean isOpen = false;
     boolean eEraPrem = false;
 
     BufferedImage MenuGraphic;
@@ -92,6 +92,7 @@ public class TR_menu {
         if (Trader.activeZone) {
             // e lui preme e e l'ultima volta nn ha premuto E
             if (Kh.EPressed && !eEraPrem) {
+                Trader.tm.npcForcingNight = true;
                 // allora inverto stato finestra
                 isOpen = !isOpen;
                 seeDialog();
@@ -102,6 +103,7 @@ public class TR_menu {
                     speek.play();
                 }
             }
+
             if(isOpen)
                 {
                     SelectWeapond();

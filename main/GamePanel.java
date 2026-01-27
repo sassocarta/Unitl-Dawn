@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseListener;
 import java.awt.Font;
-import java.awt.Color;
-import java.awt.FontMetrics;
 
 import javax.swing.JPanel;
 
@@ -63,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
     Sound speek = new Sound(); // aggiungo il suono del BG
     TR_menu TR_menu = new TR_menu(Trader, null, KeyH, WP, speek);
     NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
-    public Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM);
+    public Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM,TR_menu);
 
     public String cicle;
 
@@ -80,7 +78,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(KeyH);
         this.addMouseListener((MouseListener) MouseH); // aggiungo a questo JPnale il Mouse lissener (MouseH)
         this.setFocusable(true);
-
         gameState = playState;
     }
 
