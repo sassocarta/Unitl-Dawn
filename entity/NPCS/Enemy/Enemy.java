@@ -1,8 +1,5 @@
 package entity.NPCS.Enemy;
 
-import java.awt.Color;
-
-
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -16,7 +13,12 @@ import tile.TileManager;
 
 public class Enemy extends Enemy_Manager{
     int tick = 0;
-    Rectangle stayin = null;
+    public Rectangle stayin = null;
+
+    Rectangle detectionRange = null;
+
+
+
     //WalkRight
     String urlWalkRight;
     int NFWalkRight;
@@ -80,6 +82,8 @@ public class Enemy extends Enemy_Manager{
 
         StayinZone = new Rectangle(96, 96, 576, 384);
         stayin = new Rectangle(0, 0, 46, 48);
+
+        detectionRange = new Rectangle(0,0, 400, 400);
 
         EnemyWalkRight = new BufferedImage[8];
         EnemyWalkLeft = new BufferedImage[8];
@@ -301,32 +305,59 @@ public class Enemy extends Enemy_Manager{
         if (!tm.currentMap.equalsIgnoreCase(MapSpawn)) return;
 
         spriteSet();
-        BufferedImage image = null;
+        BufferedImage imageToDraw = null;
 
-        switch (direction) {
-            case "up":
-            case "right":
-                image = (WalkRightImage != null) ? WalkRightImage : EnemyIdleRight[0];
+        switch (action){
+            case "hit":
+                if (direction.equals("right") || direction.equals("up")) {
+                    imageToDraw = EnemyHitRight[HitRightSpriteNum - 1];
+                } else {
+                    imageToDraw = EnemyHitLeft[HitLeftSpriteNum - 1];
+                }
                 break;
-            case "down":
-            case "left":
-                image = (WalkLeftImage != null) ? WalkLeftImage : EnemyIdleLeft[0];
+            case "death":
+                if (direction.equals("right") || direction.equals("up")) {
+                    imageToDraw = EnemyDeathRight[DeathRightSpriteNum - 1];
+                } else {
+                    imageToDraw = EnemyDeathLeft[DeathLeftSpriteNum - 1];
+                }
+                break;
+            case "walk":
+                if (direction.equals("right") || direction.equals("up")) {
+                    imageToDraw = EnemyWalkRight[WalkRightSpriteNum - 1];
+                } else {
+                    imageToDraw = EnemyWalkLeft[WalkLeftSpriteNum - 1];
+                }
+                break;
+            case "idle":
+                if (direction.equals("right") || direction.equals("up")) {
+                    imageToDraw = EnemyIdleRight[IdleRightSpriteNum - 1];
+                } else {
+                    imageToDraw = EnemyIdleLeft[IdleLeftSpriteNum - 1];
+                }
+                break;
+            case "attack":
+                if (direction.equals("right") || direction.equals("up")) {
+                    imageToDraw = EnemyAttackRight[AttackRightSpriteNum - 1];
+                } else {
+                    imageToDraw = EnemyAttackLeft[AttackLeftSpriteNum - 1];
+                }
                 break;
         }
 
-        //Se l'immagine è null si utilizza il primo frame dell'idle come backup
-        if (image == null && EnemyIdleRight[0] != null) {
-            image = EnemyIdleRight[0];
+        // Disegna l'immagine scelta
+        if (imageToDraw != null) {
+            g2.drawImage(imageToDraw, x, y, gp.tileSize*4, gp.tileSize*4, null);
         }
+        
+        
+        
 
-        //disegna
-        if (image != null) {
-            g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
-        } else {
-            //Se le immagini non sono state caricate disegna un rettangolo rosso
-            g2.setColor(Color.RED);
-            g2.fillRect(x, y, gp.tileSize, gp.tileSize);
-        }
+        //DEBUG: serve per vedere detection range
+        g2.draw(detectionRange);
+        //DEBUG: serve per vedere stayin
+        g2.draw(stayin);
+    
     }
 
     public void spriteSet() {
@@ -535,41 +566,178 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void update() {
-        stayin.x = x + 70;
-        stayin.y = y + 70;
+        //imposta il nemico al centro di stayin (con valori fissi)
+        stayin.x = x + 73;
+        stayin.y = y + 77;
+
+        //imposta il nemico al centro di detection range (con valori fissi)
+        detectionRange.x = x - 120 + (gp.tileSize / 2); 
+        detectionRange.y = y - 120 + (gp.tileSize / 2);
+
         if (tm.currentMap.equals(MapSpawn)) {
-            if (!pl.PlInteractRect.intersects(stayin)) {
-                tick++;
-                if (Stayin() == true) {
-                    if (tick >= 60) {
-                        randomStarDirection();
+            
+            //se il player è in stayin, viene attaccato
+            if (pl.PlInteractRect.intersects(stayin)) {
+                action = "attack";
+                attack();
+            } else {
+                //Reset dei frame di attacco quando il player si allontana così al prossimo attacco l'animazione riparte dal frame 1
+                AttackRightSpriteNum = 1;
+                AttackLeftSpriteNum = 1;
+                AttackRightSpriteCounter = 0;
+                AttackLeftSpriteCounter = 0;
+                //Se player è in detection Range, viene inseguito
+                if (pl.PlInteractRect.intersects(detectionRange)) {
+                    action = "walk";
+                    followPlayer();
+                //se il player è fuori da detection range, muoviti a caso
+                } else {
+                    action = "walk";
+                    tick++;
+                    if (Stayin() == true) {
+                        if (tick >= 60) {
+                            randomStarDirection();
+                            tick = 0;
+                        }
+                        moveNPC();
+                    } else {
+                        // Logica di inversione direzione se esce dai bordi mappa
+                        if (direction == "up") direction = "down";
+                        else if (direction == "down") direction = "up";
+                        else if (direction == "right") direction = "left";
+                        else if (direction == "left") direction = "right";
+                        
+                        moveNPC();
                         tick = 0;
                     }
-                    moveNPC();
-                } else {
-                    if (direction == "up") {
-                        direction = "down";
-                    } else if (direction == "down") {
-                        direction = "up";
-                    } else if (direction == "right") {
-                        direction = "left";
-                    } else if (direction == "left") {
-                        direction = "right";
-                    }
-                    moveNPC();
-                    tick = 0;
                 }
-            } else {
-                direction = "down";
-                uone = false;
+            }
+            //mentre esegui l'animazione di hit è invincibile
+            if (invincible) {
+                invincibleCounter++;
+                if (invincibleCounter > 40) {
+                    invincible = false;
+                    invincibleCounter = 0;
+                    if (!dying) action = "idle";
+                }
+            }
+
+            //se sta eseguendo l'animazione death
+            if (dying) {
+                // Incrementa il counter dell'animazione morte
+                DeathRightSpriteCounter++;
+                if (DeathRightSpriteCounter > 60) {
+                    alive = false;
+                }
+            }
+        }
+    }
+
+    public void followPlayer() {
+        //Salva la posizione attuale
+        int oldX = x;
+        int oldY = y;
+
+        //inseguimento orizzontale
+        if (pl.x > this.x) {
+            this.x += 1;
+            direction = "right";
+        } else if (pl.x < this.x) {
+            this.x -= 1;
+            direction = "left";
+        }
+
+        //Se dopo il movimento X c'è una collisione, torna indietro
+        if (checkCollision()) {
+            this.x = oldX;
+        }
+
+        //inseguimento verticale
+        if (pl.y > this.y) {
+            this.y += 1;
+            if (pl.x == this.x) direction = "down";
+        } else if (pl.y < this.y) {
+            this.y -= 1;
+            if (pl.x == this.x) direction = "up";
+        }
+
+        //se dopo il movimento Y c'è una collisione, torna indietro
+        if (checkCollision()) {
+            this.y = oldY;
+        }
+
+        //aggiorna animazione
+        if (direction.equals("right") || direction.equals("up")) {
+            WalkRightSpriteCounter++;
+            if (WalkRightSpriteCounter > 10) {
+                WalkRightSpriteNum = (WalkRightSpriteNum % 8) + 1;
+                WalkRightSpriteCounter = 0;
+            }
+        } else {
+            WalkLeftSpriteCounter++;
+            if (WalkLeftSpriteCounter > 10) {
+                WalkLeftSpriteNum = (WalkLeftSpriteNum % 8) + 1;
+                WalkLeftSpriteCounter = 0;
             }
         }
 
     }
 
+    public void attack() {
+        //Attacco a destra e su
+        if (direction.equals("right") || direction.equals("up")) {
+            AttackRightSpriteCounter++;
+            if (AttackRightSpriteCounter > 8) {
+                AttackRightSpriteNum++;
+                AttackRightSpriteCounter = 0;
+                
+                if (AttackRightSpriteNum == 5) {
+                    pl.takeDamage(15);
+                }
+                //quando l'animazione finisce ricomincia
+                if (AttackRightSpriteNum > 8) {
+                    AttackRightSpriteNum = 1;
+                }
+            }
+        } else {
+            //Attacco a sinistra e giù
+            AttackLeftSpriteCounter++;
+            if (AttackLeftSpriteCounter > 8) {
+                AttackLeftSpriteNum++;
+                AttackLeftSpriteCounter = 0;
+                
+                if (AttackLeftSpriteNum == 5) {
+                    pl.takeDamage(15);
+                }
+                //quando l'animazione finisce ricomincia
+                if (AttackLeftSpriteNum > 8) {
+                    AttackLeftSpriteNum = 1;
+                }
+            }
+        }
+    }
+
+    public void takeDamage(int damage) {
+        if (!invincible && !dying) {
+            life -= damage;
+            invincible = true;
+            action = "hit";
+            
+            if (life <= 0) {
+                life = 0;
+                die();
+            }
+        }
+    }
+
+    public void die() {
+        dying = true;
+        action = "death";
+    }
+
     public void randomMove(String dir) {
         if (dir == "up") {
-            if (WalkRightSpriteCounter > 10) {
+            if (WalkRightSpriteCounter > 5) {
                 if (WalkRightSpriteNum == 1) {
                     WalkRightSpriteNum = 2;
                 } else if (WalkRightSpriteNum == 2) {
@@ -591,7 +759,7 @@ public class Enemy extends Enemy_Manager{
             }
         }
         if (dir == "left") {
-            if (WalkLeftSpriteCounter > 10) {
+            if (WalkLeftSpriteCounter > 5) {
                 if (WalkLeftSpriteNum == 1) {
                     WalkLeftSpriteNum = 2;
                 } else if (WalkLeftSpriteNum == 2) {
@@ -613,7 +781,7 @@ public class Enemy extends Enemy_Manager{
             }
         }
         if (dir == "right") {
-            if (WalkRightSpriteCounter > 10) {
+            if (WalkRightSpriteCounter > 5) {
                 if (WalkRightSpriteNum == 1) {
                     WalkRightSpriteNum = 2;
                 } else if (WalkRightSpriteNum == 2) {
@@ -635,7 +803,7 @@ public class Enemy extends Enemy_Manager{
             }
         }
         if (dir == "down") {
-            if (WalkLeftSpriteCounter > 10) {
+            if (WalkLeftSpriteCounter > 5) {
                 if (WalkLeftSpriteNum == 1) {
                     WalkLeftSpriteNum = 2;
                 } else if (WalkLeftSpriteNum == 2) {

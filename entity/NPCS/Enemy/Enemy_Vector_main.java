@@ -8,7 +8,7 @@ import tile.TileManager;
 
 public class Enemy_Vector_main {
     Enemy_Manager EM;
-    Enemy [] enemies;
+    public Enemy [] enemies;
     GamePanel gp;
     Player pl;
     Sound sd;
@@ -46,7 +46,7 @@ public class Enemy_Vector_main {
                                                   6,"/src/Enemies/Slime/RIGHT/SlimeDeath/", //death right
                                                   6,"/src/Enemies/Slime/LEFT/SlimeDeath/", //death left
                                                   8,"/src/Enemies/Slime/RIGHT/SlimeAttack/", //attack right
-                                                  8,"/src/Enemiesa/Slime/LEFT/SlimeAttack/"); //attack left
+                                                  8,"/src/Enemies/Slime/LEFT/SlimeAttack/"); //attack left
         }
     }
 

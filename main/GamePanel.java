@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseListener;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.FontMetrics;
 
 import javax.swing.JPanel;
 
@@ -16,6 +19,7 @@ import entity.NPCS.NPC_Trader.TR_menu;
 import entity.NPCS.NPC_Trader.weapons;
 import entity.Player.Player;
 import tile.TileManager;
+
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -39,6 +43,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int ScreeWidth = tileSize * MaxScreenCol; // 768 pixels
     public final int ScreeHeight = tileSize * MaxScreenRow; // 576 pixel
 
+    public int gameState;
+    public final int playState = 1;
+    public final int gameOverState = 2;
+
     // FPS
     int FPS = 60;
 
@@ -55,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
     Sound speek = new Sound(); // aggiungo il suono del BG
     TR_menu TR_menu = new TR_menu(Trader, null, KeyH, WP, speek);
     NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
-    Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM);
+    public Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM);
 
     public String cicle;
 
@@ -73,6 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseListener((MouseListener) MouseH); // aggiungo a questo JPnale il Mouse lissener (MouseH)
         this.setFocusable(true);
 
+        gameState = playState;
     }
 
     public void StartGameThread() {
@@ -121,14 +130,17 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() { 
-
-        player.update(); 
-        tileM.update(); 
-        cl.update(); 
-        NPCS.update();
-        ENEMIES.update();
-        Trader.update();
-        TR_menu.update();
+        if (gameState == playState) {
+            player.update(); 
+            tileM.update(); 
+            cl.update(); 
+            NPCS.update();
+            ENEMIES.update();
+            Trader.update();
+            TR_menu.update();
+        }
+        if (gameState == gameOverState) {
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -141,8 +153,32 @@ public class GamePanel extends JPanel implements Runnable {
         TR_menu.draw(g2);
         NPCS.draw(g2);
         ENEMIES.draw(g2);
+
+        if (gameState == gameOverState) {
+            String text = "GAME OVER: SEI MORTO";
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F)); // Font grande e grassetto
+            
+            // Calcolo per centrare il testo
+            int x = getXforCenteredText(text, g2);
+            int y = ScreeHeight / 2;
+
+            // Ombra del testo (per leggerlo meglio)
+            g2.setColor(Color.black);
+            g2.drawString(text, x + 3, y + 3);
+
+            // Testo principale (Rosso sangue)
+            g2.setColor(Color.red);
+            g2.drawString(text, x, y);
+        }
+        
         g2.dispose();
 
+    }
+
+    //Metodo per centrare le scritte su schermo
+    public int getXforCenteredText(String text, Graphics2D g2) {
+        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return ScreeWidth / 2 - length / 2;
     }
 
     public void avviaMusica(int i) {
