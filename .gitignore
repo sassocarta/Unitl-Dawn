@@ -1,0 +1,23 @@
+# --- JAVA & COMPILAZIONE ---
+*.class
+
+*.jar
+*.war
+*.ear
+
+bin/
+target/
+out/
+
+# --- VISUAL STUDIO CODE ---
+.vscode/
+.history/
+
+# --- LOG E TEMPORANEI ---
+*.log
+tmp/
+temp/
+
+# --- SISTEMA OPERATIVO ---
+.DS_Store
+Thumbs.db
