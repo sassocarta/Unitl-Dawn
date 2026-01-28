@@ -26,7 +26,6 @@ public class Player extends Entity {
     private BufferedImage barraVitaImg;
 
     public boolean isAttacking = false;
-    public Rectangle attackRect = new Rectangle(0, 0, 0, 0);
     public int attackCounter = 0;
     public int attackNum = 1;
     public boolean isGuarding = false;
@@ -256,56 +255,51 @@ public class Player extends Entity {
 
     // metodo update del player
     public void update() {
+
         if (life <= 0) {
-        gp.gameState = gp.gameOverState; // Cambiamo lo stato del gioco
-    }
+            gp.gameState = gp.gameOverState;
+        }
 
-        PlInteractRect =  new Rectangle(x + 70 ,y + 78 ,48,48);
+        PlInteractRect = new Rectangle(x + 70, y + 78, 48, 48);
+        playerCol = x / gp.tileSize;
+        playerRow = y / gp.tileSize;
 
-        playerCol = x / gp.tileSize; // restituisce la colonna su qui si trova il player nei tile della mappa
-        playerRow = y / gp.tileSize; // restituisce la righa su qui si trova il player nei tile della mappa
+        if (!isAttacking && !mousH.rightPressed) {
+            movimento(mov);
+        }
 
-        // se tasto premuto:
-        // 1.sposto posizione player
-        // 2.vado avanti di uno sprite nella animazione
-        // 3.se sprite counter e minore di 10 (velocita animazione) piu basso numero piu
-        // veloce animazione
-        // 4.in base allo sprite precedente setto quello succesivo
-        movimento(mov);
+        //attacco
+        if (mousH.leftPressed && !isAttacking && !mousH.rightPressed) {
+            isAttacking = true;
+            AttackSpriteNum = 1;
+            AttackSpriteCounter = 0;
+        }
 
-
-
-        // se mouse tasto sinistro premuto
-        if (mousH.leftPressed && mousH.rightPressed != true) {
-            // da 0 passo a 1
+        if (isAttacking) {
             AttackSpriteCounter++;
-            
 
             if (!attackSoundPlayed) {
-                attackSoundPlayed = true; // non farlo ripartire finché il tasto è premuto
+                attackSoundPlayed = true; 
             }
-            // guardo la direzione del Player
+
             if (direction.equals("left")) {
                 Attack = "left";
-            }
-            if (direction.equals("right")) {
+            } else {
                 Attack = "right";
             }
 
             if (AttackSpriteCounter > 2) {
-
-                if (AttackSpriteNum == 1)
-                {
+                if (AttackSpriteNum == 1) {
                     AttackSpriteNum = 2;
                 } else if (AttackSpriteNum == 2) {
                     AttackSpriteNum = 3;
                 } else if (AttackSpriteNum == 3) {
-                    hitSound.play();
                     AttackSpriteNum = 4;
                 } else if (AttackSpriteNum == 4) {
-                    attackCollision();
                     AttackSpriteNum = 5;
                 } else if (AttackSpriteNum == 5) {
+                    hitSound.play();
+                    attackCollision();
                     AttackSpriteNum = 6;
                 } else if (AttackSpriteNum == 6) {
                     AttackSpriteNum = 7;
@@ -313,61 +307,46 @@ public class Player extends Entity {
                     AttackSpriteNum = 8;
                 } else if (AttackSpriteNum == 8) {
                     AttackSpriteNum = 1;
+                    isAttacking = false;
                     attackSoundPlayed = false;
-
+                    mousH.leftPressed = false; 
                 }
-
                 AttackSpriteCounter = 0;
             }
         }
 
-        // se mouse tasto destro premuto
-        if (mousH.rightPressed) {
+        //parata
+        if (mousH.rightPressed && !isAttacking) {
+            isGuarding = true;
             BlockSpriteCounter++;
-
             bolck = direction;
 
             if (BlockSpriteCounter > 2) {
                 BlockSpriteNum++;
-
                 if (BlockSpriteNum > 3) {
-
-                    BlockSpriteNum = 3; // resta sull’ultima posa
+                    BlockSpriteNum = 3;
                 }
                 BlockSpriteCounter = 0;
             }
-
         } else {
-            // reset quando NON blocchi
+            isGuarding = false;
             BlockSpriteNum = 1;
             BlockSpriteCounter = 0;
         }
 
-        if (BlockSpriteCounter > 2) {
-            if (BlockSpriteNum == 1) // in base a il frame in qui mi trovo setto il prossimo
-            {
-                BlockSpriteNum = 2;
-            } else if (BlockSpriteNum == 2) {
-                BlockSpriteNum = 3;
-            }
-            if (mousH.rightPressed == false) {
-                BlockSpriteNum = 0;
-            }
-        }
-
-        if (keyH.upPressed == false && keyH.dowPressed == false && keyH.leftPressed == false
-                && keyH.rightPressed == false && mousH.leftPressed == false && mousH.rightPressed == false) {
+        //idle
+        if (!keyH.upPressed && !keyH.dowPressed && !keyH.leftPressed && !keyH.rightPressed 
+            && !isAttacking && !mousH.rightPressed) {
+            
             IdelSpriteCpunter++;
             if (direction.equals("left")) {
                 idel = "left";
-            }
-            if (direction.equals("right")) {
+            } else {
                 idel = "right";
             }
 
             if (IdelSpriteCpunter > 10) {
                 IdelSpriteNum++;
-
                 if (IdelSpriteNum > 6) {
                     IdelSpriteNum = 1;
                 }
@@ -445,12 +424,6 @@ public class Player extends Entity {
         }
 
         if (mousH.leftPressed == true) {
-            //DEBUG: per vedere i rettangoli di attacco
-            g2.setColor(Color.RED); 
-            g2.drawRect(attackRect.x, attackRect.y, attackRect.width, attackRect.height);
-
-
-            
             switch (Attack) {
                 case "left":
                     if (AttackSpriteNum == 1) // in base a left o right e allo AttackSpriteNum decido che immagine
@@ -632,6 +605,10 @@ public class Player extends Entity {
     }
 
     public void takeDamage(int damage) {
+        if (isGuarding) { 
+
+        return;
+    }
         life -= damage;
         if (life < 0){
             life = 0;
@@ -639,7 +616,8 @@ public class Player extends Entity {
     }
 
     public void attackCollision() {
-    
+        Rectangle attackRect = new Rectangle(0, 0, 0, 0);
+
         //modifica la posizione del rettangolo di attacco in base a dove guarda il player
         if (direction.equals("right")) {
             attackRect.x = x + gp.tileSize * 2; 
@@ -663,7 +641,6 @@ public class Player extends Entity {
             attackRect.height = gp.tileSize * 2;
         }
 
-        
         for (int i = 0; i < gp.ENEMIES.enemies.length; i++) {
             if (gp.ENEMIES.enemies[i] != null) {
                 Enemy e = gp.ENEMIES.enemies[i];
@@ -674,6 +651,8 @@ public class Player extends Entity {
                 }
             }
         }
+
+        attackRect = null;
     }
 
     

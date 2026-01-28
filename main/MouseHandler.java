@@ -9,11 +9,16 @@ public class MouseHandler extends MouseAdapter {
     public boolean leftPressed; // bool per mouse
     public boolean rightPressed;
 
+    public boolean canAttack = true;
+
     @Override
     // Se tasto sinistro mouse premuto
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e) && rightPressed == false) {
-            leftPressed = true;
+            if (canAttack) {
+                leftPressed = true;
+                canAttack = false; 
+            }
         }
         if (SwingUtilities.isRightMouseButton(e) && leftPressed == false) {
             rightPressed = true;
@@ -25,6 +30,7 @@ public class MouseHandler extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             leftPressed = false;
+            canAttack = true;
         }
         if (SwingUtilities.isRightMouseButton(e)) {
             rightPressed = false;

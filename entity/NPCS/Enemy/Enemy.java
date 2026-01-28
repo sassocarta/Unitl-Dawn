@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.awt.Color;
 
 import entity.NPCS.NPC_Trader.TR_menu;
 import entity.Player.Player;
@@ -122,14 +123,11 @@ public class Enemy extends Enemy_Manager{
         this.urlAttackLeft = urlAttackLeft;
         this.NFAttackLeft = NFAttackLeft;
 
-        GetAllEnemyImages();
         deicidiMappaSpawn();
         SpwanEnemy();
+        GetAllEnemyImages();
         randomStarDirection();
 
-        this.x = col * gp.tileSize;
-        this.y = row * gp.tileSize;
-        
         spriteSet();
     }
 
@@ -307,6 +305,8 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void draw(Graphics2D g2) {
+        if (!alive) return;
+
         if(gp.cicle == "NIGHT" && trm.isOpen != true)
         {
         if (!tm.currentMap.equalsIgnoreCase(MapSpawn)) return;
@@ -357,14 +357,20 @@ public class Enemy extends Enemy_Manager{
             g2.drawImage(imageToDraw, x, y, gp.tileSize*4, gp.tileSize*4, null);
         }
         
-        
-        
+        //Barra della vita
+        int xBar = x + 70; 
+        int yBar = y + 70; 
+        int maxWidth = 50; 
+        int height = 5;
 
-        //DEBUG: serve per vedere detection range
-        g2.draw(detectionRange);
-        //DEBUG: serve per vedere stayin
-        g2.draw(stayin);
-    
+        g2.setColor(new Color(50, 50, 50));
+        g2.fillRect(xBar, yBar, maxWidth, height);
+
+        double healthRatio = (double) life / maxLife;
+        int currentWidth = (int) (healthRatio * maxWidth);
+
+        g2.setColor(new Color(203, 50, 52)); 
+        g2.fillRect(xBar, yBar, currentWidth, height);
     }
 }
 
@@ -553,12 +559,75 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void SpwanEnemy() {
-        do {
-            col = (int) (Math.random() * gp.MaxScreenCol / 2);
-            row = (int) (Math.random() * gp.MaxScreenRow / 2);
-            tileNum = tm.maptileNum[col][row];
-        } while (!tileValidi(tileNum));
+        boolean posizionato = false;
+    
+    // 1. DEFINIZIONE PARAMETRI HITBOX (Devono essere identici a quelli in update)
+    // Se questi valori sono diversi da quelli che usi per muoverti, il bug rimarrà.
+    int offsetX = 73; 
+    int offsetY = 77;
+    int corpoWidth = 46;
+    int corpoHeight = 48;
 
+    // Usiamo un limite di sicurezza per evitare loop infiniti se la zona è troppo piccola
+    int tentativi = 0;
+
+    while (!posizionato && tentativi < 1000) {
+        tentativi++;
+
+        // 2. CALCOLO RANGE DI SPAWN (Garantisce che stayin stia dentro StayinZone)
+        // Restringiamo il campo d'azione in modo che il rettangolo verde non esca mai dai bordi
+        int minX = StayinZone.x - offsetX;
+        int maxX = StayinZone.x + StayinZone.width - offsetX - corpoWidth;
+        int minY = StayinZone.y - offsetY;
+        int maxY = StayinZone.y + StayinZone.height - offsetY - corpoHeight;
+
+        // Generazione posizione casuale in pixel
+        this.x = minX + (int) (Math.random() * (maxX - minX));
+        this.y = minY + (int) (Math.random() * (maxY - minY));
+
+        // 3. CALCOLO AREA OCCUPATA DAL RETTANGOLO VERDE (In pixel)
+        int corpoLeft = this.x + offsetX;
+        int corpoRight = corpoLeft + corpoWidth;
+        int corpoTop = this.y + offsetY;
+        int corpoBottom = corpoTop + corpoHeight;
+
+        // 4. TRASFORMAZIONE IN COORDINATE TILE (Griglia della mappa)
+        int startCol = corpoLeft / gp.tileSize;
+        int endCol = corpoRight / gp.tileSize;
+        int startRow = corpoTop / gp.tileSize;
+        int endRow = corpoBottom / gp.tileSize;
+
+        // 5. CONTROLLO DI OGNI SINGOLO TILE TOCCATO
+        boolean collisione = false;
+        for (int colonna = startCol; colonna <= endCol; colonna++) {
+            for (int riga = startRow; riga <= endRow; riga++) {
+                // Sicurezza per non uscire dall'array della mappa
+                if (colonna >= 0 && colonna < tm.maptileNum.length && 
+                    riga >= 0 && riga < tm.maptileNum[0].length) {
+                    
+                    int tileID = tm.maptileNum[colonna][riga];
+                    
+                    // Controlliamo i tile proibiti (1, 2, 5) definiti nel tuo CollisionManager
+                    if (tileID == 1 || tileID == 2 || tileID == 5) {
+                        collisione = true;
+                        break;
+                    }
+                } else {
+                    collisione = true; // Se tocca i bordi del mondo è collisione
+                    break;
+                }
+            }
+            if (collisione) break;
+        }
+
+        // 6. VERIFICA FINALE
+        if (!collisione) {
+            // Se arriviamo qui, l'area sotto il rettangolo verde è TUTTA camminabile
+            this.stayin.x = corpoLeft;
+            this.stayin.y = corpoTop;
+            posizionato = true;
+        }
+    }
     }
 
     public boolean tileValidi(int tileNum) {
@@ -574,78 +643,95 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void update() {
-        if(gp.cicle == "NIGHT" && trm.isOpen == false)
-        {
-        //imposta il nemico al centro di stayin (con valori fissi)
-        stayin.x = x + 73;
-        stayin.y = y + 77;
+        if(gp.cicle.equals("NIGHT") && !trm.isOpen) {
+        
+            if (dying) {
+                action = "death";
+                updateDeathAnimation();
+                return; 
+            }
 
-        //imposta il nemico al centro di detection range (con valori fissi)
-        detectionRange.x = x - 120 + (gp.tileSize / 2); 
-        detectionRange.y = y - 120 + (gp.tileSize / 2);
+            if (invincible) {
+                action = "hit";
+                updateHitAnimation();
+                
+                invincibleCounter++;
+                if (invincibleCounter > 40) {
+                    invincible = false;
+                    invincibleCounter = 0;
+                }
 
-        if (tm.currentMap.equals(MapSpawn)) {
-            
-            //se il player è in stayin, viene attaccato
-            if (pl.PlInteractRect.intersects(stayin)) {
-                action = "attack";
-                attack();
-            } else {
-                //Reset dei frame di attacco quando il player si allontana così al prossimo attacco l'animazione riparte dal frame 1
-                AttackRightSpriteNum = 1;
-                AttackLeftSpriteNum = 1;
-                AttackRightSpriteCounter = 0;
-                AttackLeftSpriteCounter = 0;
-                //Se player è in detection Range, viene inseguito
-                if (pl.PlInteractRect.intersects(detectionRange)) {
+                return; 
+            }
+
+            stayin.x = x + 73;
+            stayin.y = y + 77;
+            detectionRange.x = x - 120 + (gp.tileSize / 2); 
+            detectionRange.y = y - 120 + (gp.tileSize / 2);
+
+            if (tm.currentMap.equals(MapSpawn)) {
+                if (pl.PlInteractRect.intersects(stayin)) {
+                    action = "attack";
+                    attack();
+                } else if (pl.PlInteractRect.intersects(detectionRange)) {
                     action = "walk";
                     followPlayer();
-                //se il player è fuori da detection range, muoviti a caso
                 } else {
                     action = "walk";
                     tick++;
-                    if (Stayin() == true) {
+                    if (Stayin()) {
                         if (tick >= 60) {
                             randomStarDirection();
                             tick = 0;
                         }
                         moveNPC();
                     } else {
-                        // Logica di inversione direzione se esce dai bordi mappa
-                        if (direction == "up") direction = "down";
-                        else if (direction == "down") direction = "up";
-                        else if (direction == "right") direction = "left";
-                        else if (direction == "left") direction = "right";
-                        
                         moveNPC();
-                        tick = 0;
                     }
-                }
-            }
-            //mentre esegui l'animazione di hit è invincibile
-            if (invincible) {
-                invincibleCounter++;
-                if (invincibleCounter > 40) {
-                    invincible = false;
-                    invincibleCounter = 0;
-                    if (!dying) action = "idle";
-                }
-            }
-
-            //se sta eseguendo l'animazione death
-            if (dying) {
-                // Incrementa il counter dell'animazione morte
-                DeathRightSpriteCounter++;
-                if (DeathRightSpriteCounter > 60) {
-                    alive = false;
                 }
             }
         }
     }
 
-}
+    private void updateHitAnimation() {
+        if (direction.equals("right") || direction.equals("up")) {
+            HitRightSpriteCounter++;
+            if (HitRightSpriteCounter > 4) {
+                HitRightSpriteNum++;
+                if (HitRightSpriteNum > 4) HitRightSpriteNum = 1;
+                HitRightSpriteCounter = 0;
+            }
+        } else {
+            HitLeftSpriteCounter++;
+            if (HitLeftSpriteCounter > 4) {
+                HitLeftSpriteNum++;
+                if (HitLeftSpriteNum > 4) HitLeftSpriteNum = 1;
+                HitLeftSpriteCounter = 0;
+            }
+        }
+    }
 
+    private void updateDeathAnimation() {
+        DeathRightSpriteCounter++;
+        
+        if (direction.equals("right") || direction.equals("up")) {
+            DeathRightSpriteCounter++; 
+            if (DeathRightSpriteCounter > 6) {
+                if (DeathRightSpriteNum < 6) DeathRightSpriteNum++;
+                DeathRightSpriteCounter = 0;
+            }
+        } else {
+            DeathLeftSpriteCounter++;
+            if (DeathLeftSpriteCounter > 6) {
+                if (DeathLeftSpriteNum < 6) DeathLeftSpriteNum++;
+                DeathLeftSpriteCounter = 0;
+            }
+        }
 
+        if (DeathRightSpriteCounter > 60) {
+            alive = false;
+        }
+    }
 
     public void followPlayer() {
         //Salva la posizione attuale
