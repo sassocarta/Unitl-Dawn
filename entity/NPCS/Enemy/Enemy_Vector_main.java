@@ -56,17 +56,33 @@ public class Enemy_Vector_main {
 
     public void update()
     {
-        for(int i = 0; i < nEnemies; i++)
-        {
-            enemies[i].update();
+        for (int i = 0; i < enemies.length; i++) {
+            if (enemies[i] != null) {
+                if (enemies[i].alive) {
+                    enemies[i].update();
+                } 
+                else {
+                    enemies[i] = null; 
+                }
+            }
         }
     }
 
     public void draw(Graphics2D g2)
     {
-        for(int i = 0; i < nEnemies; i++)
-        {
-            enemies[i].draw(g2);
+        for (int i = 0; i < enemies.length; i++) {
+            if (enemies[i] != null) {
+                enemies[i].draw(g2);
+            }
         }
+    }
+
+    public boolean isEveryEnemyDead() {
+        for (int i = 0; i < enemies.length; i++) {
+            if (enemies[i] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

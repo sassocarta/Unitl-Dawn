@@ -135,6 +135,12 @@ public class GamePanel extends JPanel implements Runnable {
             ENEMIES.update();
             Trader.update();
             TR_menu.update();
+
+            if (cicle.equals("NIGHT")) {
+                if (ENEMIES.isEveryEnemyDead()) {
+                    cicle = "DAY";
+                }
+            }
         }
         if (gameState == gameOverState) {
         }
