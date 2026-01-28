@@ -32,6 +32,8 @@ public class Cnpc extends NPC_Manager {
     String urlchat;
     int NFchat;
 
+    boolean istlk = false;
+
     public Cnpc(GamePanel gp, Player pl, Sound sd, TileManager tm,int NFchat,String urlchat,int NFFace, String urlFace,int NFup, String urlup,int NFdown, String urldown,int NFleft, String urlleft,int NFright, String urlright) {
 
         this.gp = gp;
@@ -40,7 +42,7 @@ public class Cnpc extends NPC_Manager {
         this.sd = sd;
 
         StayinZone = new Rectangle(96, 96, 576, 384);
-        stayin = new Rectangle(0, 0, 46, 48);
+        stayin = new Rectangle(0, 0, 23, 24);
 
         NPCUp = new BufferedImage[3];
         NPCLf = new BufferedImage[3];
@@ -181,10 +183,17 @@ public class Cnpc extends NPC_Manager {
         if (direction == "right") {
             g2.drawImage(RhImage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
         }
-        if (pl.PlInteractRect.intersects(stayin)) {
+          if (pl.PlInteractRect.intersects(stayin))
+             {
+            istlk = true;
             g2.drawImage(face, -10, 130 ,96 * 4, 112 * 4, null);
             g2.drawImage(chat, 210, 80 ,200 * 3, 200 * 3, null);
         }
+        else
+        {
+            istlk = false;
+        }
+
     }
 }
 
@@ -286,8 +295,8 @@ public class Cnpc extends NPC_Manager {
     public void update() {
         if(gp.cicle == "DAY")
         {
-        stayin.x = x + 70;
-        stayin.y = y + 70;
+        stayin.x = x + 85;
+        stayin.y = y + 80;
         if (tm.currentMap.equals(MapSpaw)) {
             if (!pl.PlInteractRect.intersects(stayin)) {
                 tick++;
