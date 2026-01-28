@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+import entity.Coin.Coin;
 import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
@@ -33,6 +34,9 @@ public class Cnpc extends NPC_Manager {
     int NFchat;
 
     boolean istlk = false;
+    boolean onespawn = false;
+
+    Coin coin;
 
     public Cnpc(GamePanel gp, Player pl, Sound sd, TileManager tm,int NFchat,String urlchat,int NFFace, String urlFace,int NFup, String urlup,int NFdown, String urldown,int NFleft, String urlleft,int NFright, String urlright) {
 
@@ -70,6 +74,8 @@ public class Cnpc extends NPC_Manager {
         //chat
         this.NFchat = NFchat;
         this.urlchat = urlchat; 
+
+        coin = new Coin(pl,tm);
 
         deicidiMappaSpawn();
         SpwanNpc();
@@ -182,12 +188,16 @@ public class Cnpc extends NPC_Manager {
                 g2.drawImage(chat, 210, 80 ,200 * 3, 200 * 3, null);
             }
         }*/
-       
+
         public void draw(Graphics2D g2) {
         if(gp.cicle == "DAY"){
             if (!tm.currentMap.equals(MapSpaw)) {
                 return;
             }
+        if(coin.Cx > 0 && coin.Cy> 0 && coin.takeit == false)
+        {
+            coin.draw(g2);
+        }
         spriteSet();
         if (direction == "up") {
             g2.drawImage(UpImage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
@@ -211,6 +221,7 @@ public class Cnpc extends NPC_Manager {
         {
             istlk = false;
         }
+        
 
     }
 
@@ -406,10 +417,31 @@ public class Cnpc extends NPC_Manager {
                 direction = "down";
                 uone = false;
             }
+
+        if (pl.PlInteractRect.intersects(stayin) && onespawn == false)
+        {
+        onespawn = true;
+        if(coin.NPCPercSpawnCoin())
+        {
+        coin.CoinSpawn( x + 85, y + 83); 
+        }    
+        }
+
+        if(onespawn == true && coin.NPCPercSpawnCoin() == true && coin.presounavolta == false)
+        {
+        if(pl.PlInteractRect.intersects(coin.pickupZone))
+        {
+            coin.takeit = true;
+            coin.aumentaNcoin();
+            coin.presounavolta = true;
+        }
+        }
+
+        }
         }
 
     }
-}
+
 
     public void randomMove(String dir) {
         if (dir == "up") {

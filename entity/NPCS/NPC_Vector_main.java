@@ -68,6 +68,7 @@ public class NPC_Vector_main {
         n.update();
         }
         }
+
         //seno li ricontrollo per vedere se ha smesso di parlare 
         for(Cnpc n : npcs) {
         if(!n.istlk)
@@ -75,6 +76,7 @@ public class NPC_Vector_main {
         sequalcunoparla = false;
         }
         }
+
     }
 
         public void draw(Graphics2D g2)

@@ -53,6 +53,8 @@ public class Player extends Entity {
 
     //Interact Rect
     public Rectangle PlInteractRect = null;
+    public int NumeroCoin = 0;
+
 
     public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH) {
         this.gp = gp;
@@ -353,6 +355,7 @@ public class Player extends Entity {
                 IdelSpriteCpunter = 0;
             }
         }
+
     }
 
     public void draw(Graphics2D g2) {

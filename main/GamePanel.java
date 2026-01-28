@@ -62,7 +62,6 @@ public class GamePanel extends JPanel implements Runnable {
     TR_menu TR_menu = new TR_menu(Trader, null, KeyH, WP, speek);
     NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
     public Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM,TR_menu);
-
     public String cicle;
 
     // set paleyer defoult posizione
