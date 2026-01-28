@@ -41,8 +41,6 @@ public class NPC_Manager {
     public BufferedImage []NPCfaces;
     public BufferedImage []NPCchats;
 
-    public BufferedImage []NPCdialog;
-
     BufferedImage face;
 
     BufferedImage chat;

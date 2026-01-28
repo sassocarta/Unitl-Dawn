@@ -26,10 +26,13 @@ public class Cnpc extends NPC_Manager {
     String urlleft;
     int NFleft;
     //right
-     String urlright;
+    String urlright;
     int NFright;
+    //chat
+    String urlchat;
+    int NFchat;
 
-    public Cnpc(GamePanel gp, Player pl, Sound sd, TileManager tm,int NFFace, String urlFace,int NFup, String urlup,int NFdown, String urldown,int NFleft, String urlleft,int NFright, String urlright) {
+    public Cnpc(GamePanel gp, Player pl, Sound sd, TileManager tm,int NFchat,String urlchat,int NFFace, String urlFace,int NFup, String urlup,int NFdown, String urldown,int NFleft, String urlleft,int NFright, String urlright) {
 
         this.gp = gp;
         this.tm = tm;
@@ -45,6 +48,8 @@ public class Cnpc extends NPC_Manager {
         NPCDw = new BufferedImage[3];
 
         NPCfaces = new BufferedImage[6];
+        NPCchats = new BufferedImage[6];
+
         //face
         this.NFFace = NFFace;
         this.urlFace = urlFace;
@@ -60,6 +65,9 @@ public class Cnpc extends NPC_Manager {
         //right
         this.NFright = NFright;
         this.urlright = urlright;
+        //chat
+        this.NFchat = NFchat;
+        this.urlchat = urlchat; 
 
         GetAllNpcImages();
         deicidiMappaSpawn();
@@ -131,12 +139,27 @@ public class Cnpc extends NPC_Manager {
         }
     }
 
+    public void GetImagesChats(int NFchat, String urlchat)
+    {
+        try {
+            for(int i = 0; i < NFchat; i++)
+            {
+            NPCchats[i] =  ImageIO.read(getClass().getResource(urlchat + (i + 1) + ".png"));
+            }
+            //\src\NPC\NPC_type1\Chat
+        } catch (Exception e) {
+            e.setStackTrace(null);
+        }
+    }
+
+
     public void GetAllNpcImages() {
         GerImagesTop(NFup,urlup);
         GerImagesDown(NFdown,urldown);
         GerImagesLeft(NFleft,urlleft);
         GerImagesRight(NFright,urlright);
         GetFaceImages(NFFace,urlFace);
+        GetImagesChats(NFchat,urlchat);
     }
 
     public void draw(Graphics2D g2) {
@@ -160,6 +183,7 @@ public class Cnpc extends NPC_Manager {
         }
         if (pl.PlInteractRect.intersects(stayin)) {
             g2.drawImage(face, -10, 130 ,96 * 4, 112 * 4, null);
+            g2.drawImage(chat, 210, 80 ,200 * 3, 200 * 3, null);
         }
     }
 }
@@ -391,8 +415,32 @@ public class Cnpc extends NPC_Manager {
         if (uone == false) {
             int n = (int) (Math.random() * 6);
             setFace(n);
+            setChat(n);
             face = NPCfaces[n];
             uone = true;
+        }
+    }
+    public void setChat(int n)
+    {
+        switch (n) {
+            case 0:
+                chat = NPCchats[0];
+                break;
+            case 1:
+                chat = NPCchats[1];
+                break;
+            case 2:
+                chat = NPCchats[2];
+                break;
+            case 3:
+                chat = NPCchats[3];
+                break;
+            case 4:
+                chat = NPCchats[4];
+                break;
+             case 5:
+                chat = NPCchats[5];
+                break;
         }
     }
 
