@@ -62,8 +62,6 @@ public class Coin {
         
         pickupZone.x = Cx;
         pickupZone.y = Cy;
-        g2.setColor(Color.RED);
-        g2.draw(pickupZone);
         g2.drawImage(FrameCoin, Cx, Cy ,16, 16, null);
 
     }

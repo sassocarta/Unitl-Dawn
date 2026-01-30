@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.Font;
 
 import java.awt.Color;
 
@@ -24,6 +25,7 @@ public class Player extends Entity {
     public boolean invincible = false;
     public int invincibleCounter = 0;
     private BufferedImage barraVitaImg;
+    private BufferedImage coin;
 
     public boolean isAttacking = false;
     public int attackCounter = 0;
@@ -216,6 +218,8 @@ public class Player extends Entity {
             
 
             barraVitaImg = ImageIO.read(getClass().getResource("/src/Player/BarraVita.png"));
+
+            coin = ImageIO.read(getClass().getResource("/src/Coin/tile1.png"));
 
         } catch (IOException e) {
             // se non trova le immagini stamapa
@@ -612,6 +616,22 @@ public class Player extends Entity {
 
         //immagine bordo barra
         g2.drawImage(barraVitaImg, xBar - 60, yBar - 23, 200, 65, null);
+
+        //moneta con scritta
+        g2.drawImage(coin, 220, 510, 50, 50, null);
+
+        
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
+        String text = "x " + NumeroCoin;
+        
+        int x = 270;
+        int y = 541;
+
+        g2.setColor(Color.black);
+        g2.drawString(text, x + 3, y + 3);
+
+        g2.setColor(new Color(255, 215, 0));
+        g2.drawString(text, x, y);
         
     }
 
