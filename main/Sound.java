@@ -24,6 +24,7 @@ public class Sound {
             soundURL[4] = getClass().getResource("/src/Sound/entering.wav");
             soundURL[5] = getClass().getResource("/src/Sound/menuBG.wav");
             soundURL[6] = getClass().getResource("/src/Sound/speek.wav");
+            soundURL[7] = getClass().getResource("/src/Sound/coin.wav");
             
         } catch (Exception e) {
             // In caso di errore nel caricamento dei file

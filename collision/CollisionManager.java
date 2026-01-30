@@ -16,7 +16,6 @@ public class CollisionManager {
     GamePanel gm;
     int hbx, hby;
     int hitboxTile;
-
     boolean cl = false;
 
     public CollisionManager(Player pl, TileManager tM, GamePanel gm) {

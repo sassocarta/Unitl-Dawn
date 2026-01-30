@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import entity.Player.Player;
+import main.Sound;
 import tile.TileManager;
 
 public class Coin {
@@ -19,13 +20,14 @@ public class Coin {
     public int Cy;
     public boolean takeit;
     public boolean presounavolta = false;
+    Sound sd;
 
     int CoinSpriteNum = 1;
 
-    public Coin(Player pl,TileManager tm) {
+    public Coin(Player pl,TileManager tm, Sound sd) {
         this.pl = pl;
-        this.tm = tm ;
-        
+        this.tm = tm ;  
+        this.sd = sd;
         GetImagesCoin();
         pickupZone = new Rectangle(Cx,Cy,16,16);
     }
@@ -43,8 +45,11 @@ public class Coin {
 
     public void aumentaNcoin()
     {
+        sd.setFile(7);
+        sd.play();
         pl.NumeroCoin++;
         System.out.println("NUMERO SOLDI:" + pl.NumeroCoin);
+
     }
     public void CoinSpawn(int x,int y)
     {

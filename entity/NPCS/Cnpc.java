@@ -75,7 +75,7 @@ public class Cnpc extends NPC_Manager {
         this.NFchat = NFchat;
         this.urlchat = urlchat; 
 
-        coin = new Coin(pl,tm);
+        coin = new Coin(pl,tm,sd);
 
         deicidiMappaSpawn();
         SpwanNpc();
@@ -431,7 +431,7 @@ public class Cnpc extends NPC_Manager {
         {
         if(pl.PlInteractRect.intersects(coin.pickupZone))
         {
-            coin.takeit = true;
+            coin.takeit = true;;
             coin.aumentaNcoin();
             coin.presounavolta = true;
         }

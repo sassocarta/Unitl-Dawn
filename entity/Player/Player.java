@@ -56,10 +56,24 @@ public class Player extends Entity {
     public int NumeroCoin = 0;
 
 
+    //Barra della vita
+
+    int xBar; 
+    int yBar; 
+    int maxWidth; 
+    int height; 
+
+
+
     public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH) {
         this.gp = gp;
         this.keyH = keyH2;
         this.mousH = mousH;
+
+        xBar = 70; 
+        yBar = gp.ScreeHeight - 50; 
+        maxWidth = 130; 
+        height = 20; 
 
         setDefaultValues();
         getPlayerImg();
@@ -586,12 +600,6 @@ public class Player extends Entity {
 
             g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
         }
-
-        //Barra della vita
-        int xBar = 70; 
-        int yBar = gp.ScreeHeight - 50; 
-        int maxWidth = 130; 
-        int height = 20; 
 
         g2.setColor(new Color(50, 50, 50));
         g2.fillRect(xBar, yBar, maxWidth, height);

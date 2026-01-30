@@ -20,6 +20,8 @@ public class NPC_Vector_main {
     int numeroNpc2 = 5;
     int numeroNpc3 = 5;
     boolean sequalcunoparla = false;
+    boolean drawface = false;
+    
     public NPC_Vector_main(GamePanel gp, Player pl, Sound sd, TileManager tm)
     {
         this.gp = gp;
@@ -85,7 +87,6 @@ public class NPC_Vector_main {
        for(Cnpc n : npcs) {
         n.draw(g2);
         }
-    }
-
     
+    }
 }
