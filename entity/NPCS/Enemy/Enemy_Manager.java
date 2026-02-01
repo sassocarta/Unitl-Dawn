@@ -2,6 +2,8 @@ package entity.NPCS.Enemy;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
+import entity.Coin.Coin;
 import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
@@ -104,4 +106,5 @@ public class Enemy_Manager {
     public boolean dying = false;
     public boolean alive = true;
     public String action = "idle";
+    Coin coin;
 }

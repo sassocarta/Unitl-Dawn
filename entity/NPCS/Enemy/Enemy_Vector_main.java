@@ -58,10 +58,10 @@ public class Enemy_Vector_main {
     {
         for (int i = 0; i < enemies.length; i++) {
             if (enemies[i] != null) {
-                if (enemies[i].life > 0) {
+                if (enemies[i].alive = true) {
                     enemies[i].update();
                 } 
-                else if(enemies[i].life <= 0){
+                else if(enemies[i].alive = false){
                     enemies[i] = null; 
                 }
             }
