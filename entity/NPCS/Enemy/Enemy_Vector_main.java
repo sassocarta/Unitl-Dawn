@@ -58,19 +58,16 @@ public class Enemy_Vector_main {
     {
         for (int i = 0; i < enemies.length; i++) {
             if (enemies[i] != null) {
-<<<<<<< HEAD
-                enemies[i].update();
-            }
-            else if(enemies[i].alive){
-=======
+
                 if (enemies[i].alive = true) {
                     enemies[i].update();
                 } 
                 else if(enemies[i].alive = false){
->>>>>>> origin/main
+                    
                     enemies[i] = null; 
                 }
             }
+        }
     }
     
 
