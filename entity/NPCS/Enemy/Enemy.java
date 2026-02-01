@@ -53,6 +53,17 @@ public class Enemy extends Enemy_Manager{
     String urlAttackLeft;
     int NFAttackLeft;
 
+    //Barra della vita
+    int xBar;
+    int yBar ;
+    int maxWidth; 
+    int height ;
+
+     //SPINNING PROBLEM
+    int sC = 0;      // Cambio direzione
+    int sT = 0;        // reset contatore tot secondi
+    int tollerance = 1;
+
     public Enemy(GamePanel gp, 
                  Player pl, 
                  Sound sd, 
@@ -127,7 +138,6 @@ public class Enemy extends Enemy_Manager{
         SpwanEnemy();
         GetAllEnemyImages();
         randomStarDirection();
-
         spriteSet();
     }
 
@@ -309,8 +319,9 @@ public class Enemy extends Enemy_Manager{
 
         if(gp.cicle == "NIGHT" && trm.isOpen != true)
         {
-        if (!tm.currentMap.equalsIgnoreCase(MapSpawn)) return;
-
+        if (!tm.currentMap.equalsIgnoreCase(MapSpawn)){
+             return;
+        }
         spriteSet();
         BufferedImage imageToDraw = null;
 
@@ -358,16 +369,16 @@ public class Enemy extends Enemy_Manager{
         }
         
         //Barra della vita
-        int xBar = x + 70; 
-        int yBar = y + 70; 
-        int maxWidth = 50; 
-        int height = 5;
+        xBar = x + 70; 
+        yBar = y + 70; 
+        maxWidth = 50; 
+        height = 5;
 
         g2.setColor(new Color(50, 50, 50));
         g2.fillRect(xBar, yBar, maxWidth, height);
 
-        double healthRatio = (double) life / maxLife;
-        int currentWidth = (int) (healthRatio * maxWidth);
+        healthRatio = (double) life / maxLife;
+        currentWidth = (int) (healthRatio * maxWidth);
 
         g2.setColor(new Color(203, 50, 52)); 
         g2.fillRect(xBar, yBar, currentWidth, height);
@@ -643,6 +654,7 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void update() {
+
         if(gp.cicle.equals("NIGHT") && !trm.isOpen) {
         
             if (dying) {
@@ -670,6 +682,29 @@ public class Enemy extends Enemy_Manager{
             detectionRange.y = y - 120 + (gp.tileSize / 2);
 
             if (tm.currentMap.equals(MapSpawn)) {
+                
+        //-----------------------------------------------------------------------------------
+        //COME RISOLVERE IL PRBLEMA DELLO SPINNING E DELLO SPAWN SBAGLIATO
+         //LA TOLLERANZA
+        sT++;
+    if (sT >= 60) { 
+        sC = 0; 
+        sT = 0;
+        if(tollerance < 20)
+        {
+        tollerance++;
+        }
+    }
+
+    // Se ha ruotato più di 1 volte in un secondo, è incastrato!
+    if (sC > tollerance) {
+        System.out.println("INCASTRO");
+        SpwanEnemy();   
+        sC = 0;   
+    }
+         //-----------------------------------------------------------------------------------
+
+
                 if (pl.PlInteractRect.intersects(stayin)) {
                     action = "attack";
                     attack();
@@ -690,6 +725,10 @@ public class Enemy extends Enemy_Manager{
                     }
                 }
             }
+            else
+        {
+            tollerance = 1;
+        }
         }
     }
 
@@ -712,26 +751,40 @@ public class Enemy extends Enemy_Manager{
     }
 
     private void updateDeathAnimation() {
-        DeathRightSpriteCounter++;
+      if (direction.equals("right") || direction.equals("up")) {
         
-        if (direction.equals("right") || direction.equals("up")) {
-            DeathRightSpriteCounter++; 
-            if (DeathRightSpriteCounter > 6) {
-                if (DeathRightSpriteNum < 6) DeathRightSpriteNum++;
+        if (DeathRightSpriteNum < 6) {
+            DeathRightSpriteCounter++;
+            if (DeathRightSpriteCounter > 10) {
+                DeathRightSpriteNum++;
                 DeathRightSpriteCounter = 0;
             }
-        } else {
+        } 
+        
+        else {
+            DeathRightSpriteCounter++;
+            if (DeathRightSpriteCounter > 60) { 
+                alive = false;
+            }  
+        }
+    } else {
+       
+        if (DeathLeftSpriteNum < 6) {
             DeathLeftSpriteCounter++;
-            if (DeathLeftSpriteCounter > 6) {
-                if (DeathLeftSpriteNum < 6) DeathLeftSpriteNum++;
+            if (DeathLeftSpriteCounter > 10) {
+                DeathLeftSpriteNum++;
                 DeathLeftSpriteCounter = 0;
             }
-        }
+        } 
 
-        if (DeathRightSpriteCounter > 60) {
-            alive = false;
+        else {
+            DeathLeftSpriteCounter++;
+            if (DeathLeftSpriteCounter > 60) {
+                alive = false;
+            }
         }
     }
+}
 
     public void followPlayer() {
         //Salva la posizione attuale
@@ -833,6 +886,9 @@ public class Enemy extends Enemy_Manager{
     public void die() {
         dying = true;
         action = "death";
+
+        
+
     }
 
     public void randomMove(String dir) {
@@ -956,6 +1012,7 @@ public class Enemy extends Enemy_Manager{
             y = originalY;
             //cambia direzione
             changeDirection();
+            sC++;
         }
     }
 

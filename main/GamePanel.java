@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this, player); // aggiugo TileManager
     Sound soundBG = new Sound(); // aggiungo il suono del BG
     CollisionManager cl = new CollisionManager(player, tileM, this);
-    NPC_Tio Trader = new NPC_Tio(this, player, soundBG, tileM);
+    NPC_Tio Trader = new NPC_Tio(this,player, soundBG, tileM);
     weapons WP = new weapons();
     Sound speek = new Sound(); // aggiungo il suono del BG
     TR_menu TR_menu = new TR_menu(Trader, null, KeyH, WP, speek);
@@ -134,14 +134,9 @@ public class GamePanel extends JPanel implements Runnable {
             ENEMIES.update();
             Trader.update();
             TR_menu.update();
-
-            if (cicle.equals("NIGHT") && ENEMIES.isEveryEnemyDead()) {
-                cicle = "DAY";
-            }
-        }
-        if (gameState == gameOverState) {
-        }
     }
+}
+
 
     public void paintComponent(Graphics g) {
 

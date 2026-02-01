@@ -56,14 +56,15 @@ public class Player extends Entity {
     //Interact Rect
     public Rectangle PlInteractRect = null;
     public int NumeroCoin = 0;
-
-
+    
     //Barra della vita
-
     int xBar; 
     int yBar; 
     int maxWidth; 
     int height; 
+
+    //attack rect 
+    Rectangle attackRect = null;
 
 
 
@@ -82,6 +83,7 @@ public class Player extends Entity {
 
         hitSound = new Sound();
         hitSound.setFile(1);
+
     }
 
     public void setDefaultValues() {
@@ -647,7 +649,13 @@ public class Player extends Entity {
     }
 
     public void attackCollision() {
-        Rectangle attackRect = new Rectangle(0, 0, 0, 0);
+        if(gp.cicle.equals("NIGHT"))
+        {
+            if(attackRect == null)
+            {
+                attackRect = new Rectangle(0,0,0,0);
+            }
+    
 
         //modifica la posizione del rettangolo di attacco in base a dove guarda il player
         if (direction.equals("right")) {
@@ -684,6 +692,7 @@ public class Player extends Entity {
         }
 
         attackRect = null;
+    }
     }
 
     

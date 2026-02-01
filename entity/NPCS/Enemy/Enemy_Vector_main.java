@@ -58,15 +58,14 @@ public class Enemy_Vector_main {
     {
         for (int i = 0; i < enemies.length; i++) {
             if (enemies[i] != null) {
-                if (enemies[i].life > 0) {
-                    enemies[i].update();
-                } 
-                else if(enemies[i].life <= 0){
+                enemies[i].update();
+            }
+            else if(enemies[i].alive){
                     enemies[i] = null; 
                 }
             }
-        }
     }
+    
 
     public void draw(Graphics2D g2)
     {
@@ -77,12 +76,4 @@ public class Enemy_Vector_main {
         }
     }
 
-    public boolean isEveryEnemyDead() {
-        for (int i = 0; i < enemies.length; i++) {
-            if (enemies[i] != null) {
-                return false;
-            }
-        }
-        return true;
-    }
 }

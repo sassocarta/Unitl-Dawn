@@ -37,6 +37,12 @@ public class Cnpc extends NPC_Manager {
     boolean onespawn = false;
 
     Coin coin;
+    
+
+    //SPINNING PROBLEM
+    int sC = 0;      // Cambio direzione
+    int sT = 0;        // reset contatore tot secondi
+    int tollerance = 1;
 
     public Cnpc(GamePanel gp, Player pl, Sound sd, TileManager tm,int NFchat,String urlchat,int NFFace, String urlFace,int NFup, String urlup,int NFdown, String urldown,int NFleft, String urlleft,int NFright, String urlright) {
 
@@ -306,10 +312,10 @@ public class Cnpc extends NPC_Manager {
         
         // 1. DEFINIZIONE PARAMETRI HITBOX (Devono essere identici a quelli in update)
         // Se questi valori sono diversi da quelli che usi per muoverti, il bug rimarrà.
-        int offsetX = 73; 
-        int offsetY = 77;
-        int corpoWidth = 46;
-        int corpoHeight = 48;
+        int offsetX = 84; 
+        int offsetY = 97;
+        int corpoWidth = 20;
+        int corpoHeight = 20;
 
         // Usiamo un limite di sicurezza per evitare loop infiniti se la zona è troppo piccola
         int tentativi = 0;
@@ -374,7 +380,7 @@ public class Cnpc extends NPC_Manager {
     }
 
     public boolean tileValidi(int tileNum) {
-        if (tileNum == 0 || tileNum == 3 || tileNum == 4) {
+        if (tileNum == 0) {
             return true;
         }
         return false;
@@ -386,11 +392,34 @@ public class Cnpc extends NPC_Manager {
     }
 
     public void update() {
+    
         if(gp.cicle == "DAY")
         {
-        stayin.x = x + 85;
-        stayin.y = y + 80;
+        stayin.x = x + 84;
+        stayin.y = y + 97;
         if (tm.currentMap.equals(MapSpaw)) {
+            
+        //-----------------------------------------------------------------------------------
+        //COME RISOLVERE IL PRBLEMA DELLO SPINNING E DELLO SPAWN SBAGLIATO
+        //LA TOLLERANZA
+        sT++;
+    if (sT >= 60) { 
+        sC = 0; 
+        sT = 0;
+        if(tollerance < 20)
+        {
+        tollerance ++;
+        }
+    }
+
+    // Se ha ruotato più di 1 volte in un secondo, è incastrato!
+    if (sC > tollerance) {
+        System.out.println("INCASTRO");
+        SpwanNpc();     
+        sC = 0;   
+    }
+         //-----------------------------------------------------------------------------------
+
             if (!pl.PlInteractRect.intersects(stayin)) {
                 tick++;
                 if (Stayin() == true) {
@@ -437,6 +466,9 @@ public class Cnpc extends NPC_Manager {
         }
         }
 
+        }else
+        {
+            tollerance = 1;
         }
         }
 
@@ -496,8 +528,8 @@ public class Cnpc extends NPC_Manager {
     }
 
     public void moveNPC() {
-        int originalX = x;
-        int originalY = y;
+        originalX = x;
+        originalY = y;
         
         if (direction.equals("up")) {
             y--;
@@ -524,6 +556,7 @@ public class Cnpc extends NPC_Manager {
             y = originalY;
             //cambia direzione
             changeDirection();
+            sC++;
         }
     }
 
@@ -593,16 +626,16 @@ public class Cnpc extends NPC_Manager {
     //Controlla collisioni
     public boolean checkCollision() {
         //hitbox
-        int npcHitboxX = x + 84;
-        int npcHitboxY = y + 97;
-        int hitboxWidth = 20;
-        int hitboxHeight = 20;
+        npcHitboxX = x + 84;
+        npcHitboxY = y + 97;
+        hitboxWidth = 20;
+        hitboxHeight = 20;
         
         //lati della hitbox
-        int leftCol = npcHitboxX / gp.tileSize;
-        int rightCol = (npcHitboxX + hitboxWidth) / gp.tileSize;
-        int topRow = npcHitboxY / gp.tileSize;
-        int bottomRow = (npcHitboxY + hitboxHeight) / gp.tileSize;
+        leftCol = npcHitboxX / gp.tileSize;
+        rightCol = (npcHitboxX + hitboxWidth) / gp.tileSize;
+        topRow = npcHitboxY / gp.tileSize;
+        bottomRow = (npcHitboxY + hitboxHeight) / gp.tileSize;
         
         //controlla se i lati sono su un tile non camminabile
         return isSolidTile(leftCol, topRow) || isSolidTile(rightCol, topRow) || isSolidTile(leftCol, bottomRow) || isSolidTile(rightCol, bottomRow);

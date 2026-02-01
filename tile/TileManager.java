@@ -266,10 +266,9 @@ public class TileManager {
         // avvio la musica da far paritire in base al bg
         // la musica DI BG
         SetMUSIC();
-        // dopo che il tick = currentCicle a raggiunto i 1000 cambio ciclo
         if (npcForcingNight && gp.cicle.equals("DAY")) {
             // se era giorno
-            if (gp.cicle.equals("DAY")) {
+            if (npcForcingNight && gp.cicle.equals("DAY")) {
                 // notte
                 gp.cicle = "NIGHT";
                 // fermo musica giorno
@@ -298,13 +297,15 @@ public class TileManager {
             // ora sta andando della musica
             music = true;
         }
+
         // se il ciclo e uguale a night e non ce muscia
-        else if (gp.cicle.equals("NIGHT") && !music) {
+        if (gp.cicle.equals("NIGHT") && !music) {
             // faccio partire la muscia numero 0 (MUSICA BG DEL NIGHT)
             gp.avviaMusica(0);
             // ora sta andando della musica
             music = true;
         }
+
     }
 
     public void GetTileBaseCicle() {

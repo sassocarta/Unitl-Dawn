@@ -104,4 +104,7 @@ public class Enemy_Manager {
     public boolean dying = false;
     public boolean alive = true;
     public String action = "idle";
+
+    double healthRatio;
+    int currentWidth;
 }

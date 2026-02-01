@@ -1,6 +1,4 @@
 package entity.Coin;
-
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -81,18 +79,18 @@ public class Coin {
         switch (n) {
             case 1: //up
                 Cx =x;
-                Cy = y + 20;
+                Cy = y + 10;
                 break;
             case 2: //dw
                 Cx =x;
-                Cy = y - 20;
+                Cy = y - 10;
                 break;
             case 3: //lf
-                Cx = x - 20;
+                Cx = x - 10;
                 Cy = y;
                 break;
             case 4: //rg
-                Cx = x + 20;
+                Cx = x + 10;
                 Cy = y;
                 break;                                           
         }

@@ -78,5 +78,20 @@ public class NPC_Manager {
 
     public boolean uone = false;
 
+    int npcHitboxX = x + 84;
+    int npcHitboxY = y + 97;
+    int hitboxWidth = 20;
+    int hitboxHeight = 20;
+        
+    //lati della hitbox
+    int leftCol ;
+    int rightCol ;
+    int topRow ;
+    int bottomRow ;
+
+    int originalX = x;
+    int originalY = y;
+        
+
 
 }

@@ -49,15 +49,17 @@ public class NPC_Tio {
     int heightRec = 100;
 
     boolean activeZone = false;
+    public Object tileM;
 
 
-    public NPC_Tio(GamePanel gp, Player pl, Sound interactSound, TileManager tm) {
+
+    public NPC_Tio(GamePanel gp,Player pl, Sound interactSound, TileManager tm) {
         idel = new BufferedImage[3];
         jump = new BufferedImage[2];
-        this.gp = gp;
         this.pl = pl;
         InteractSound = interactSound;
         this.tm = tm;
+        this.gp = gp;
         deicidiMappaSpawn();
         GetAllImage();
         SpwanNpc();
