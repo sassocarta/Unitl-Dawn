@@ -884,6 +884,7 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void die() {
+        //coin.CoinSpawn( x + 85, y + 83); 
         dying = true;
         action = "death";
 
