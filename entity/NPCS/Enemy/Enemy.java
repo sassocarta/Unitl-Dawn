@@ -14,14 +14,7 @@ import tile.TileManager;
 
 
 public class Enemy extends Enemy_Manager{
-    int tick = 0;
-    public Rectangle stayin = null;
-
-    Rectangle detectionRange = null;
-    TR_menu trm;
-
-
-
+    
     //WalkRight
     String urlWalkRight;
     int NFWalkRight;
@@ -52,17 +45,6 @@ public class Enemy extends Enemy_Manager{
     //AttackLeft
     String urlAttackLeft;
     int NFAttackLeft;
-
-    //Barra della vita
-    int xBar;
-    int yBar ;
-    int maxWidth; 
-    int height ;
-
-     //SPINNING PROBLEM
-    int sC = 0;      // Cambio direzione
-    int sT = 0;        // reset contatore tot secondi
-    int tollerance = 1;
 
     public Enemy(GamePanel gp, 
                  Player pl, 
@@ -570,75 +552,75 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void SpwanEnemy() {
-        boolean posizionato = false;
-    
-    // 1. DEFINIZIONE PARAMETRI HITBOX (Devono essere identici a quelli in update)
-    // Se questi valori sono diversi da quelli che usi per muoverti, il bug rimarrà.
-    int offsetX = 73; 
-    int offsetY = 77;
-    int corpoWidth = 46;
-    int corpoHeight = 48;
+        posizionato = false;
+        
+        // 1. DEFINIZIONE PARAMETRI HITBOX (Devono essere identici a quelli in update)
+        // Se questi valori sono diversi da quelli che usi per muoverti, il bug rimarrà.
+        offsetX = 73; 
+        offsetY = 77;
+        corpoWidth = 46;
+        corpoHeight = 48;
 
-    // Usiamo un limite di sicurezza per evitare loop infiniti se la zona è troppo piccola
-    int tentativi = 0;
+        // Usiamo un limite di sicurezza per evitare loop infiniti se la zona è troppo piccola
+        tentativi = 0;
 
-    while (!posizionato && tentativi < 1000) {
-        tentativi++;
+        while (!posizionato && tentativi < 1000) {
+            tentativi++;
 
-        // 2. CALCOLO RANGE DI SPAWN (Garantisce che stayin stia dentro StayinZone)
-        // Restringiamo il campo d'azione in modo che il rettangolo verde non esca mai dai bordi
-        int minX = StayinZone.x - offsetX;
-        int maxX = StayinZone.x + StayinZone.width - offsetX - corpoWidth;
-        int minY = StayinZone.y - offsetY;
-        int maxY = StayinZone.y + StayinZone.height - offsetY - corpoHeight;
+            // 2. CALCOLO RANGE DI SPAWN (Garantisce che stayin stia dentro StayinZone)
+            // Restringiamo il campo d'azione in modo che il rettangolo verde non esca mai dai bordi
+            minX = StayinZone.x - offsetX;
+            maxX = StayinZone.x + StayinZone.width - offsetX - corpoWidth;
+            minY = StayinZone.y - offsetY;
+            maxY = StayinZone.y + StayinZone.height - offsetY - corpoHeight;
 
-        // Generazione posizione casuale in pixel
-        this.x = minX + (int) (Math.random() * (maxX - minX));
-        this.y = minY + (int) (Math.random() * (maxY - minY));
+            // Generazione posizione casuale in pixel
+            this.x = minX + (int) (Math.random() * (maxX - minX));
+            this.y = minY + (int) (Math.random() * (maxY - minY));
 
-        // 3. CALCOLO AREA OCCUPATA DAL RETTANGOLO VERDE (In pixel)
-        int corpoLeft = this.x + offsetX;
-        int corpoRight = corpoLeft + corpoWidth;
-        int corpoTop = this.y + offsetY;
-        int corpoBottom = corpoTop + corpoHeight;
+            // 3. CALCOLO AREA OCCUPATA DAL RETTANGOLO VERDE (In pixel)
+            corpoLeft = this.x + offsetX;
+            corpoRight = corpoLeft + corpoWidth;
+            corpoTop = this.y + offsetY;
+            corpoBottom = corpoTop + corpoHeight;
 
-        // 4. TRASFORMAZIONE IN COORDINATE TILE (Griglia della mappa)
-        int startCol = corpoLeft / gp.tileSize;
-        int endCol = corpoRight / gp.tileSize;
-        int startRow = corpoTop / gp.tileSize;
-        int endRow = corpoBottom / gp.tileSize;
+            // 4. TRASFORMAZIONE IN COORDINATE TILE (Griglia della mappa)
+            startCol = corpoLeft / gp.tileSize;
+            endCol = corpoRight / gp.tileSize;
+            startRow = corpoTop / gp.tileSize;
+            endRow = corpoBottom / gp.tileSize;
 
-        // 5. CONTROLLO DI OGNI SINGOLO TILE TOCCATO
-        boolean collisione = false;
-        for (int colonna = startCol; colonna <= endCol; colonna++) {
-            for (int riga = startRow; riga <= endRow; riga++) {
-                // Sicurezza per non uscire dall'array della mappa
-                if (colonna >= 0 && colonna < tm.maptileNum.length && 
-                    riga >= 0 && riga < tm.maptileNum[0].length) {
-                    
-                    int tileID = tm.maptileNum[colonna][riga];
-                    
-                    // Controlliamo i tile proibiti (1, 2, 5) definiti nel tuo CollisionManager
-                    if (tileID == 1 || tileID == 2 || tileID == 5) {
-                        collisione = true;
+            // 5. CONTROLLO DI OGNI SINGOLO TILE TOCCATO
+            collisione = false;
+            for (int colonna = startCol; colonna <= endCol; colonna++) {
+                for (int riga = startRow; riga <= endRow; riga++) {
+                    // Sicurezza per non uscire dall'array della mappa
+                    if (colonna >= 0 && colonna < tm.maptileNum.length && 
+                        riga >= 0 && riga < tm.maptileNum[0].length) {
+                        
+                        tileID = tm.maptileNum[colonna][riga];
+                        
+                        // Controlliamo i tile proibiti (1, 2, 5) definiti nel tuo CollisionManager
+                        if (tileID == 1 || tileID == 2 || tileID == 5) {
+                            collisione = true;
+                            break;
+                        }
+                    } else {
+                        collisione = true; // Se tocca i bordi del mondo è collisione
                         break;
                     }
-                } else {
-                    collisione = true; // Se tocca i bordi del mondo è collisione
-                    break;
                 }
+                if (collisione) break;
             }
-            if (collisione) break;
-        }
 
-        // 6. VERIFICA FINALE
-        if (!collisione) {
-            // Se arriviamo qui, l'area sotto il rettangolo verde è TUTTA camminabile
-            this.stayin.x = corpoLeft;
-            this.stayin.y = corpoTop;
-            posizionato = true;
+            // 6. VERIFICA FINALE
+            if (!collisione) {
+                // Se arriviamo qui, l'area sotto il rettangolo verde è TUTTA camminabile
+                this.stayin.x = corpoLeft;
+                this.stayin.y = corpoTop;
+                posizionato = true;
+            }
         }
-    }
     }
 
     public boolean tileValidi(int tileNum) {
@@ -682,29 +664,25 @@ public class Enemy extends Enemy_Manager{
             detectionRange.y = y - 120 + (gp.tileSize / 2);
 
             if (tm.currentMap.equals(MapSpawn)) {
+                //COME RISOLVERE IL PRBLEMA DELLO SPINNING E DELLO SPAWN SBAGLIATO
+                //LA TOLLERANZA
+                sT++;
+                if (sT >= 60) { 
+                    sC = 0; 
+                    sT = 0;
+                    if(tollerance < 20)
+                    {
+                    tollerance++;
+                    }
+                }
+
+                // Se ha ruotato più di 1 volte in un secondo, è incastrato!
+                if (sC > tollerance) {
+                    System.out.println("INCASTRO");
+                    SpwanEnemy();   
+                    sC = 0;   
+                }
                 
-        //-----------------------------------------------------------------------------------
-        //COME RISOLVERE IL PRBLEMA DELLO SPINNING E DELLO SPAWN SBAGLIATO
-         //LA TOLLERANZA
-        sT++;
-    if (sT >= 60) { 
-        sC = 0; 
-        sT = 0;
-        if(tollerance < 20)
-        {
-        tollerance++;
-        }
-    }
-
-    // Se ha ruotato più di 1 volte in un secondo, è incastrato!
-    if (sC > tollerance) {
-        System.out.println("INCASTRO");
-        SpwanEnemy();   
-        sC = 0;   
-    }
-         //-----------------------------------------------------------------------------------
-
-
                 if (pl.PlInteractRect.intersects(stayin)) {
                     action = "attack";
                     attack();
@@ -726,9 +704,9 @@ public class Enemy extends Enemy_Manager{
                 }
             }
             else
-        {
-            tollerance = 1;
-        }
+            {
+                tollerance = 1;
+            }
         }
     }
 
@@ -788,8 +766,8 @@ public class Enemy extends Enemy_Manager{
 
     public void followPlayer() {
         //Salva la posizione attuale
-        int oldX = x;
-        int oldY = y;
+        oldX = x;
+        oldY = y;
 
         //inseguimento orizzontale
         if (pl.x > this.x) {
@@ -884,12 +862,8 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void die() {
-        //coin.CoinSpawn( x + 85, y + 83); 
         dying = true;
         action = "death";
-
-        
-
     }
 
     public void randomMove(String dir) {
@@ -985,8 +959,8 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void moveNPC() {
-        int originalX = x;
-        int originalY = y;
+        originalX = x;
+        originalY = y;
         
         if (direction.equals("up")) {
             y--;
@@ -1006,7 +980,7 @@ public class Enemy extends Enemy_Manager{
             randomMove("right");
         }
         
-        //Controlla de collide con tile no camminabili
+        //Controlla se collide con tile non camminabili
         if (checkCollision()) {
             //ritorna alle x e y precedenti
             x = originalX;
@@ -1026,16 +1000,16 @@ public class Enemy extends Enemy_Manager{
     //Controlla collisioni
     public boolean checkCollision() {
         //hitbox
-        int EnemyHitboxX = x + 84;
-        int EnemyHitboxY = y + 97;
-        int EnemyHitboxWidth = 20;
-        int EnemyHitboxHeight = 20;
+        EnemyHitboxX = x + 84;
+        EnemyHitboxY = y + 97;
+        EnemyHitboxWidth = 20;
+        EnemyHitboxHeight = 20;
         
         //lati della hitbox
-        int leftCol = EnemyHitboxX / gp.tileSize;
-        int rightCol = (EnemyHitboxX + EnemyHitboxWidth) / gp.tileSize;
-        int topRow = EnemyHitboxY / gp.tileSize;
-        int bottomRow = (EnemyHitboxY + EnemyHitboxHeight) / gp.tileSize;
+        leftCol = EnemyHitboxX / gp.tileSize;
+        rightCol = (EnemyHitboxX + EnemyHitboxWidth) / gp.tileSize;
+        topRow = EnemyHitboxY / gp.tileSize;
+        bottomRow = (EnemyHitboxY + EnemyHitboxHeight) / gp.tileSize;
         
         //controlla se i lati sono su un tile non camminabile
         return isSolidTile(leftCol, topRow) || isSolidTile(rightCol, topRow) || isSolidTile(leftCol, bottomRow) || isSolidTile(rightCol, bottomRow);

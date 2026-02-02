@@ -2,6 +2,8 @@ package entity.NPCS.Enemy;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
+import entity.NPCS.NPC_Trader.TR_menu;
 import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
@@ -12,7 +14,6 @@ public class Enemy_Manager {
     Player pl;
     Sound sd;
     TileManager tm;
-
 
     public void setGp(GamePanel gp) {
         this.gp = gp;
@@ -30,9 +31,6 @@ public class Enemy_Manager {
         this.tm = tm;
     }
 
-    public int x;
-    public int y;
-
     public BufferedImage []EnemyWalkRight;
     public BufferedImage []EnemyWalkLeft;
     public BufferedImage []EnemyIdleRight;
@@ -43,6 +41,19 @@ public class Enemy_Manager {
     public BufferedImage []EnemyDeathLeft;
     public BufferedImage []EnemyAttackRight;
     public BufferedImage []EnemyAttackLeft;
+
+    public BufferedImage WalkRightImage = null;
+    public BufferedImage WalkLeftImage = null;
+    public BufferedImage IdleRightImage = null;
+    public BufferedImage IdleLeftImage = null;
+    public BufferedImage HitRightImage = null;
+    public BufferedImage HitLeftImage = null;
+    public BufferedImage DeathRightImage = null;
+    public BufferedImage DeathLeftImage = null;
+    public BufferedImage AttackRightImage = null;
+    public BufferedImage AttackLeftImage = null;
+
+    
 
     public int WalkRightSpriteCounter = 0;
     public int WalkRightSpriteNum = 1;
@@ -74,29 +85,20 @@ public class Enemy_Manager {
     public int AttackLeftSpriteCounter = 0;
     public int AttackLeftSpriteNum = 1;
 
+    //variabili base
+    public int x;
+    public int y;
     public String direction;
-
     public String MapSpawn;
-
     public int col;
     public int row;
     public int tileNum;
-
-    public Rectangle StayinZone = null;
-
-    public BufferedImage WalkRightImage = null;
-    public BufferedImage WalkLeftImage = null;
-    public BufferedImage IdleRightImage = null;
-    public BufferedImage IdleLeftImage = null;
-    public BufferedImage HitRightImage = null;
-    public BufferedImage HitLeftImage = null;
-    public BufferedImage DeathRightImage = null;
-    public BufferedImage DeathLeftImage = null;
-    public BufferedImage AttackRightImage = null;
-    public BufferedImage AttackLeftImage = null;
-
+    public Rectangle StayinZone;
+    public int tick = 0;
+    public Rectangle stayin;
+    public Rectangle detectionRange;
+    public TR_menu trm;
     public boolean uone = false;
-
     public int maxLife = 50;
     public int life = maxLife;
     public boolean invincible = false;
@@ -104,7 +106,58 @@ public class Enemy_Manager {
     public boolean dying = false;
     public boolean alive = true;
     public String action = "idle";
+    public int damage = 0;
 
-    double healthRatio;
-    int currentWidth;
+    //variabili per lo spawn dei nemici
+    public boolean posizionato;
+    public int offsetX; 
+    public int offsetY;
+    public int corpoWidth;
+    public int corpoHeight;
+    public int tentativi;
+    public int minX;
+    public int maxX;
+    public int minY;
+    public int maxY;
+    public int corpoLeft;
+    public int corpoRight;
+    public int corpoTop;
+    public int corpoBottom;
+    public int startCol;
+    public int endCol;
+    public int startRow;
+    public int endRow;
+    public boolean collisione;
+    public int tileID;
+
+    //variabili per AI namici
+    public int oldX;
+    public int oldY;
+    public int originalX = x;
+    public int originalY = y;
+
+    //variabili per controllo collisioni
+    public int EnemyHitboxX;
+    public int EnemyHitboxY;
+    public int EnemyHitboxWidth;
+    public int EnemyHitboxHeight;
+    public int leftCol;
+    public int rightCol;
+    public int topRow;
+    public int bottomRow;
+
+    //variabili per barra della vita nemici
+    public int xBar;
+    public int yBar ;
+    public int maxWidth; 
+    public int height ;
+    public double healthRatio;
+    public int currentWidth;
+
+    //SPINNING PROBLEM
+    public int sC = 0; // Cambio direzione
+    public int sT = 0; // reset contatore tot secondi
+    public int tollerance = 1;
+
+    
 }

@@ -7,8 +7,10 @@ import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
 import tile.TileManager;
+import java.util.Random;
 
-public class Enemy_Vector_main {
+public class Enemy_Vector_main{
+    Random random = new Random();
     Enemy_Manager EM;
     public Enemy [] enemies;
     GamePanel gp;
@@ -16,7 +18,39 @@ public class Enemy_Vector_main {
     Sound sd;
     TileManager tm;
     TR_menu trm;
-    int nEnemies = 5;
+    int nEnemies = 10;
+
+    int enemyType;
+
+    String urlWalkRight;
+    int NFWalkRight;
+    
+    String urlWalkLeft;
+    int NFWalkLeft;
+    
+    String urlIdleRight;
+    int NFIdleRight;
+    
+    String urlIdleLeft;
+    int NFIdleLeft;
+    
+    String urlHitRight;
+    int NFHitRight;
+    
+    String urlHitLeft;
+    int NFHitLeft;
+    
+    String urlDeathRight;
+    int NFDeathRight;
+    
+    String urlDeathLeft;
+    int NFDeathLeft;
+    
+    String urlAttackRight;
+    int NFAttackRight;
+    
+    String urlAttackLeft;
+    int NFAttackLeft;
 
     public Enemy_Vector_main(GamePanel gp, Player pl, Sound sd, TileManager tm, TR_menu trm)
     {
@@ -40,7 +74,9 @@ public class Enemy_Vector_main {
 
     public void CreateNpcs()
     {
+        
         for(int i=0;i<nEnemies;i++){
+            
             enemies[i] = new Enemy(gp, pl, sd, tm, trm,8,"/src/Enemies/Slime/RIGHT/SlimeWalk/", //walk right
                                                   8,"/src/Enemies/Slime/LEFT/SlimeWalk/", //walk left
                                                   6,"/src/Enemies/Slime/RIGHT/SlimeIdle/", //Idle right
@@ -79,5 +115,4 @@ public class Enemy_Vector_main {
             }
         }
     }
-
 }
