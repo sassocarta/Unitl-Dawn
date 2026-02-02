@@ -6,72 +6,75 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 
+import entity.Coin.Coin;
 import entity.NPCS.NPC_Trader.TR_menu;
 import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
 import tile.TileManager;
 
+public class Enemy extends Enemy_Manager {
 
-public class Enemy extends Enemy_Manager{
-    
-    //WalkRight
+    // WalkRight
     String urlWalkRight;
     int NFWalkRight;
-    //WalkLeft
+    // WalkLeft
     String urlWalkLeft;
     int NFWalkLeft;
-    //IdleRight
+    // IdleRight
     String urlIdleRight;
     int NFIdleRight;
-    //IdleLeft
+    // IdleLeft
     String urlIdleLeft;
     int NFIdleLeft;
-    //HitRight
+    // HitRight
     String urlHitRight;
     int NFHitRight;
-    //HitLeft
+    // HitLeft
     String urlHitLeft;
     int NFHitLeft;
-    //DeathRight
+    // DeathRight
     String urlDeathRight;
     int NFDeathRight;
-    //DeathLeft
+    // DeathLeft
     String urlDeathLeft;
     int NFDeathLeft;
-    //AttackRight
+    // AttackRight
     String urlAttackRight;
     int NFAttackRight;
-    //AttackLeft
+    // AttackLeft
     String urlAttackLeft;
     int NFAttackLeft;
 
-    public Enemy(GamePanel gp, 
-                 Player pl, 
-                 Sound sd, 
-                 TileManager tm,
-                 TR_menu trm,
-                 int NFWalkRight, 
-                 String urlWalkRight,
-                 int NFWalkLeft, 
-                 String urlWalkLeft,
-                 int NFIdleRight, 
-                 String urlIdleRight,
-                 int NFIdleLeft, 
-                 String urlIdleLeft,
-                 int NFHitRight, 
-                 String urlHitRight,
-                 int NFHitLeft, 
-                 String urlHitLeft,
-                 int NFDeathRight, 
-                 String urlDeathRight,
-                 int NFDeathLeft, 
-                 String urlDeathLeft,
-                 int NFAttackRight, 
-                 String urlAttackRight,
-                 int NFAttackLeft, 
-                 String urlAttackLeft
-                ) {
+    // Coin
+    Coin coin;
+    boolean onespawn = false;
+
+    public Enemy(GamePanel gp,
+            Player pl,
+            Sound sd,
+            TileManager tm,
+            TR_menu trm,
+            int NFWalkRight,
+            String urlWalkRight,
+            int NFWalkLeft,
+            String urlWalkLeft,
+            int NFIdleRight,
+            String urlIdleRight,
+            int NFIdleLeft,
+            String urlIdleLeft,
+            int NFHitRight,
+            String urlHitRight,
+            int NFHitLeft,
+            String urlHitLeft,
+            int NFDeathRight,
+            String urlDeathRight,
+            int NFDeathLeft,
+            String urlDeathLeft,
+            int NFAttackRight,
+            String urlAttackRight,
+            int NFAttackLeft,
+            String urlAttackLeft) {
 
         this.gp = gp;
         this.tm = tm;
@@ -82,7 +85,7 @@ public class Enemy extends Enemy_Manager{
         StayinZone = new Rectangle(96, 96, 576, 384);
         stayin = new Rectangle(0, 0, 46, 48);
 
-        detectionRange = new Rectangle(0,0, 400, 400);
+        detectionRange = new Rectangle(0, 0, 400, 400);
 
         EnemyWalkRight = new BufferedImage[8];
         EnemyWalkLeft = new BufferedImage[8];
@@ -116,6 +119,8 @@ public class Enemy extends Enemy_Manager{
         this.urlAttackLeft = urlAttackLeft;
         this.NFAttackLeft = NFAttackLeft;
 
+        coin = new Coin(pl, tm, sd);
+
         deicidiMappaSpawn();
         SpwanEnemy();
         GetAllEnemyImages();
@@ -123,10 +128,9 @@ public class Enemy extends Enemy_Manager{
         spriteSet();
     }
 
-    public void GetImagesWalkRight(int NFWalkRight, String urlWalkRight){
+    public void GetImagesWalkRight(int NFWalkRight, String urlWalkRight) {
         try {
-            for(int i = 0; i < NFWalkRight; i++)
-            {
+            for (int i = 0; i < NFWalkRight; i++) {
                 java.net.URL path = getClass().getResource(urlWalkRight + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlWalkRight + i + ".png");
@@ -139,10 +143,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesWalkLeft(int NFWalkLeft, String urlWalkLeft){
+    public void GetImagesWalkLeft(int NFWalkLeft, String urlWalkLeft) {
         try {
-            for(int i = 0; i < NFWalkLeft; i++)
-            {
+            for (int i = 0; i < NFWalkLeft; i++) {
                 java.net.URL path = getClass().getResource(urlWalkLeft + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlWalkLeft + i + ".png");
@@ -155,10 +158,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesIdleRight(int NFIdleRight, String urlIdleRight){
+    public void GetImagesIdleRight(int NFIdleRight, String urlIdleRight) {
         try {
-            for(int i = 0; i < NFIdleRight; i++)
-            {
+            for (int i = 0; i < NFIdleRight; i++) {
                 java.net.URL path = getClass().getResource(urlIdleRight + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlIdleRight + i + ".png");
@@ -171,10 +173,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesIdleLeft(int NFIdleLeft, String urlIdleLeft){
+    public void GetImagesIdleLeft(int NFIdleLeft, String urlIdleLeft) {
         try {
-            for(int i = 0; i < NFIdleLeft; i++)
-            {
+            for (int i = 0; i < NFIdleLeft; i++) {
                 java.net.URL path = getClass().getResource(urlIdleLeft + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlIdleLeft + i + ".png");
@@ -187,10 +188,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesHitRight(int NFHitRight, String urlHitRight){
+    public void GetImagesHitRight(int NFHitRight, String urlHitRight) {
         try {
-            for(int i = 0; i < NFHitRight; i++)
-            {
+            for (int i = 0; i < NFHitRight; i++) {
                 java.net.URL path = getClass().getResource(urlHitRight + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlHitRight + i + ".png");
@@ -203,10 +203,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesHitLeft(int NFHitLeft, String urlHitLeft){
+    public void GetImagesHitLeft(int NFHitLeft, String urlHitLeft) {
         try {
-            for(int i = 0; i < NFHitLeft; i++)
-            {
+            for (int i = 0; i < NFHitLeft; i++) {
                 java.net.URL path = getClass().getResource(urlHitLeft + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlHitLeft + i + ".png");
@@ -219,10 +218,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesDeathRight(int NFDeathRight, String urlDeathRight){
+    public void GetImagesDeathRight(int NFDeathRight, String urlDeathRight) {
         try {
-            for(int i = 0; i < NFDeathRight; i++)
-            {
+            for (int i = 0; i < NFDeathRight; i++) {
                 java.net.URL path = getClass().getResource(urlDeathRight + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlDeathRight + i + ".png");
@@ -235,10 +233,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesDeathLeft(int NFDeathLeft, String urlDeathLeft){
+    public void GetImagesDeathLeft(int NFDeathLeft, String urlDeathLeft) {
         try {
-            for(int i = 0; i < NFDeathLeft; i++)
-            {
+            for (int i = 0; i < NFDeathLeft; i++) {
                 java.net.URL path = getClass().getResource(urlDeathLeft + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlDeathLeft + i + ".png");
@@ -251,10 +248,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesAttackRight(int NFAttackRight, String urlAttackRight){
+    public void GetImagesAttackRight(int NFAttackRight, String urlAttackRight) {
         try {
-            for(int i = 0; i < NFAttackRight; i++)
-            {
+            for (int i = 0; i < NFAttackRight; i++) {
                 java.net.URL path = getClass().getResource(urlAttackRight + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlAttackRight + i + ".png");
@@ -267,10 +263,9 @@ public class Enemy extends Enemy_Manager{
         }
     }
 
-    public void GetImagesAttackLeft(int NFAttackLeft, String urlAttackLeft){
+    public void GetImagesAttackLeft(int NFAttackLeft, String urlAttackLeft) {
         try {
-            for(int i = 0; i < NFAttackLeft; i++)
-            {
+            for (int i = 0; i < NFAttackLeft; i++) {
                 java.net.URL path = getClass().getResource(urlAttackLeft + i + ".png");
                 if (path == null) {
                     System.out.println("ERRORE: File non trovato: " + urlAttackLeft + i + ".png");
@@ -284,88 +279,94 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void GetAllEnemyImages() {
-        GetImagesWalkRight(NFWalkRight,urlWalkRight);
-        GetImagesWalkLeft(NFWalkLeft,urlWalkLeft);
-        GetImagesIdleRight(NFIdleRight,urlIdleRight);
-        GetImagesIdleLeft(NFIdleLeft,urlIdleLeft);
-        GetImagesHitRight(NFHitRight,urlHitRight);
-        GetImagesHitLeft(NFHitLeft,urlHitLeft);
-        GetImagesDeathRight(NFDeathRight,urlDeathRight);
-        GetImagesDeathLeft(NFDeathLeft,urlDeathLeft);
-        GetImagesAttackRight(NFAttackRight,urlAttackRight);
-        GetImagesAttackLeft(NFAttackLeft,urlAttackLeft);
+        GetImagesWalkRight(NFWalkRight, urlWalkRight);
+        GetImagesWalkLeft(NFWalkLeft, urlWalkLeft);
+        GetImagesIdleRight(NFIdleRight, urlIdleRight);
+        GetImagesIdleLeft(NFIdleLeft, urlIdleLeft);
+        GetImagesHitRight(NFHitRight, urlHitRight);
+        GetImagesHitLeft(NFHitLeft, urlHitLeft);
+        GetImagesDeathRight(NFDeathRight, urlDeathRight);
+        GetImagesDeathLeft(NFDeathLeft, urlDeathLeft);
+        GetImagesAttackRight(NFAttackRight, urlAttackRight);
+        GetImagesAttackLeft(NFAttackLeft, urlAttackLeft);
     }
 
     public void draw(Graphics2D g2) {
-        if (!alive) return;
 
-        if(gp.cicle == "NIGHT" && trm.isOpen != true)
-        {
-        if (!tm.currentMap.equalsIgnoreCase(MapSpawn)){
-             return;
-        }
-        spriteSet();
-        BufferedImage imageToDraw = null;
-
-        switch (action){
-            case "hit":
-                if (direction.equals("right") || direction.equals("up")) {
-                    imageToDraw = EnemyHitRight[HitRightSpriteNum - 1];
-                } else {
-                    imageToDraw = EnemyHitLeft[HitLeftSpriteNum - 1];
-                }
-                break;
-            case "death":
-                if (direction.equals("right") || direction.equals("up")) {
-                    imageToDraw = EnemyDeathRight[DeathRightSpriteNum - 1];
-                } else {
-                    imageToDraw = EnemyDeathLeft[DeathLeftSpriteNum - 1];
-                }
-                break;
-            case "walk":
-                if (direction.equals("right") || direction.equals("up")) {
-                    imageToDraw = EnemyWalkRight[WalkRightSpriteNum - 1];
-                } else {
-                    imageToDraw = EnemyWalkLeft[WalkLeftSpriteNum - 1];
-                }
-                break;
-            case "idle":
-                if (direction.equals("right") || direction.equals("up")) {
-                    imageToDraw = EnemyIdleRight[IdleRightSpriteNum - 1];
-                } else {
-                    imageToDraw = EnemyIdleLeft[IdleLeftSpriteNum - 1];
-                }
-                break;
-            case "attack":
-                if (direction.equals("right") || direction.equals("up")) {
-                    imageToDraw = EnemyAttackRight[AttackRightSpriteNum - 1];
-                } else {
-                    imageToDraw = EnemyAttackLeft[AttackLeftSpriteNum - 1];
-                }
-                break;
+        if (onespawn == true && coin.takeit == false && tm.currentMap.equalsIgnoreCase(MapSpawn)) {
+            coin.draw(g2);
         }
 
-        // Disegna l'immagine scelta
-        if (imageToDraw != null) {
-            g2.drawImage(imageToDraw, x, y, gp.tileSize*4, gp.tileSize*4, null);
+        if (!alive)
+            return;
+
+        if (gp.cicle == "NIGHT" && trm.isOpen != true) {
+            if (!tm.currentMap.equalsIgnoreCase(MapSpawn)) {
+                return;
+            }
+
+            spriteSet();
+            BufferedImage imageToDraw = null;
+
+            switch (action) {
+                case "hit":
+                    if (direction.equals("right") || direction.equals("up")) {
+                        imageToDraw = EnemyHitRight[HitRightSpriteNum - 1];
+                    } else {
+                        imageToDraw = EnemyHitLeft[HitLeftSpriteNum - 1];
+                    }
+                    break;
+                case "death":
+                    if (direction.equals("right") || direction.equals("up")) {
+                        imageToDraw = EnemyDeathRight[DeathRightSpriteNum - 1];
+                    } else {
+                        imageToDraw = EnemyDeathLeft[DeathLeftSpriteNum - 1];
+                    }
+                    break;
+                case "walk":
+                    if (direction.equals("right") || direction.equals("up")) {
+                        imageToDraw = EnemyWalkRight[WalkRightSpriteNum - 1];
+                    } else {
+                        imageToDraw = EnemyWalkLeft[WalkLeftSpriteNum - 1];
+                    }
+                    break;
+                case "idle":
+                    if (direction.equals("right") || direction.equals("up")) {
+                        imageToDraw = EnemyIdleRight[IdleRightSpriteNum - 1];
+                    } else {
+                        imageToDraw = EnemyIdleLeft[IdleLeftSpriteNum - 1];
+                    }
+                    break;
+                case "attack":
+                    if (direction.equals("right") || direction.equals("up")) {
+                        imageToDraw = EnemyAttackRight[AttackRightSpriteNum - 1];
+                    } else {
+                        imageToDraw = EnemyAttackLeft[AttackLeftSpriteNum - 1];
+                    }
+                    break;
+            }
+
+            // Disegna l'immagine scelta
+            if (imageToDraw != null) {
+                g2.drawImage(imageToDraw, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
+            }
+
+            // Barra della vita
+            xBar = x + 70;
+            yBar = y + 70;
+            maxWidth = 50;
+            height = 5;
+
+            g2.setColor(new Color(50, 50, 50));
+            g2.fillRect(xBar, yBar, maxWidth, height);
+
+            healthRatio = (double) life / maxLife;
+            currentWidth = (int) (healthRatio * maxWidth);
+
+            g2.setColor(new Color(203, 50, 52));
+            g2.fillRect(xBar, yBar, currentWidth, height);
         }
-        
-        //Barra della vita
-        xBar = x + 70; 
-        yBar = y + 70; 
-        maxWidth = 50; 
-        height = 5;
-
-        g2.setColor(new Color(50, 50, 50));
-        g2.fillRect(xBar, yBar, maxWidth, height);
-
-        healthRatio = (double) life / maxLife;
-        currentWidth = (int) (healthRatio * maxWidth);
-
-        g2.setColor(new Color(203, 50, 52)); 
-        g2.fillRect(xBar, yBar, currentWidth, height);
     }
-}
 
     public void spriteSet() {
         if (WalkRightSpriteNum == 1)
@@ -553,22 +554,24 @@ public class Enemy extends Enemy_Manager{
 
     public void SpwanEnemy() {
         posizionato = false;
-        
+
         // 1. DEFINIZIONE PARAMETRI HITBOX (Devono essere identici a quelli in update)
         // Se questi valori sono diversi da quelli che usi per muoverti, il bug rimarrà.
-        offsetX = 73; 
+        offsetX = 73;
         offsetY = 77;
         corpoWidth = 46;
         corpoHeight = 48;
 
-        // Usiamo un limite di sicurezza per evitare loop infiniti se la zona è troppo piccola
+        // Usiamo un limite di sicurezza per evitare loop infiniti se la zona è troppo
+        // piccola
         tentativi = 0;
 
         while (!posizionato && tentativi < 1000) {
             tentativi++;
 
             // 2. CALCOLO RANGE DI SPAWN (Garantisce che stayin stia dentro StayinZone)
-            // Restringiamo il campo d'azione in modo che il rettangolo verde non esca mai dai bordi
+            // Restringiamo il campo d'azione in modo che il rettangolo verde non esca mai
+            // dai bordi
             minX = StayinZone.x - offsetX;
             maxX = StayinZone.x + StayinZone.width - offsetX - corpoWidth;
             minY = StayinZone.y - offsetY;
@@ -595,11 +598,11 @@ public class Enemy extends Enemy_Manager{
             for (int colonna = startCol; colonna <= endCol; colonna++) {
                 for (int riga = startRow; riga <= endRow; riga++) {
                     // Sicurezza per non uscire dall'array della mappa
-                    if (colonna >= 0 && colonna < tm.maptileNum.length && 
-                        riga >= 0 && riga < tm.maptileNum[0].length) {
-                        
+                    if (colonna >= 0 && colonna < tm.maptileNum.length &&
+                            riga >= 0 && riga < tm.maptileNum[0].length) {
+
                         tileID = tm.maptileNum[colonna][riga];
-                        
+
                         // Controlliamo i tile proibiti (1, 2, 5) definiti nel tuo CollisionManager
                         if (tileID == 1 || tileID == 2 || tileID == 5) {
                             collisione = true;
@@ -610,7 +613,8 @@ public class Enemy extends Enemy_Manager{
                         break;
                     }
                 }
-                if (collisione) break;
+                if (collisione)
+                    break;
             }
 
             // 6. VERIFICA FINALE
@@ -637,52 +641,59 @@ public class Enemy extends Enemy_Manager{
 
     public void update() {
 
-        if(gp.cicle.equals("NIGHT") && !trm.isOpen) {
-        
+        if (gp.cicle.equals("NIGHT") && !trm.isOpen) {
+
+            if (onespawn == true && coin.presounavolta == false) {
+                if (pl.PlInteractRect.intersects(coin.pickupZone)) {
+                    coin.takeit = true;
+                    coin.aumentaNcoin();
+                    coin.presounavolta = true;
+                }
+            }
+
             if (dying) {
                 action = "death";
                 updateDeathAnimation();
-                return; 
+                return;
             }
 
             if (invincible) {
                 action = "hit";
                 updateHitAnimation();
-                
+
                 invincibleCounter++;
                 if (invincibleCounter > 40) {
                     invincible = false;
                     invincibleCounter = 0;
                 }
 
-                return; 
+                return;
             }
 
             stayin.x = x + 73;
             stayin.y = y + 77;
-            detectionRange.x = x - 120 + (gp.tileSize / 2); 
+            detectionRange.x = x - 120 + (gp.tileSize / 2);
             detectionRange.y = y - 120 + (gp.tileSize / 2);
 
             if (tm.currentMap.equals(MapSpawn)) {
-                //COME RISOLVERE IL PRBLEMA DELLO SPINNING E DELLO SPAWN SBAGLIATO
-                //LA TOLLERANZA
+                // COME RISOLVERE IL PRBLEMA DELLO SPINNING E DELLO SPAWN SBAGLIATO
+                // LA TOLLERANZA
                 sT++;
-                if (sT >= 60) { 
-                    sC = 0; 
+                if (sT >= 60) {
+                    sC = 0;
                     sT = 0;
-                    if(tollerance < 20)
-                    {
-                    tollerance++;
+                    if (tollerance < 20) {
+                        tollerance++;
                     }
                 }
 
                 // Se ha ruotato più di 1 volte in un secondo, è incastrato!
                 if (sC > tollerance) {
-                    System.out.println("INCASTRO");
-                    SpwanEnemy();   
-                    sC = 0;   
+                    //System.out.println("INCASTRO");
+                    SpwanEnemy();
+                    sC = 0;
                 }
-                
+
                 if (pl.PlInteractRect.intersects(stayin)) {
                     action = "attack";
                     attack();
@@ -702,9 +713,7 @@ public class Enemy extends Enemy_Manager{
                         moveNPC();
                     }
                 }
-            }
-            else
-            {
+            } else {
                 tollerance = 1;
             }
         }
@@ -715,61 +724,64 @@ public class Enemy extends Enemy_Manager{
             HitRightSpriteCounter++;
             if (HitRightSpriteCounter > 4) {
                 HitRightSpriteNum++;
-                if (HitRightSpriteNum > 4) HitRightSpriteNum = 1;
+                if (HitRightSpriteNum > 4)
+                    HitRightSpriteNum = 1;
                 HitRightSpriteCounter = 0;
             }
         } else {
             HitLeftSpriteCounter++;
             if (HitLeftSpriteCounter > 4) {
                 HitLeftSpriteNum++;
-                if (HitLeftSpriteNum > 4) HitLeftSpriteNum = 1;
+                if (HitLeftSpriteNum > 4)
+                    HitLeftSpriteNum = 1;
                 HitLeftSpriteCounter = 0;
             }
         }
     }
 
     private void updateDeathAnimation() {
-      if (direction.equals("right") || direction.equals("up")) {
-        
-        if (DeathRightSpriteNum < 6) {
-            DeathRightSpriteCounter++;
-            if (DeathRightSpriteCounter > 10) {
-                DeathRightSpriteNum++;
-                DeathRightSpriteCounter = 0;
-            }
-        } 
-        
-        else {
-            DeathRightSpriteCounter++;
-            if (DeathRightSpriteCounter > 60) { 
-                alive = false;
-            }  
-        }
-    } else {
-       
-        if (DeathLeftSpriteNum < 6) {
-            DeathLeftSpriteCounter++;
-            if (DeathLeftSpriteCounter > 10) {
-                DeathLeftSpriteNum++;
-                DeathLeftSpriteCounter = 0;
-            }
-        } 
+        if (direction.equals("right") || direction.equals("up")) {
 
-        else {
-            DeathLeftSpriteCounter++;
-            if (DeathLeftSpriteCounter > 60) {
-                alive = false;
+            if (DeathRightSpriteNum < 6) {
+                DeathRightSpriteCounter++;
+                if (DeathRightSpriteCounter > 10) {
+                    DeathRightSpriteNum++;
+                    DeathRightSpriteCounter = 0;
+                }
+            }
+
+            else {
+                DeathRightSpriteCounter++;
+                if (DeathRightSpriteCounter > 60) {
+                    alive = false;
+                }
+            }
+        } else {
+
+            if (DeathLeftSpriteNum < 6) {
+                DeathLeftSpriteCounter++;
+                if (DeathLeftSpriteCounter > 10) {
+                    DeathLeftSpriteNum++;
+                    DeathLeftSpriteCounter = 0;
+                }
+            }
+
+            else {
+                DeathLeftSpriteCounter++;
+                if (DeathLeftSpriteCounter > 60) {
+                    alive = false;
+                }
             }
         }
+
     }
-}
 
     public void followPlayer() {
-        //Salva la posizione attuale
+        // Salva la posizione attuale
         oldX = x;
         oldY = y;
 
-        //inseguimento orizzontale
+        // inseguimento orizzontale
         if (pl.x > this.x) {
             this.x += 1;
             direction = "right";
@@ -778,26 +790,28 @@ public class Enemy extends Enemy_Manager{
             direction = "left";
         }
 
-        //Se dopo il movimento X c'è una collisione, torna indietro
+        // Se dopo il movimento X c'è una collisione, torna indietro
         if (checkCollision()) {
             this.x = oldX;
         }
 
-        //inseguimento verticale
+        // inseguimento verticale
         if (pl.y > this.y) {
             this.y += 1;
-            if (pl.x == this.x) direction = "down";
+            if (pl.x == this.x)
+                direction = "down";
         } else if (pl.y < this.y) {
             this.y -= 1;
-            if (pl.x == this.x) direction = "up";
+            if (pl.x == this.x)
+                direction = "up";
         }
 
-        //se dopo il movimento Y c'è una collisione, torna indietro
+        // se dopo il movimento Y c'è una collisione, torna indietro
         if (checkCollision()) {
             this.y = oldY;
         }
 
-        //aggiorna animazione
+        // aggiorna animazione
         if (direction.equals("right") || direction.equals("up")) {
             WalkRightSpriteCounter++;
             if (WalkRightSpriteCounter > 10) {
@@ -815,32 +829,33 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void attack() {
-        //Attacco a destra e su
+        // Attacco a destra e su
         if (direction.equals("right") || direction.equals("up")) {
             AttackRightSpriteCounter++;
             if (AttackRightSpriteCounter > 4) {
                 AttackRightSpriteNum++;
                 AttackRightSpriteCounter = 0;
-                
+
                 if (AttackRightSpriteNum == 5) {
                     pl.takeDamage(15);
                 }
-                //quando l'animazione finisce ricomincia
+                // quando l'animazione finisce ricomincia
                 if (AttackRightSpriteNum > 8) {
                     AttackRightSpriteNum = 1;
                 }
             }
         } else {
-            //Attacco a sinistra e giù
+            // Attacco a sinistra e giù
             AttackLeftSpriteCounter++;
             if (AttackLeftSpriteCounter > 8) {
                 AttackLeftSpriteNum++;
                 AttackLeftSpriteCounter = 0;
-                
+
                 if (AttackLeftSpriteNum == 5) {
                     pl.takeDamage(15);
+
                 }
-                //quando l'animazione finisce ricomincia
+                // quando l'animazione finisce ricomincia
                 if (AttackLeftSpriteNum > 8) {
                     AttackLeftSpriteNum = 1;
                 }
@@ -849,20 +864,34 @@ public class Enemy extends Enemy_Manager{
     }
 
     public void takeDamage(int damage) {
-        if (!invincible && !dying) {
+        if(tm.currentMap.equals(MapSpawn))
+        {
+            sd.setFile(8);
+            sd.play();
+            if (!invincible && !dying) {
             life -= damage;
+
             invincible = true;
             action = "hit";
-            
+
             if (life <= 0) {
                 life = 0;
                 die();
             }
         }
+        }
+        else
+        {
+            //System.out.println("nemico non colpito non stessa mappa");
+        }
     }
 
     public void die() {
         dying = true;
+        if (onespawn == false) {
+            onespawn = true;
+            coin.CoinSpawn(x + 85, y + 83);
+        }
         action = "death";
     }
 
@@ -961,7 +990,7 @@ public class Enemy extends Enemy_Manager{
     public void moveNPC() {
         originalX = x;
         originalY = y;
-        
+
         if (direction.equals("up")) {
             y--;
             WalkRightSpriteCounter++;
@@ -979,13 +1008,13 @@ public class Enemy extends Enemy_Manager{
             WalkRightSpriteCounter++;
             randomMove("right");
         }
-        
-        //Controlla se collide con tile non camminabili
+
+        // Controlla se collide con tile non camminabili
         if (checkCollision()) {
-            //ritorna alle x e y precedenti
+            // ritorna alle x e y precedenti
             x = originalX;
             y = originalY;
-            //cambia direzione
+            // cambia direzione
             changeDirection();
             sC++;
         }
@@ -997,43 +1026,47 @@ public class Enemy extends Enemy_Manager{
         }
         return true;
     }
-    //Controlla collisioni
+
+    // Controlla collisioni
     public boolean checkCollision() {
-        //hitbox
+        // hitbox
         EnemyHitboxX = x + 84;
         EnemyHitboxY = y + 97;
         EnemyHitboxWidth = 20;
         EnemyHitboxHeight = 20;
-        
-        //lati della hitbox
+
+        // lati della hitbox
         leftCol = EnemyHitboxX / gp.tileSize;
         rightCol = (EnemyHitboxX + EnemyHitboxWidth) / gp.tileSize;
         topRow = EnemyHitboxY / gp.tileSize;
         bottomRow = (EnemyHitboxY + EnemyHitboxHeight) / gp.tileSize;
-        
-        //controlla se i lati sono su un tile non camminabile
-        return isSolidTile(leftCol, topRow) || isSolidTile(rightCol, topRow) || isSolidTile(leftCol, bottomRow) || isSolidTile(rightCol, bottomRow);
+
+        // controlla se i lati sono su un tile non camminabile
+        return isSolidTile(leftCol, topRow) || isSolidTile(rightCol, topRow) || isSolidTile(leftCol, bottomRow)
+                || isSolidTile(rightCol, bottomRow);
     }
-    //controlla se è in un tile non camminabile
+
+    // controlla se è in un tile non camminabile
     private boolean isSolidTile(int col, int row) {
-        //controllo sui limiti della mappa
+        // controllo sui limiti della mappa
         if (col < 0 || col >= tm.maptileNum.length || row < 0 || row >= tm.maptileNum[0].length) {
             return true;
         }
-        
+
         int tileNum = tm.maptileNum[col][row];
         return tileNum == 1 || tileNum == 2 || tileNum == 5;
     }
-    //cambia direzione
+
+    // cambia direzione
     private void changeDirection() {
-        //scegli una direziona casuale diversa da quella attuale
-        String[] directions = {"up", "down", "left", "right"};
+        // scegli una direziona casuale diversa da quella attuale
+        String[] directions = { "up", "down", "left", "right" };
         String newDirection;
         do {
             int randomIndex = (int) (Math.random() * 4);
             newDirection = directions[randomIndex];
         } while (newDirection.equals(direction));
-        
+
         direction = newDirection;
     }
 }

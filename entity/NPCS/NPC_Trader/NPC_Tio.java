@@ -205,8 +205,10 @@ public class NPC_Tio {
     public void inActivatingRect()
     {
         InteractSquare = new Rectangle(col*gp.tileSize + 45 ,row*gp.tileSize + 50, 100,100);
+
         if(InteractSquare.intersects(pl.PlInteractRect))
         {
+        SpriteCounter++;
         if (SpriteCounter > 10) {
             if (SpriteNum == 1)
             {

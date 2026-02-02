@@ -52,7 +52,7 @@ public class Cnpc extends NPC_Manager {
         this.sd = sd;
 
         StayinZone = new Rectangle(96, 96, 576, 384);
-        stayin = new Rectangle(0, 0, 23, 24);
+        stayin = new Rectangle(0, 0, 13, 14);
 
         NPCUp = new BufferedImage[3];
         NPCLf = new BufferedImage[3];
@@ -395,8 +395,8 @@ public class Cnpc extends NPC_Manager {
     
         if(gp.cicle == "DAY")
         {
-        stayin.x = x + 84;
-        stayin.y = y + 97;
+        stayin.x = x + 90;
+        stayin.y = y + 90;
         if (tm.currentMap.equals(MapSpaw)) {
             
         //-----------------------------------------------------------------------------------
@@ -414,7 +414,7 @@ public class Cnpc extends NPC_Manager {
 
     // Se ha ruotato più di 1 volte in un secondo, è incastrato!
     if (sC > tollerance) {
-        System.out.println("INCASTRO");
+        //System.out.println("INCASTRO");
         SpwanNpc();     
         sC = 0;   
     }

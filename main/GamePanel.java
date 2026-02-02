@@ -50,11 +50,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
     Thread gamThread; // thread del game loop
-
-    KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
-    Player player = new Player(this, KeyH, MouseH); // aggiugo Player
-    TileManager tileM = new TileManager(this, player); // aggiugo TileManager
     Sound soundBG = new Sound(); // aggiungo il suono del BG
+    KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
+    Player player = new Player(this, KeyH, MouseH,soundBG); // aggiugo Player
+    TileManager tileM = new TileManager(this, player); // aggiugo TileManager
     CollisionManager cl = new CollisionManager(player, tileM, this);
     NPC_Tio Trader = new NPC_Tio(this,player, soundBG, tileM);
     weapons WP = new weapons();

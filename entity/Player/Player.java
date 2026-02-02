@@ -21,6 +21,8 @@ public class Player extends Entity {
     main.KeyHandler keyH;
     main.MouseHandler mousH;
 
+    Sound sd;
+
     public int Damage = 20; 
     public boolean invincible = false;
     public int invincibleCounter = 0;
@@ -68,10 +70,11 @@ public class Player extends Entity {
 
 
 
-    public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH) {
+    public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH,Sound sd) {
         this.gp = gp;
         this.keyH = keyH2;
         this.mousH = mousH;
+        this.sd = sd;
 
         xBar = 70; 
         yBar = gp.ScreeHeight - 50; 
@@ -221,7 +224,7 @@ public class Player extends Entity {
 
             barraVitaImg = ImageIO.read(getClass().getResource("/src/Player/BarraVita.png"));
 
-            coin = ImageIO.read(getClass().getResource("/src/Coin/tile1.png"));
+            coin = ImageIO.read(getClass().getResource("/src/Coin/tile2.png"));
 
         } catch (IOException e) {
             // se non trova le immagini stamapa
@@ -620,7 +623,7 @@ public class Player extends Entity {
         g2.drawImage(barraVitaImg, xBar - 60, yBar - 23, 200, 65, null);
 
         //moneta con scritta
-        g2.drawImage(coin, 220, 510, 50, 50, null);
+        g2.drawImage(coin, 215, 510, 50, 50, null);
 
         
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
@@ -639,12 +642,16 @@ public class Player extends Entity {
 
     public void takeDamage(int damage) {
         if (isGuarding) { 
-
+        sd.setFile(2);
+        sd.play();
         return;
     }
         life -= damage;
+        sd.setFile(9);
+        sd.play();
         if (life < 0){
             life = 0;
+            
         } 
     }
 
@@ -686,7 +693,7 @@ public class Player extends Entity {
                 
                 if (e.alive && attackRect.intersects(e.stayin)) {
                     e.takeDamage(Damage);
-                    System.out.println("Colpito nemico " + i + "! Vita rimanente: " + e.life);
+                    //System.out.println("Colpito nemico " + i + "! Vita rimanente: " + e.life);
                 }
             }
         }
