@@ -76,7 +76,7 @@ public class NPC_Tio {
     public void update() {
         if(tm.currentMap.equals(MapSpaw))
         {
-        inActivatingRect();
+            inActivatingRect();
         }
         
     }
@@ -208,48 +208,47 @@ public class NPC_Tio {
 
         if(InteractSquare.intersects(pl.PlInteractRect))
         {
-        SpriteCounter++;
-        if (SpriteCounter > 10) {
-            if (SpriteNum == 1)
-            {
-                SpriteNum = 2;
-            } else if (SpriteNum == 2) {
-                SpriteNum = 3;
-            } else if (SpriteNum == 3) {
-                SpriteNum = 1;
+            SpriteCounter++;
+            if (SpriteCounter > 10) {
+                if (SpriteNum == 1)
+                {
+                    SpriteNum = 2;
+                } else if (SpriteNum == 2) {
+                    SpriteNum = 3;
+                } else if (SpriteNum == 3) {
+                    SpriteNum = 1;
+                }
+                SpriteCounter = 0;
             }
-            SpriteCounter = 0;
-        }
 
-        activeZone = true;
+            activeZone = true;
 
 
-        BTNSpriteCounter++;
-        if ( BTNSpriteCounter> 10) {
-            if (BTNSpriteNum == 1)
-            {
-                BTNSpriteNum = 2;
-            } else if (BTNSpriteNum == 2) {
-                BTNSpriteNum = 1;
+            BTNSpriteCounter++;
+            if ( BTNSpriteCounter> 10) {
+                if (BTNSpriteNum == 1)
+                {
+                    BTNSpriteNum = 2;
+                } else if (BTNSpriteNum == 2) {
+                    BTNSpriteNum = 1;
+                }
+                BTNSpriteCounter = 0;
             }
-            BTNSpriteCounter = 0;
-        }
-
-        }
+        } 
         else
         {
-        activeZone = false; 
-        chill = true;
-        IdSpriteCounter++;
-        if (IdSpriteCounter > 15) {
-            if (IdSpriteNum == 1)
-            {
-                IdSpriteNum = 2;
-            } else if (IdSpriteNum == 2) {
-                IdSpriteNum = 1;
+            activeZone = false; 
+            chill = true;
+            IdSpriteCounter++;
+            if (IdSpriteCounter > 15) {
+                if (IdSpriteNum == 1)
+                {
+                    IdSpriteNum = 2;
+                } else if (IdSpriteNum == 2) {
+                    IdSpriteNum = 1;
+                }
+                IdSpriteCounter = 0;
             }
-            IdSpriteCounter = 0;
-        }
         }
 
     }
