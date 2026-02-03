@@ -25,11 +25,12 @@ public class Player extends Entity {
 
     Sound sd;
 
-    public int Damage = 10; 
+    public int Damage = 10;
     public boolean invincible = false;
     public int invincibleCounter = 0;
     private BufferedImage barraVitaImg;
     private BufferedImage coin;
+
     private BufferedImage axe;
     private BufferedImage blade;
     private BufferedImage chaosblade;
@@ -37,7 +38,6 @@ public class Player extends Entity {
     private BufferedImage morningstar;
     private BufferedImage waraxe;
     private BufferedImage empty;
-    
 
     public boolean isAttacking = false;
     public int attackCounter = 0;
@@ -65,32 +65,31 @@ public class Player extends Entity {
     public int playerCol;
     public int playerRow;
 
-    //Interact Rect
+    // Interact Rect
     public Rectangle PlInteractRect = null;
     public int NumeroCoin = 0;
-    
-    //Barra della vita
-    int xBar; 
-    int yBar; 
-    int maxWidth; 
-    int height; 
 
-    //attack rect 
+    // Barra della vita
+    int xBar;
+    int yBar;
+    int maxWidth;
+    int height;
+
+    // attack rect
     Rectangle attackRect = null;
 
     Weapon armaPosseduta;
 
-
-    public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH,Sound sd) {
+    public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH, Sound sd) {
         this.gp = gp;
         this.keyH = keyH2;
         this.mousH = mousH;
         this.sd = sd;
 
-        xBar = 70; 
-        yBar = gp.ScreeHeight - 50; 
-        maxWidth = 130; 
-        height = 20; 
+        xBar = 70;
+        yBar = gp.ScreeHeight - 50;
+        maxWidth = 130;
+        height = 20;
 
         setDefaultValues();
         getPlayerImg();
@@ -230,7 +229,6 @@ public class Player extends Entity {
 
             Lid6 = ImageIO
                     .read(getClass().getResource("/src/Player/Player_LEFT/Player_idel_left/tile_idel_left6.png"));
-            
 
             barraVitaImg = ImageIO.read(getClass().getResource("/src/Player/BarraVita.png"));
 
@@ -269,8 +267,7 @@ public class Player extends Entity {
                 SpriteCounter++;
                 if (mousH.leftPressed != true && mousH.rightPressed != true) {
                     if (SpriteCounter > 5) {
-                        if (SpriteNum == 1)
-                        {
+                        if (SpriteNum == 1) {
                             SpriteNum = 2;
                         } else if (SpriteNum == 2) {
                             SpriteNum = 3;
@@ -311,7 +308,7 @@ public class Player extends Entity {
             movimento(mov);
         }
 
-        //attacco
+        // attacco
         if (mousH.leftPressed && !isAttacking && !mousH.rightPressed) {
             isAttacking = true;
             AttackSpriteNum = 1;
@@ -322,7 +319,7 @@ public class Player extends Entity {
             AttackSpriteCounter++;
 
             if (!attackSoundPlayed) {
-                attackSoundPlayed = true; 
+                attackSoundPlayed = true;
             }
 
             if (direction.equals("left")) {
@@ -352,13 +349,13 @@ public class Player extends Entity {
                     AttackSpriteNum = 1;
                     isAttacking = false;
                     attackSoundPlayed = false;
-                    mousH.leftPressed = false; 
+                    mousH.leftPressed = false;
                 }
                 AttackSpriteCounter = 0;
             }
         }
 
-        //parata
+        // parata
         if (mousH.rightPressed && !isAttacking) {
             isGuarding = true;
             BlockSpriteCounter++;
@@ -377,10 +374,10 @@ public class Player extends Entity {
             BlockSpriteCounter = 0;
         }
 
-        //idle
-        if (!keyH.upPressed && !keyH.dowPressed && !keyH.leftPressed && !keyH.rightPressed 
-            && !isAttacking && !mousH.rightPressed) {
-            
+        // idle
+        if (!keyH.upPressed && !keyH.dowPressed && !keyH.leftPressed && !keyH.rightPressed
+                && !isAttacking && !mousH.rightPressed) {
+
             IdelSpriteCpunter++;
             if (direction.equals("left")) {
                 idel = "left";
@@ -614,7 +611,7 @@ public class Player extends Entity {
             }
         }
 
-        //frame movimenti
+        // frame movimenti
         if (mousH.leftPressed) {
             g2.drawImage(Aimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
         } else if (mousH.rightPressed) {
@@ -628,25 +625,24 @@ public class Player extends Entity {
             g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
         }
 
-
-        //barra della vita
+        // barra della vita
         g2.setColor(new Color(50, 50, 50));
         g2.fillRect(xBar, yBar, maxWidth, height);
 
         double healthRatio = (double) life / maxLife;
         int currentWidth = (int) (healthRatio * maxWidth);
 
-        g2.setColor(new Color(0, 143, 57)); 
+        g2.setColor(new Color(0, 143, 57));
         g2.fillRect(xBar, yBar, currentWidth, height);
 
         g2.drawImage(barraVitaImg, xBar - 60, yBar - 23, 200, 65, null);
 
-        //moneta con scritta
+        // moneta con scritta
         g2.drawImage(coin, 220, 503, 65, 65, null);
 
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
         String text = "x " + NumeroCoin;
-        
+
         int x = 290;
         int y = 541;
 
@@ -656,97 +652,92 @@ public class Player extends Entity {
         g2.setColor(new Color(255, 215, 0));
         g2.drawString(text, x, y);
 
-        //arma un basso a sinistra dello schermo
         armaPosseduta = gp.TR_menu.armaPosseduta;
 
-        if(armaPosseduta!=null){
-            switch(armaPosseduta.name){
-                case"Axe":
+        if (armaPosseduta != null) {
+            switch (armaPosseduta.name) {
+                case "Axe":
                     g2.drawImage(axe, 660, 460, 100, 100, null);
                     break;
-                case"Blade":
+                case "Blade":
                     g2.drawImage(blade, 660, 460, 100, 100, null);
                     break;
-                case"Chaos Blades":
+                case "Chaos Blades":
                     g2.drawImage(chaosblade, 660, 460, 100, 100, null);
                     break;
-                case"Hero sword":
+                case "Hero sword":
                     g2.drawImage(herosword, 660, 460, 100, 100, null);
                     break;
-                case"Morningstar":
+                case "Morningstar":
                     g2.drawImage(morningstar, 660, 460, 100, 100, null);
                     break;
-                case"War Axe":
+                case "War Axe":
                     g2.drawImage(waraxe, 660, 460, 100, 100, null);
                     break;
             }
-        }
-        else{
+        } else {
             g2.drawImage(empty, 660, 460, 100, 100, null);
         }
     }
 
     public void takeDamage(int damage) {
-        if (isGuarding) { 
-        sd.setFile(2);
-        sd.play();
-        return;
-    }
+        if (isGuarding) {
+            sd.setFile(2);
+            sd.play();
+            return;
+        }
         life -= damage;
         sd.setFile(9);
         sd.play();
-        if (life < 0){
+        if (life < 0) {
             life = 0;
-            
-        } 
+
+        }
     }
 
     public void attackCollision() {
-        if(gp.cicle.equals("NIGHT"))
-        {
-            if(attackRect == null)
-            {
-                attackRect = new Rectangle(0,0,0,0);
+        if (gp.cicle.equals("NIGHT")) {
+            if (attackRect == null) {
+                attackRect = new Rectangle(0, 0, 0, 0);
             }
-    
 
-        //modifica la posizione del rettangolo di attacco in base a dove guarda il player
-        if (direction.equals("right")) {
-            attackRect.x = x + gp.tileSize * 2; 
-            attackRect.y = y + gp.tileSize;
-            attackRect.width = 50;
-            attackRect.height = gp.tileSize * 2;
-        } else if (direction.equals("left")) {
-            attackRect.x = x + 50;
-            attackRect.y = y + gp.tileSize;
-            attackRect.width = 50;
-            attackRect.height = gp.tileSize * 2;
-        } else if (direction.equals("up")) {
-            attackRect.x = x + gp.tileSize * 2; 
-            attackRect.y = y + gp.tileSize;
-            attackRect.width = 50;
-            attackRect.height = gp.tileSize * 2;
-        } else if (direction.equals("down")) {
-            attackRect.x = x + 50;
-            attackRect.y = y + gp.tileSize;
-            attackRect.width = 50;
-            attackRect.height = gp.tileSize * 2;
-        }
+            // modifica la posizione del rettangolo di attacco in base a dove guarda il
+            // player
+            if (direction.equals("right")) {
+                attackRect.x = x + gp.tileSize * 2;
+                attackRect.y = y + gp.tileSize;
+                attackRect.width = 50;
+                attackRect.height = gp.tileSize * 2;
+            } else if (direction.equals("left")) {
+                attackRect.x = x + 50;
+                attackRect.y = y + gp.tileSize;
+                attackRect.width = 50;
+                attackRect.height = gp.tileSize * 2;
+            } else if (direction.equals("up")) {
+                attackRect.x = x + gp.tileSize * 2;
+                attackRect.y = y + gp.tileSize;
+                attackRect.width = 50;
+                attackRect.height = gp.tileSize * 2;
+            } else if (direction.equals("down")) {
+                attackRect.x = x + 50;
+                attackRect.y = y + gp.tileSize;
+                attackRect.width = 50;
+                attackRect.height = gp.tileSize * 2;
+            }
 
-        for (int i = 0; i < gp.ENEMIES.enemies.length; i++) {
-            if (gp.ENEMIES.enemies[i] != null) {
-                Enemy e = gp.ENEMIES.enemies[i];
-                
-                if (e.alive && attackRect.intersects(e.stayin)) {
-                    e.takeDamage(Damage);
-                    //System.out.println("Colpito nemico " + i + "! Vita rimanente: " + e.life);
+            for (int i = 0; i < gp.ENEMIES.enemies.length; i++) {
+                if (gp.ENEMIES.enemies[i] != null) {
+                    Enemy e = gp.ENEMIES.enemies[i];
+
+                    if (e.alive && attackRect.intersects(e.stayin)) {
+                        e.takeDamage(Damage);
+                        // System.out.println("Colpito nemico " + i + "! Vita rimanente: " + e.life);
+                    }
                 }
             }
+
+            attackRect = null;
         }
-
-        attackRect = null;
-    }
     }
 
-    
 }

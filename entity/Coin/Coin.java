@@ -46,7 +46,7 @@ public class Coin {
         sd.setFile(7);
         sd.play();
         pl.NumeroCoin++;
-        System.out.println("NUMERO SOLDI:" + pl.NumeroCoin);
+         //System.out.println("NUMERO SOLDI:" + pl.NumeroCoin);
 
     }
     public void CoinSpawn(int x,int y)

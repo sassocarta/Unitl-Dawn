@@ -301,6 +301,7 @@ public class Enemy extends Enemy_Manager {
             return;
 
         if (gp.cicle == "NIGHT" && trm.isOpen != true) {
+
             if (!tm.currentMap.equalsIgnoreCase(MapSpawn)) {
                 return;
             }
@@ -863,7 +864,7 @@ public class Enemy extends Enemy_Manager {
         }
     }
 
-    public void takeDamage(int damage) {
+    public boolean takeDamage(int damage) {
         if(tm.currentMap.equals(MapSpawn))
         {
             sd.setFile(8);
@@ -878,12 +879,14 @@ public class Enemy extends Enemy_Manager {
                 life = 0;
                 die();
             }
+            return true;
         }
         }
         else
         {
             //System.out.println("nemico non colpito non stessa mappa");
         }
+        return false;
     }
 
     public void die() {

@@ -1,5 +1,4 @@
 package entity.NPCS;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -172,13 +171,8 @@ public class Cnpc extends NPC_Manager implements Runnable{
     }
 
 
-<<<<<<< HEAD
-        public void draw(Graphics2D g2) {
-            g2.setColor(Color.red);
-            g2.draw(stayin);
-=======
+
     public void draw(Graphics2D g2) {
->>>>>>> origin/main
         if(gp.cicle == "DAY"){
             if (!tm.currentMap.equals(MapSpaw)) {
                 return;
