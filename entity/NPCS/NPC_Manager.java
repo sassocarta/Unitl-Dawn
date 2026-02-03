@@ -1,12 +1,14 @@
 package entity.NPCS;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
+
 import entity.Player.Player;
 import main.GamePanel;
 import main.Sound;
 import tile.TileManager;
 
-public class NPC_Manager {
+public class NPC_Manager{
 
     GamePanel gp;
     Player pl;
@@ -91,6 +93,7 @@ public class NPC_Manager {
 
     int originalX = x;
     int originalY = y;
+
         
 
 

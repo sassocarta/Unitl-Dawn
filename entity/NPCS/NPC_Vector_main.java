@@ -53,40 +53,21 @@ public class NPC_Vector_main {
     }
 
 
-    public void update()
+    public void StartThread()
     {
         //1controllo se anche 1 npc stia parlando
         for(Cnpc n : npcs) {
-        if(n.istlk)
-        {
-        sequalcunoparla = true;
-        }
-        }
-        //2 se parla non si muovono
-        //For-Each
-        if(sequalcunoparla != true)
-        {
-        for(Cnpc n : npcs) {
-        n.update();
-        }
-        }
-
-        //seno li ricontrollo per vedere se ha smesso di parlare 
-        for(Cnpc n : npcs) {
-        if(!n.istlk)
-        {
-        sequalcunoparla = false;
-        }
+            Thread thread = new Thread(n);
+        // Avvio il thread: questo chiamerà internamente il metodo run() di Cnpc
+        thread.start();
         }
 
     }
 
-        public void draw(Graphics2D g2)
+    public void draw(Graphics2D g2)
     {
-        //For-Each
-       for(Cnpc n : npcs) {
-        n.draw(g2);
+        for(Cnpc n : npcs) {
+           n.draw(g2);
         }
-    
     }
 }

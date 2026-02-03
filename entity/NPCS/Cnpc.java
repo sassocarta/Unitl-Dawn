@@ -1,4 +1,5 @@
 package entity.NPCS;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -10,7 +11,7 @@ import main.GamePanel;
 import main.Sound;
 import tile.TileManager;
 
-public class Cnpc extends NPC_Manager {
+public class Cnpc extends NPC_Manager implements Runnable{
 
     int tick = 0;
     Rectangle stayin = null;
@@ -37,7 +38,7 @@ public class Cnpc extends NPC_Manager {
     boolean onespawn = false;
 
     Coin coin;
-    
+
 
     //SPINNING PROBLEM
     int sC = 0;      // Cambio direzione
@@ -82,7 +83,6 @@ public class Cnpc extends NPC_Manager {
         this.urlchat = urlchat; 
 
         coin = new Coin(pl,tm,sd);
-
         deicidiMappaSpawn();
         SpwanNpc();
         GetAllNpcImages();
@@ -196,6 +196,8 @@ public class Cnpc extends NPC_Manager {
         }*/
 
         public void draw(Graphics2D g2) {
+            g2.setColor(Color.red);
+            g2.draw(stayin);
         if(gp.cicle == "DAY"){
             if (!tm.currentMap.equals(MapSpaw)) {
                 return;
@@ -391,14 +393,43 @@ public class Cnpc extends NPC_Manager {
         NPCdirectionSet(n);
     }
 
+
+ // GAME LOOP
+   @Override
+public void run() {
+    
+    // ASPETTA finché il player o il suo rettangolo non sono pronti
+    //Ready STATE
+    while (pl == null || pl.PlInteractRect == null || gp.gameState != gp.playState) {
+        try {
+            Thread.sleep(100); // Aspetta 100ms e riprova
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    while (true) {
+        
+        update();
+        
+        
+        try {
+            Thread.sleep(17);
+        } catch (InterruptedException e) {
+            break;
+        }
+    }
+}
+
     public void update() {
     
-        if(gp.cicle == "DAY")
+        if(gp.cicle.equals("DAY"))
         {
         stayin.x = x + 90;
         stayin.y = y + 90;
-        if (tm.currentMap.equals(MapSpaw)) {
+        if (tm.currentMap.equals(MapSpaw)) {    
             
+            //System.out.println(MapSpaw);
         //-----------------------------------------------------------------------------------
         //COME RISOLVERE IL PRBLEMA DELLO SPINNING E DELLO SPAWN SBAGLIATO
         //LA TOLLERANZA

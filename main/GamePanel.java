@@ -46,10 +46,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int gameOverState = 2;
 
     // FPS
-    int FPS = 60;
+    public int FPS = 60;
 
     MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
-    Thread gamThread; // thread del game loop
+    public Thread gamThread; // thread del game loop
     Sound soundBG = new Sound(); // aggiungo il suono del BG
     KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
     Player player = new Player(this, KeyH, MouseH,soundBG); // aggiugo Player
@@ -76,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(KeyH);
         this.addMouseListener((MouseListener) MouseH); // aggiungo a questo JPnale il Mouse lissener (MouseH)
         this.setFocusable(true);
+        StartNPCthread();
         gameState = playState;
     }
 
@@ -84,6 +85,13 @@ public class GamePanel extends JPanel implements Runnable {
         gamThread = new Thread(this);
         gamThread.start();
     }
+
+    public void StartNPCthread()
+    {
+        NPCS.StartThread();
+    }
+
+    
 
     // GAME LOOP
     @Override
@@ -129,7 +137,6 @@ public class GamePanel extends JPanel implements Runnable {
             player.update(); 
             tileM.update(); 
             cl.update(); 
-            NPCS.update();
             ENEMIES.update();
             Trader.update();
             TR_menu.update();
@@ -147,6 +154,7 @@ public class GamePanel extends JPanel implements Runnable {
         TR_menu.draw(g2);
         NPCS.draw(g2);
         ENEMIES.draw(g2);
+        g2.dispose();
 
         if (gameState == gameOverState) {
             String text = "GAME OVER: SEI MORTO";
