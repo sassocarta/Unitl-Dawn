@@ -19,8 +19,7 @@ public class Enemy_Vector_main{
     TileManager tm;
     TR_menu trm;
     int nEnemies = 10;
-
-    int enemyType;
+    boolean isAllDead;
 
     String urlWalkRight;
     int NFWalkRight;
@@ -104,6 +103,12 @@ public class Enemy_Vector_main{
                 }
             }
         }
+
+        isAllDead = isAllDead();
+
+        if(isAllDead){
+            gp.cicle = "DAY";
+        }
     }
     
 
@@ -114,5 +119,14 @@ public class Enemy_Vector_main{
                 enemies[i].draw(g2);
             }
         }
+    }
+
+    public boolean isAllDead(){
+        for(int i=0;i<enemies.length; i++){
+            if (enemies[i] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

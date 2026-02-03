@@ -1,5 +1,7 @@
 package entity.Player;
 
+import entity.NPCS.NPC_Trader.Weapon;
+
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -23,11 +25,19 @@ public class Player extends Entity {
 
     Sound sd;
 
-    public int Damage = 20; 
+    public int Damage = 10; 
     public boolean invincible = false;
     public int invincibleCounter = 0;
     private BufferedImage barraVitaImg;
     private BufferedImage coin;
+    private BufferedImage axe;
+    private BufferedImage blade;
+    private BufferedImage chaosblade;
+    private BufferedImage herosword;
+    private BufferedImage morningstar;
+    private BufferedImage waraxe;
+    private BufferedImage empty;
+    
 
     public boolean isAttacking = false;
     public int attackCounter = 0;
@@ -68,6 +78,7 @@ public class Player extends Entity {
     //attack rect 
     Rectangle attackRect = null;
 
+    Weapon armaPosseduta;
 
 
     public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH,Sound sd) {
@@ -100,7 +111,6 @@ public class Player extends Entity {
     }
 
     // carichiamo sulle immagini Buffer le immagini nella cartella con segunete
-    // posizione
     public void getPlayerImg() {
         try {
             rg1 = ImageIO.read(getClass().getResource("/src/Player/Player_RIGHT/Player_walk_right/tile1.png"));
@@ -226,6 +236,14 @@ public class Player extends Entity {
 
             coin = ImageIO.read(getClass().getResource("/src/Coin/tile2.png"));
 
+            axe = ImageIO.read(getClass().getResource("/src/weapons/axeGUI.png"));
+            blade = ImageIO.read(getClass().getResource("/src/weapons/bladeGUI.png"));
+            chaosblade = ImageIO.read(getClass().getResource("/src/weapons/chaosBladesGUI.png"));
+            herosword = ImageIO.read(getClass().getResource("/src/weapons/heroswordGUI.png"));
+            morningstar = ImageIO.read(getClass().getResource("/src/weapons/morningstarGUI.png"));
+            waraxe = ImageIO.read(getClass().getResource("/src/weapons/waraxeGUI.png"));
+            empty = ImageIO.read(getClass().getResource("/src/weapons/emptyGUI.png"));
+
         } catch (IOException e) {
             // se non trova le immagini stamapa
             e.printStackTrace();
@@ -237,21 +255,21 @@ public class Player extends Entity {
             if (keyH.upPressed == true || keyH.dowPressed == true || keyH.leftPressed == true
                     || keyH.rightPressed == true) {
                 if (keyH.upPressed == true && mousH.rightPressed != true) {
-                    y -= speed; // 1
+                    y -= speed;
                 } else if (keyH.dowPressed == true && mousH.rightPressed != true) {
                     y += speed;
                 } else if (keyH.leftPressed == true && mousH.rightPressed != true) {
-                    direction = "left"; // sto dicendo che deve guardare gli sprite di sinistra
+                    direction = "left";
                     x -= speed;
                 } else if (keyH.rightPressed == true && mousH.rightPressed != true) {
-                    direction = "right"; // sto dicendo che deve guardare gli sprite di destra
+                    direction = "right";
                     x += speed;
                 }
 
-                SpriteCounter++; // 2
+                SpriteCounter++;
                 if (mousH.leftPressed != true && mousH.rightPressed != true) {
-                    if (SpriteCounter > 5) { // 3
-                        if (SpriteNum == 1) // 4
+                    if (SpriteCounter > 5) {
+                        if (SpriteNum == 1)
                         {
                             SpriteNum = 2;
                         } else if (SpriteNum == 2) {
@@ -270,7 +288,7 @@ public class Player extends Entity {
                             SpriteNum = 1;
                         }
 
-                        SpriteCounter = 0; // setto a 0
+                        SpriteCounter = 0;
                     }
                 }
             }
@@ -596,7 +614,7 @@ public class Player extends Entity {
             }
         }
 
-        // DISEGNO USANDO LA GRAPHIC2D LE IMMAGINI
+        //frame movimenti
         if (mousH.leftPressed) {
             g2.drawImage(Aimage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
         } else if (mousH.rightPressed) {
@@ -610,6 +628,8 @@ public class Player extends Entity {
             g2.drawImage(image, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
         }
 
+
+        //barra della vita
         g2.setColor(new Color(50, 50, 50));
         g2.fillRect(xBar, yBar, maxWidth, height);
 
@@ -619,17 +639,15 @@ public class Player extends Entity {
         g2.setColor(new Color(0, 143, 57)); 
         g2.fillRect(xBar, yBar, currentWidth, height);
 
-        //immagine bordo barra
         g2.drawImage(barraVitaImg, xBar - 60, yBar - 23, 200, 65, null);
 
         //moneta con scritta
-        g2.drawImage(coin, 215, 510, 50, 50, null);
+        g2.drawImage(coin, 220, 503, 65, 65, null);
 
-        
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
         String text = "x " + NumeroCoin;
         
-        int x = 270;
+        int x = 290;
         int y = 541;
 
         g2.setColor(Color.black);
@@ -637,7 +655,35 @@ public class Player extends Entity {
 
         g2.setColor(new Color(255, 215, 0));
         g2.drawString(text, x, y);
-        
+
+        //arma un basso a sinistra dello schermo
+        armaPosseduta = gp.TR_menu.armaPosseduta;
+
+        if(armaPosseduta!=null){
+            switch(armaPosseduta.name){
+                case"Axe":
+                    g2.drawImage(axe, 660, 460, 100, 100, null);
+                    break;
+                case"Blade":
+                    g2.drawImage(blade, 660, 460, 100, 100, null);
+                    break;
+                case"Chaos Blades":
+                    g2.drawImage(chaosblade, 660, 460, 100, 100, null);
+                    break;
+                case"Hero sword":
+                    g2.drawImage(herosword, 660, 460, 100, 100, null);
+                    break;
+                case"Morningstar":
+                    g2.drawImage(morningstar, 660, 460, 100, 100, null);
+                    break;
+                case"War Axe":
+                    g2.drawImage(waraxe, 660, 460, 100, 100, null);
+                    break;
+            }
+        }
+        else{
+            g2.drawImage(empty, 660, 460, 100, 100, null);
+        }
     }
 
     public void takeDamage(int damage) {

@@ -171,31 +171,8 @@ public class Cnpc extends NPC_Manager {
         GetImagesChats(NFchat,urlchat);
     }
 
-   /*  public void draw(Graphics2D g2) {
-        if(gp.cicle == "DAY"){
-            if (!tm.currentMap.equals(MapSpaw)) {
-                return;
-            }
-            spriteSet();
-            if (direction == "up") {
-                g2.drawImage(UpImage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
-            }
-            if (direction == "down") {
-                g2.drawImage(DwImage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
-            }
-            if (direction == "left") {
-                g2.drawImage(LfImage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
-            }
-            if (direction == "right") {
-                g2.drawImage(RhImage, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
-            }
-            if (pl.PlInteractRect.intersects(stayin)) {
-                g2.drawImage(face, -10, 130 ,96 * 4, 112 * 4, null);
-                g2.drawImage(chat, 210, 80 ,200 * 3, 200 * 3, null);
-            }
-        }*/
 
-        public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2) {
         if(gp.cicle == "DAY"){
             if (!tm.currentMap.equals(MapSpaw)) {
                 return;
