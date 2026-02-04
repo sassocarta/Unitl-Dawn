@@ -46,23 +46,25 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int gameOverState = 2;
 
+    public int day=0;
+
     // FPS
     public int FPS = 60;
 
-    MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
+    public MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
     public Thread gamThread; // thread del game loop
-    Sound soundBG = new Sound(); // aggiungo il suono del BG
-    KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
-    Player player = new Player(this, KeyH, MouseH,soundBG); // aggiugo Player
-    TileManager tileM = new TileManager(this, player); // aggiugo TileManager
-    CollisionManager cl = new CollisionManager(player, tileM, this);
-    NPC_Tio Trader = new NPC_Tio(this,player, soundBG, tileM);
-    weapons WP = new weapons();
-    Sound speek = new Sound(); // aggiungo il suono del BG
+    public Sound soundBG = new Sound(); // aggiungo il suono del BG
+    public KeyHandler KeyH = new KeyHandler(); // aggiungo un KeyHendler
+    public Player player = new Player(this, KeyH, MouseH,soundBG); // aggiugo Player
+    public TileManager tileM = new TileManager(this, player); // aggiugo TileManager
+    public CollisionManager cl = new CollisionManager(player, tileM, this);
+    public NPC_Tio Trader = new NPC_Tio(this,player, soundBG, tileM);
+    public weapons WP = new weapons();
+    public Sound speek = new Sound(); // aggiungo il suono del BG
     public TR_menu TR_menu = new TR_menu(Trader, MouseH, KeyH, WP, speek, player);
-    NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
+    public NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
     public Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM,TR_menu);
-    Campfire cmp = new Campfire(this, player, tileM);
+    public Campfire cmp = new Campfire(this, player, tileM);
     public String cicle;
 
     // set paleyer defoult posizione

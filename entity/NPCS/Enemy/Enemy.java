@@ -1,5 +1,6 @@
 
 package entity.NPCS.Enemy;
+
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -74,7 +75,15 @@ public class Enemy extends Enemy_Manager {
             int NFAttackRight,
             String urlAttackRight,
             int NFAttackLeft,
-            String urlAttackLeft) {
+            String urlAttackLeft,
+            String name,
+            int hitboxX,
+            int hitboxY,
+            int hitboxWidth,
+            int hitboxHeight,
+            int maxLife,
+            int damage,
+            int drawMultiplier) {
 
         this.gp = gp;
         this.tm = tm;
@@ -82,10 +91,15 @@ public class Enemy extends Enemy_Manager {
         this.sd = sd;
         this.trm = trm;
 
-        StayinZone = new Rectangle(96, 96, 576, 384);
-        stayin = new Rectangle(0, 0, 46, 48);
-
-        detectionRange = new Rectangle(0, 0, 400, 400);
+        this.hitboxX = hitboxX;
+        this.hitboxY = hitboxY;
+        this.hitboxWidth = hitboxWidth;
+        this.hitboxHeight = hitboxHeight;
+        this.maxLife = maxLife;
+        this.damage = damage;
+        this.drawMultiplier = drawMultiplier;
+        this.name = name;
+        this.life = maxLife;
 
         EnemyWalkRight = new BufferedImage[8];
         EnemyWalkLeft = new BufferedImage[8];
@@ -120,6 +134,11 @@ public class Enemy extends Enemy_Manager {
         this.NFAttackLeft = NFAttackLeft;
 
         coin = new Coin(pl, tm, sd);
+
+        StayinZone = new Rectangle(96, 96, 576, 384);
+        stayin = new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
+
+        detectionRange = new Rectangle(0, 0, 400, 400);
 
         deicidiMappaSpawn();
         SpwanEnemy();
@@ -349,7 +368,7 @@ public class Enemy extends Enemy_Manager {
 
             // Disegna l'immagine scelta
             if (imageToDraw != null) {
-                g2.drawImage(imageToDraw, x, y, gp.tileSize * 4, gp.tileSize * 4, null);
+                g2.drawImage(imageToDraw, x, y, gp.tileSize * drawMultiplier, gp.tileSize * drawMultiplier, null);
             }
 
             // Barra della vita
@@ -366,147 +385,659 @@ public class Enemy extends Enemy_Manager {
 
             g2.setColor(new Color(203, 50, 52));
             g2.fillRect(xBar, yBar, currentWidth, height);
+
+            g2.setColor(Color.RED);
+            g2.draw(stayin);
         }
     }
 
     public void spriteSet() {
-        if (WalkRightSpriteNum == 1)
-            WalkRightImage = EnemyWalkRight[0];
-        if (WalkRightSpriteNum == 2)
-            WalkRightImage = EnemyWalkRight[1];
-        if (WalkRightSpriteNum == 3)
-            WalkRightImage = EnemyWalkRight[2];
-        if (WalkRightSpriteNum == 4)
-            WalkRightImage = EnemyWalkRight[3];
-        if (WalkRightSpriteNum == 5)
-            WalkRightImage = EnemyWalkRight[4];
-        if (WalkRightSpriteNum == 6)
-            WalkRightImage = EnemyWalkRight[5];
-        if (WalkRightSpriteNum == 7)
-            WalkRightImage = EnemyWalkRight[6];
-        if (WalkRightSpriteNum == 8)
-            WalkRightImage = EnemyWalkRight[7];
+        switch (this.name) {
+            case "Slime":
+                if (WalkRightSpriteNum == 1)
+                    WalkRightImage = EnemyWalkRight[0];
+                if (WalkRightSpriteNum == 2)
+                    WalkRightImage = EnemyWalkRight[1];
+                if (WalkRightSpriteNum == 3)
+                    WalkRightImage = EnemyWalkRight[2];
+                if (WalkRightSpriteNum == 4)
+                    WalkRightImage = EnemyWalkRight[3];
+                if (WalkRightSpriteNum == 5)
+                    WalkRightImage = EnemyWalkRight[4];
+                if (WalkRightSpriteNum == 6)
+                    WalkRightImage = EnemyWalkRight[5];
+                if (WalkRightSpriteNum == 7)
+                    WalkRightImage = EnemyWalkRight[6];
+                if (WalkRightSpriteNum == 8)
+                    WalkRightImage = EnemyWalkRight[7];
 
-        if (WalkLeftSpriteNum == 1)
-            WalkLeftImage = EnemyWalkLeft[0];
-        if (WalkLeftSpriteNum == 2)
-            WalkLeftImage = EnemyWalkLeft[1];
-        if (WalkLeftSpriteNum == 3)
-            WalkLeftImage = EnemyWalkLeft[2];
-        if (WalkLeftSpriteNum == 4)
-            WalkLeftImage = EnemyWalkLeft[3];
-        if (WalkLeftSpriteNum == 5)
-            WalkLeftImage = EnemyWalkLeft[4];
-        if (WalkLeftSpriteNum == 6)
-            WalkLeftImage = EnemyWalkLeft[5];
-        if (WalkLeftSpriteNum == 7)
-            WalkLeftImage = EnemyWalkLeft[6];
-        if (WalkLeftSpriteNum == 8)
-            WalkLeftImage = EnemyWalkLeft[7];
+                if (WalkLeftSpriteNum == 1)
+                    WalkLeftImage = EnemyWalkLeft[0];
+                if (WalkLeftSpriteNum == 2)
+                    WalkLeftImage = EnemyWalkLeft[1];
+                if (WalkLeftSpriteNum == 3)
+                    WalkLeftImage = EnemyWalkLeft[2];
+                if (WalkLeftSpriteNum == 4)
+                    WalkLeftImage = EnemyWalkLeft[3];
+                if (WalkLeftSpriteNum == 5)
+                    WalkLeftImage = EnemyWalkLeft[4];
+                if (WalkLeftSpriteNum == 6)
+                    WalkLeftImage = EnemyWalkLeft[5];
+                if (WalkLeftSpriteNum == 7)
+                    WalkLeftImage = EnemyWalkLeft[6];
+                if (WalkLeftSpriteNum == 8)
+                    WalkLeftImage = EnemyWalkLeft[7];
 
-        if (IdleRightSpriteNum == 1)
-            IdleRightImage = EnemyIdleRight[0];
-        if (IdleRightSpriteNum == 2)
-            IdleRightImage = EnemyIdleRight[1];
-        if (IdleRightSpriteNum == 3)
-            IdleRightImage = EnemyIdleRight[2];
-        if (IdleRightSpriteNum == 4)
-            IdleRightImage = EnemyIdleRight[3];
-        if (IdleRightSpriteNum == 5)
-            IdleRightImage = EnemyIdleRight[4];
-        if (IdleRightSpriteNum == 6)
-            IdleRightImage = EnemyIdleRight[5];
+                if (IdleRightSpriteNum == 1)
+                    IdleRightImage = EnemyIdleRight[0];
+                if (IdleRightSpriteNum == 2)
+                    IdleRightImage = EnemyIdleRight[1];
+                if (IdleRightSpriteNum == 3)
+                    IdleRightImage = EnemyIdleRight[2];
+                if (IdleRightSpriteNum == 4)
+                    IdleRightImage = EnemyIdleRight[3];
+                if (IdleRightSpriteNum == 5)
+                    IdleRightImage = EnemyIdleRight[4];
+                if (IdleRightSpriteNum == 6)
+                    IdleRightImage = EnemyIdleRight[5];
 
-        if (IdleLeftSpriteNum == 1)
-            IdleLeftImage = EnemyIdleLeft[0];
-        if (IdleLeftSpriteNum == 2)
-            IdleLeftImage = EnemyIdleLeft[1];
-        if (IdleLeftSpriteNum == 3)
-            IdleLeftImage = EnemyIdleLeft[2];
-        if (IdleLeftSpriteNum == 4)
-            IdleLeftImage = EnemyIdleLeft[3];
-        if (IdleLeftSpriteNum == 5)
-            IdleLeftImage = EnemyIdleLeft[4];
-        if (IdleLeftSpriteNum == 6)
-            IdleLeftImage = EnemyIdleLeft[5];
+                if (IdleLeftSpriteNum == 1)
+                    IdleLeftImage = EnemyIdleLeft[0];
+                if (IdleLeftSpriteNum == 2)
+                    IdleLeftImage = EnemyIdleLeft[1];
+                if (IdleLeftSpriteNum == 3)
+                    IdleLeftImage = EnemyIdleLeft[2];
+                if (IdleLeftSpriteNum == 4)
+                    IdleLeftImage = EnemyIdleLeft[3];
+                if (IdleLeftSpriteNum == 5)
+                    IdleLeftImage = EnemyIdleLeft[4];
+                if (IdleLeftSpriteNum == 6)
+                    IdleLeftImage = EnemyIdleLeft[5];
 
-        if (HitRightSpriteNum == 1)
-            HitRightImage = EnemyHitRight[0];
-        if (HitRightSpriteNum == 2)
-            HitRightImage = EnemyHitRight[1];
-        if (HitRightSpriteNum == 3)
-            HitRightImage = EnemyHitRight[2];
-        if (HitRightSpriteNum == 4)
-            HitRightImage = EnemyHitRight[3];
+                if (HitRightSpriteNum == 1)
+                    HitRightImage = EnemyHitRight[0];
+                if (HitRightSpriteNum == 2)
+                    HitRightImage = EnemyHitRight[1];
+                if (HitRightSpriteNum == 3)
+                    HitRightImage = EnemyHitRight[2];
+                if (HitRightSpriteNum == 4)
+                    HitRightImage = EnemyHitRight[3];
 
-        if (HitLeftSpriteNum == 1)
-            HitLeftImage = EnemyHitLeft[0];
-        if (HitLeftSpriteNum == 2)
-            HitLeftImage = EnemyHitLeft[1];
-        if (HitLeftSpriteNum == 3)
-            HitLeftImage = EnemyHitLeft[2];
-        if (HitLeftSpriteNum == 4)
-            HitLeftImage = EnemyHitLeft[3];
+                if (HitLeftSpriteNum == 1)
+                    HitLeftImage = EnemyHitLeft[0];
+                if (HitLeftSpriteNum == 2)
+                    HitLeftImage = EnemyHitLeft[1];
+                if (HitLeftSpriteNum == 3)
+                    HitLeftImage = EnemyHitLeft[2];
+                if (HitLeftSpriteNum == 4)
+                    HitLeftImage = EnemyHitLeft[3];
 
-        if (DeathRightSpriteNum == 1)
-            DeathRightImage = EnemyDeathRight[0];
-        if (DeathRightSpriteNum == 2)
-            DeathRightImage = EnemyDeathRight[1];
-        if (DeathRightSpriteNum == 3)
-            DeathRightImage = EnemyDeathRight[2];
-        if (DeathRightSpriteNum == 4)
-            DeathRightImage = EnemyDeathRight[3];
-        if (DeathRightSpriteNum == 5)
-            DeathRightImage = EnemyDeathRight[4];
-        if (DeathRightSpriteNum == 6)
-            DeathRightImage = EnemyDeathRight[5];
+                if (DeathRightSpriteNum == 1)
+                    DeathRightImage = EnemyDeathRight[0];
+                if (DeathRightSpriteNum == 2)
+                    DeathRightImage = EnemyDeathRight[1];
+                if (DeathRightSpriteNum == 3)
+                    DeathRightImage = EnemyDeathRight[2];
+                if (DeathRightSpriteNum == 4)
+                    DeathRightImage = EnemyDeathRight[3];
+                if (DeathRightSpriteNum == 5)
+                    DeathRightImage = EnemyDeathRight[4];
+                if (DeathRightSpriteNum == 6)
+                    DeathRightImage = EnemyDeathRight[5];
 
-        if (DeathLeftSpriteNum == 1)
-            DeathLeftImage = EnemyDeathLeft[0];
-        if (DeathLeftSpriteNum == 2)
-            DeathLeftImage = EnemyDeathLeft[1];
-        if (DeathLeftSpriteNum == 3)
-            DeathLeftImage = EnemyDeathLeft[2];
-        if (DeathLeftSpriteNum == 4)
-            DeathLeftImage = EnemyDeathLeft[3];
-        if (DeathLeftSpriteNum == 5)
-            DeathLeftImage = EnemyDeathLeft[4];
-        if (DeathLeftSpriteNum == 6)
-            DeathLeftImage = EnemyDeathLeft[5];
+                if (DeathLeftSpriteNum == 1)
+                    DeathLeftImage = EnemyDeathLeft[0];
+                if (DeathLeftSpriteNum == 2)
+                    DeathLeftImage = EnemyDeathLeft[1];
+                if (DeathLeftSpriteNum == 3)
+                    DeathLeftImage = EnemyDeathLeft[2];
+                if (DeathLeftSpriteNum == 4)
+                    DeathLeftImage = EnemyDeathLeft[3];
+                if (DeathLeftSpriteNum == 5)
+                    DeathLeftImage = EnemyDeathLeft[4];
+                if (DeathLeftSpriteNum == 6)
+                    DeathLeftImage = EnemyDeathLeft[5];
 
-        if (AttackRightSpriteNum == 1)
-            AttackRightImage = EnemyAttackRight[0];
-        if (AttackRightSpriteNum == 2)
-            AttackRightImage = EnemyAttackRight[1];
-        if (AttackRightSpriteNum == 3)
-            AttackRightImage = EnemyAttackRight[2];
-        if (AttackRightSpriteNum == 4)
-            AttackRightImage = EnemyAttackRight[3];
-        if (AttackRightSpriteNum == 5)
-            AttackRightImage = EnemyAttackRight[4];
-        if (AttackRightSpriteNum == 6)
-            AttackRightImage = EnemyAttackRight[5];
-        if (AttackRightSpriteNum == 7)
-            AttackRightImage = EnemyAttackRight[6];
-        if (AttackRightSpriteNum == 8)
-            AttackRightImage = EnemyAttackRight[7];
+                if (AttackRightSpriteNum == 1)
+                    AttackRightImage = EnemyAttackRight[0];
+                if (AttackRightSpriteNum == 2)
+                    AttackRightImage = EnemyAttackRight[1];
+                if (AttackRightSpriteNum == 3)
+                    AttackRightImage = EnemyAttackRight[2];
+                if (AttackRightSpriteNum == 4)
+                    AttackRightImage = EnemyAttackRight[3];
+                if (AttackRightSpriteNum == 5)
+                    AttackRightImage = EnemyAttackRight[4];
+                if (AttackRightSpriteNum == 6)
+                    AttackRightImage = EnemyAttackRight[5];
+                if (AttackRightSpriteNum == 7)
+                    AttackRightImage = EnemyAttackRight[6];
+                if (AttackRightSpriteNum == 8)
+                    AttackRightImage = EnemyAttackRight[7];
 
-        if (AttackLeftSpriteNum == 1)
-            AttackLeftImage = EnemyAttackLeft[0];
-        if (AttackLeftSpriteNum == 2)
-            AttackLeftImage = EnemyAttackLeft[1];
-        if (AttackLeftSpriteNum == 3)
-            AttackLeftImage = EnemyAttackLeft[2];
-        if (AttackLeftSpriteNum == 4)
-            AttackLeftImage = EnemyAttackLeft[3];
-        if (AttackLeftSpriteNum == 5)
-            AttackLeftImage = EnemyAttackLeft[4];
-        if (AttackLeftSpriteNum == 6)
-            AttackLeftImage = EnemyAttackLeft[5];
-        if (AttackLeftSpriteNum == 7)
-            AttackLeftImage = EnemyAttackLeft[6];
-        if (AttackLeftSpriteNum == 8)
-            AttackLeftImage = EnemyAttackLeft[7];
+                if (AttackLeftSpriteNum == 1)
+                    AttackLeftImage = EnemyAttackLeft[0];
+                if (AttackLeftSpriteNum == 2)
+                    AttackLeftImage = EnemyAttackLeft[1];
+                if (AttackLeftSpriteNum == 3)
+                    AttackLeftImage = EnemyAttackLeft[2];
+                if (AttackLeftSpriteNum == 4)
+                    AttackLeftImage = EnemyAttackLeft[3];
+                if (AttackLeftSpriteNum == 5)
+                    AttackLeftImage = EnemyAttackLeft[4];
+                if (AttackLeftSpriteNum == 6)
+                    AttackLeftImage = EnemyAttackLeft[5];
+                if (AttackLeftSpriteNum == 7)
+                    AttackLeftImage = EnemyAttackLeft[6];
+                if (AttackLeftSpriteNum == 8)
+                    AttackLeftImage = EnemyAttackLeft[7];
+                break;
+            case "Mushroom":
+                if (WalkRightSpriteNum == 1)
+                    WalkRightImage = EnemyWalkRight[0];
+                if (WalkRightSpriteNum == 2)
+                    WalkRightImage = EnemyWalkRight[1];
+                if (WalkRightSpriteNum == 3)
+                    WalkRightImage = EnemyWalkRight[2];
+                if (WalkRightSpriteNum == 4)
+                    WalkRightImage = EnemyWalkRight[3];
+                if (WalkRightSpriteNum == 5)
+                    WalkRightImage = EnemyWalkRight[4];
+                if (WalkRightSpriteNum == 6)
+                    WalkRightImage = EnemyWalkRight[5];
+                if (WalkRightSpriteNum == 7)
+                    WalkRightImage = EnemyWalkRight[6];
+                if (WalkRightSpriteNum == 8)
+                    WalkRightImage = EnemyWalkRight[7];
+
+                if (WalkLeftSpriteNum == 1)
+                    WalkLeftImage = EnemyWalkLeft[0];
+                if (WalkLeftSpriteNum == 2)
+                    WalkLeftImage = EnemyWalkLeft[1];
+                if (WalkLeftSpriteNum == 3)
+                    WalkLeftImage = EnemyWalkLeft[2];
+                if (WalkLeftSpriteNum == 4)
+                    WalkLeftImage = EnemyWalkLeft[3];
+                if (WalkLeftSpriteNum == 5)
+                    WalkLeftImage = EnemyWalkLeft[4];
+                if (WalkLeftSpriteNum == 6)
+                    WalkLeftImage = EnemyWalkLeft[5];
+                if (WalkLeftSpriteNum == 7)
+                    WalkLeftImage = EnemyWalkLeft[6];
+                if (WalkLeftSpriteNum == 8)
+                    WalkLeftImage = EnemyWalkLeft[7];
+
+                if (IdleRightSpriteNum == 1)
+                    IdleRightImage = EnemyIdleRight[0];
+                if (IdleRightSpriteNum == 2)
+                    IdleRightImage = EnemyIdleRight[1];
+                if (IdleRightSpriteNum == 3)
+                    IdleRightImage = EnemyIdleRight[2];
+                if (IdleRightSpriteNum == 4)
+                    IdleRightImage = EnemyIdleRight[3];
+                if (IdleRightSpriteNum == 5)
+                    IdleRightImage = EnemyIdleRight[4];
+                if (IdleRightSpriteNum == 6)
+                    IdleRightImage = EnemyIdleRight[5];
+
+                if (IdleLeftSpriteNum == 1)
+                    IdleLeftImage = EnemyIdleLeft[0];
+                if (IdleLeftSpriteNum == 2)
+                    IdleLeftImage = EnemyIdleLeft[1];
+                if (IdleLeftSpriteNum == 3)
+                    IdleLeftImage = EnemyIdleLeft[2];
+                if (IdleLeftSpriteNum == 4)
+                    IdleLeftImage = EnemyIdleLeft[3];
+                if (IdleLeftSpriteNum == 5)
+                    IdleLeftImage = EnemyIdleLeft[4];
+                if (IdleLeftSpriteNum == 6)
+                    IdleLeftImage = EnemyIdleLeft[5];
+
+                if (HitRightSpriteNum == 1)
+                    HitRightImage = EnemyHitRight[0];
+                if (HitRightSpriteNum == 2)
+                    HitRightImage = EnemyHitRight[1];
+                if (HitRightSpriteNum == 3)
+                    HitRightImage = EnemyHitRight[2];
+                if (HitRightSpriteNum == 4)
+                    HitRightImage = EnemyHitRight[3];
+
+                if (HitLeftSpriteNum == 1)
+                    HitLeftImage = EnemyHitLeft[0];
+                if (HitLeftSpriteNum == 2)
+                    HitLeftImage = EnemyHitLeft[1];
+                if (HitLeftSpriteNum == 3)
+                    HitLeftImage = EnemyHitLeft[2];
+                if (HitLeftSpriteNum == 4)
+                    HitLeftImage = EnemyHitLeft[3];
+
+                if (DeathRightSpriteNum == 1)
+                    DeathRightImage = EnemyDeathRight[0];
+                if (DeathRightSpriteNum == 2)
+                    DeathRightImage = EnemyDeathRight[1];
+                if (DeathRightSpriteNum == 3)
+                    DeathRightImage = EnemyDeathRight[2];
+                if (DeathRightSpriteNum == 4)
+                    DeathRightImage = EnemyDeathRight[3];
+                if (DeathRightSpriteNum == 5)
+                    DeathRightImage = EnemyDeathRight[4];
+                if (DeathRightSpriteNum == 6)
+                    DeathRightImage = EnemyDeathRight[5];
+
+                if (DeathLeftSpriteNum == 1)
+                    DeathLeftImage = EnemyDeathLeft[0];
+                if (DeathLeftSpriteNum == 2)
+                    DeathLeftImage = EnemyDeathLeft[1];
+                if (DeathLeftSpriteNum == 3)
+                    DeathLeftImage = EnemyDeathLeft[2];
+                if (DeathLeftSpriteNum == 4)
+                    DeathLeftImage = EnemyDeathLeft[3];
+                if (DeathLeftSpriteNum == 5)
+                    DeathLeftImage = EnemyDeathLeft[4];
+                if (DeathLeftSpriteNum == 6)
+                    DeathLeftImage = EnemyDeathLeft[5];
+
+                if (AttackRightSpriteNum == 1)
+                    AttackRightImage = EnemyAttackRight[0];
+                if (AttackRightSpriteNum == 2)
+                    AttackRightImage = EnemyAttackRight[1];
+                if (AttackRightSpriteNum == 3)
+                    AttackRightImage = EnemyAttackRight[2];
+                if (AttackRightSpriteNum == 4)
+                    AttackRightImage = EnemyAttackRight[3];
+                if (AttackRightSpriteNum == 5)
+                    AttackRightImage = EnemyAttackRight[4];
+                if (AttackRightSpriteNum == 6)
+                    AttackRightImage = EnemyAttackRight[5];
+                if (AttackRightSpriteNum == 7)
+                    AttackRightImage = EnemyAttackRight[6];
+                if (AttackRightSpriteNum == 8)
+                    AttackRightImage = EnemyAttackRight[7];
+
+                if (AttackLeftSpriteNum == 1)
+                    AttackLeftImage = EnemyAttackLeft[0];
+                if (AttackLeftSpriteNum == 2)
+                    AttackLeftImage = EnemyAttackLeft[1];
+                if (AttackLeftSpriteNum == 3)
+                    AttackLeftImage = EnemyAttackLeft[2];
+                if (AttackLeftSpriteNum == 4)
+                    AttackLeftImage = EnemyAttackLeft[3];
+                if (AttackLeftSpriteNum == 5)
+                    AttackLeftImage = EnemyAttackLeft[4];
+                if (AttackLeftSpriteNum == 6)
+                    AttackLeftImage = EnemyAttackLeft[5];
+                if (AttackLeftSpriteNum == 7)
+                    AttackLeftImage = EnemyAttackLeft[6];
+                if (AttackLeftSpriteNum == 8)
+                    AttackLeftImage = EnemyAttackLeft[7];
+                break;
+            case "Orc":
+                if (WalkRightSpriteNum == 1)
+                    WalkRightImage = EnemyWalkRight[0];
+                if (WalkRightSpriteNum == 2)
+                    WalkRightImage = EnemyWalkRight[1];
+                if (WalkRightSpriteNum == 3)
+                    WalkRightImage = EnemyWalkRight[2];
+                if (WalkRightSpriteNum == 4)
+                    WalkRightImage = EnemyWalkRight[3];
+                if (WalkRightSpriteNum == 5)
+                    WalkRightImage = EnemyWalkRight[4];
+                if (WalkRightSpriteNum == 6)
+                    WalkRightImage = EnemyWalkRight[5];
+                if (WalkRightSpriteNum == 7)
+                    WalkRightImage = EnemyWalkRight[6];
+                if (WalkRightSpriteNum == 8)
+                    WalkRightImage = EnemyWalkRight[7];
+
+                if (WalkLeftSpriteNum == 1)
+                    WalkLeftImage = EnemyWalkLeft[0];
+                if (WalkLeftSpriteNum == 2)
+                    WalkLeftImage = EnemyWalkLeft[1];
+                if (WalkLeftSpriteNum == 3)
+                    WalkLeftImage = EnemyWalkLeft[2];
+                if (WalkLeftSpriteNum == 4)
+                    WalkLeftImage = EnemyWalkLeft[3];
+                if (WalkLeftSpriteNum == 5)
+                    WalkLeftImage = EnemyWalkLeft[4];
+                if (WalkLeftSpriteNum == 6)
+                    WalkLeftImage = EnemyWalkLeft[5];
+                if (WalkLeftSpriteNum == 7)
+                    WalkLeftImage = EnemyWalkLeft[6];
+                if (WalkLeftSpriteNum == 8)
+                    WalkLeftImage = EnemyWalkLeft[7];
+
+                if (IdleRightSpriteNum == 1)
+                    IdleRightImage = EnemyIdleRight[0];
+                if (IdleRightSpriteNum == 2)
+                    IdleRightImage = EnemyIdleRight[1];
+                if (IdleRightSpriteNum == 3)
+                    IdleRightImage = EnemyIdleRight[2];
+                if (IdleRightSpriteNum == 4)
+                    IdleRightImage = EnemyIdleRight[3];
+                if (IdleRightSpriteNum == 5)
+                    IdleRightImage = EnemyIdleRight[4];
+                if (IdleRightSpriteNum == 6)
+                    IdleRightImage = EnemyIdleRight[5];
+
+                if (IdleLeftSpriteNum == 1)
+                    IdleLeftImage = EnemyIdleLeft[0];
+                if (IdleLeftSpriteNum == 2)
+                    IdleLeftImage = EnemyIdleLeft[1];
+                if (IdleLeftSpriteNum == 3)
+                    IdleLeftImage = EnemyIdleLeft[2];
+                if (IdleLeftSpriteNum == 4)
+                    IdleLeftImage = EnemyIdleLeft[3];
+                if (IdleLeftSpriteNum == 5)
+                    IdleLeftImage = EnemyIdleLeft[4];
+                if (IdleLeftSpriteNum == 6)
+                    IdleLeftImage = EnemyIdleLeft[5];
+
+                if (HitRightSpriteNum == 1)
+                    HitRightImage = EnemyHitRight[0];
+                if (HitRightSpriteNum == 2)
+                    HitRightImage = EnemyHitRight[1];
+                if (HitRightSpriteNum == 3)
+                    HitRightImage = EnemyHitRight[2];
+                if (HitRightSpriteNum == 4)
+                    HitRightImage = EnemyHitRight[3];
+
+                if (HitLeftSpriteNum == 1)
+                    HitLeftImage = EnemyHitLeft[0];
+                if (HitLeftSpriteNum == 2)
+                    HitLeftImage = EnemyHitLeft[1];
+                if (HitLeftSpriteNum == 3)
+                    HitLeftImage = EnemyHitLeft[2];
+                if (HitLeftSpriteNum == 4)
+                    HitLeftImage = EnemyHitLeft[3];
+
+                if (DeathRightSpriteNum == 1)
+                    DeathRightImage = EnemyDeathRight[0];
+                if (DeathRightSpriteNum == 2)
+                    DeathRightImage = EnemyDeathRight[1];
+                if (DeathRightSpriteNum == 3)
+                    DeathRightImage = EnemyDeathRight[2];
+                if (DeathRightSpriteNum == 4)
+                    DeathRightImage = EnemyDeathRight[3];
+
+                if (DeathLeftSpriteNum == 1)
+                    DeathLeftImage = EnemyDeathLeft[0];
+                if (DeathLeftSpriteNum == 2)
+                    DeathLeftImage = EnemyDeathLeft[1];
+                if (DeathLeftSpriteNum == 3)
+                    DeathLeftImage = EnemyDeathLeft[2];
+                if (DeathLeftSpriteNum == 4)
+                    DeathLeftImage = EnemyDeathLeft[3];
+
+                if (AttackRightSpriteNum == 1)
+                    AttackRightImage = EnemyAttackRight[0];
+                if (AttackRightSpriteNum == 2)
+                    AttackRightImage = EnemyAttackRight[1];
+                if (AttackRightSpriteNum == 3)
+                    AttackRightImage = EnemyAttackRight[2];
+                if (AttackRightSpriteNum == 4)
+                    AttackRightImage = EnemyAttackRight[3];
+                if (AttackRightSpriteNum == 5)
+                    AttackRightImage = EnemyAttackRight[4];
+                if (AttackRightSpriteNum == 6)
+                    AttackRightImage = EnemyAttackRight[5];
+
+                if (AttackLeftSpriteNum == 1)
+                    AttackLeftImage = EnemyAttackLeft[0];
+                if (AttackLeftSpriteNum == 2)
+                    AttackLeftImage = EnemyAttackLeft[1];
+                if (AttackLeftSpriteNum == 3)
+                    AttackLeftImage = EnemyAttackLeft[2];
+                if (AttackLeftSpriteNum == 4)
+                    AttackLeftImage = EnemyAttackLeft[3];
+                if (AttackLeftSpriteNum == 5)
+                    AttackLeftImage = EnemyAttackLeft[4];
+                if (AttackLeftSpriteNum == 6)
+                    AttackLeftImage = EnemyAttackLeft[5];
+                break;
+            case "Hallokin":
+                if (WalkRightSpriteNum == 1)
+                    WalkRightImage = EnemyWalkRight[0];
+                if (WalkRightSpriteNum == 2)
+                    WalkRightImage = EnemyWalkRight[1];
+                if (WalkRightSpriteNum == 3)
+                    WalkRightImage = EnemyWalkRight[2];
+                if (WalkRightSpriteNum == 4)
+                    WalkRightImage = EnemyWalkRight[3];
+
+                if (WalkLeftSpriteNum == 1)
+                    WalkLeftImage = EnemyWalkLeft[0];
+                if (WalkLeftSpriteNum == 2)
+                    WalkLeftImage = EnemyWalkLeft[1];
+                if (WalkLeftSpriteNum == 3)
+                    WalkLeftImage = EnemyWalkLeft[2];
+                if (WalkLeftSpriteNum == 4)
+                    WalkLeftImage = EnemyWalkLeft[3];
+
+                if (IdleRightSpriteNum == 1)
+                    IdleRightImage = EnemyIdleRight[0];
+                if (IdleRightSpriteNum == 2)
+                    IdleRightImage = EnemyIdleRight[1];
+                if (IdleRightSpriteNum == 3)
+                    IdleRightImage = EnemyIdleRight[2];
+                if (IdleRightSpriteNum == 4)
+                    IdleRightImage = EnemyIdleRight[3];
+                if (IdleRightSpriteNum == 5)
+                    IdleRightImage = EnemyIdleRight[4];
+                if (IdleRightSpriteNum == 6)
+                    IdleRightImage = EnemyIdleRight[5];
+
+                if (IdleLeftSpriteNum == 1)
+                    IdleLeftImage = EnemyIdleLeft[0];
+                if (IdleLeftSpriteNum == 2)
+                    IdleLeftImage = EnemyIdleLeft[1];
+                if (IdleLeftSpriteNum == 3)
+                    IdleLeftImage = EnemyIdleLeft[2];
+                if (IdleLeftSpriteNum == 4)
+                    IdleLeftImage = EnemyIdleLeft[3];
+                if (IdleLeftSpriteNum == 5)
+                    IdleLeftImage = EnemyIdleLeft[4];
+                if (IdleLeftSpriteNum == 6)
+                    IdleLeftImage = EnemyIdleLeft[5];
+
+                if (HitRightSpriteNum == 1)
+                    HitRightImage = EnemyHitRight[0];
+
+                if (HitLeftSpriteNum == 1)
+                    HitLeftImage = EnemyHitLeft[0];
+
+                if (DeathRightSpriteNum == 1)
+                    DeathRightImage = EnemyDeathRight[0];
+                if (DeathRightSpriteNum == 2)
+                    DeathRightImage = EnemyDeathRight[1];
+                if (DeathRightSpriteNum == 3)
+                    DeathRightImage = EnemyDeathRight[2];
+
+                if (DeathLeftSpriteNum == 1)
+                    DeathLeftImage = EnemyDeathLeft[0];
+                if (DeathLeftSpriteNum == 2)
+                    DeathLeftImage = EnemyDeathLeft[1];
+                if (DeathLeftSpriteNum == 3)
+                    DeathLeftImage = EnemyDeathLeft[2];
+
+                if (AttackRightSpriteNum == 1)
+                    AttackRightImage = EnemyAttackRight[0];
+                if (AttackRightSpriteNum == 2)
+                    AttackRightImage = EnemyAttackRight[1];
+                if (AttackRightSpriteNum == 3)
+                    AttackRightImage = EnemyAttackRight[2];
+                if (AttackRightSpriteNum == 4)
+                    AttackRightImage = EnemyAttackRight[3];
+                if (AttackRightSpriteNum == 5)
+                    AttackRightImage = EnemyAttackRight[4];
+                if (AttackRightSpriteNum == 6)
+                    AttackRightImage = EnemyAttackRight[5];
+
+                if (AttackLeftSpriteNum == 1)
+                    AttackLeftImage = EnemyAttackLeft[0];
+                if (AttackLeftSpriteNum == 2)
+                    AttackLeftImage = EnemyAttackLeft[1];
+                if (AttackLeftSpriteNum == 3)
+                    AttackLeftImage = EnemyAttackLeft[2];
+                if (AttackLeftSpriteNum == 4)
+                    AttackLeftImage = EnemyAttackLeft[3];
+                if (AttackLeftSpriteNum == 5)
+                    AttackLeftImage = EnemyAttackLeft[4];
+                if (AttackLeftSpriteNum == 6)
+                    AttackLeftImage = EnemyAttackLeft[5];
+                break;
+            case "Shadowed":
+                if (WalkRightSpriteNum == 1)
+                    WalkRightImage = EnemyWalkRight[0];
+                if (WalkRightSpriteNum == 2)
+                    WalkRightImage = EnemyWalkRight[1];
+                if (WalkRightSpriteNum == 3)
+                    WalkRightImage = EnemyWalkRight[2];
+                if (WalkRightSpriteNum == 4)
+                    WalkRightImage = EnemyWalkRight[3];
+                if (WalkRightSpriteNum == 5)
+                    WalkRightImage = EnemyWalkRight[4];
+                if (WalkRightSpriteNum == 6)
+                    WalkRightImage = EnemyWalkRight[5];
+                if (WalkRightSpriteNum == 7)
+                    WalkRightImage = EnemyWalkRight[6];
+                if (WalkRightSpriteNum == 8)
+                    WalkRightImage = EnemyWalkRight[7];
+
+                if (WalkLeftSpriteNum == 1)
+                    WalkLeftImage = EnemyWalkLeft[0];
+                if (WalkLeftSpriteNum == 2)
+                    WalkLeftImage = EnemyWalkLeft[1];
+                if (WalkLeftSpriteNum == 3)
+                    WalkLeftImage = EnemyWalkLeft[2];
+                if (WalkLeftSpriteNum == 4)
+                    WalkLeftImage = EnemyWalkLeft[3];
+                if (WalkLeftSpriteNum == 5)
+                    WalkLeftImage = EnemyWalkLeft[4];
+                if (WalkLeftSpriteNum == 6)
+                    WalkLeftImage = EnemyWalkLeft[5];
+                if (WalkLeftSpriteNum == 7)
+                    WalkLeftImage = EnemyWalkLeft[6];
+                if (WalkLeftSpriteNum == 8)
+                    WalkLeftImage = EnemyWalkLeft[7];
+
+                if (IdleRightSpriteNum == 1)
+                    IdleRightImage = EnemyIdleRight[0];
+                if (IdleRightSpriteNum == 2)
+                    IdleRightImage = EnemyIdleRight[1];
+                if (IdleRightSpriteNum == 3)
+                    IdleRightImage = EnemyIdleRight[2];
+                if (IdleRightSpriteNum == 4)
+                    IdleRightImage = EnemyIdleRight[3];
+                if (IdleRightSpriteNum == 5)
+                    IdleRightImage = EnemyIdleRight[4];
+                if (IdleRightSpriteNum == 6)
+                    IdleRightImage = EnemyIdleRight[5];
+                if (IdleRightSpriteNum == 7)
+                    IdleRightImage = EnemyIdleRight[6];
+                if (IdleRightSpriteNum == 8)
+                    IdleRightImage = EnemyIdleRight[7];
+
+                if (IdleLeftSpriteNum == 1)
+                    IdleLeftImage = EnemyIdleLeft[0];
+                if (IdleLeftSpriteNum == 2)
+                    IdleLeftImage = EnemyIdleLeft[1];
+                if (IdleLeftSpriteNum == 3)
+                    IdleLeftImage = EnemyIdleLeft[2];
+                if (IdleLeftSpriteNum == 4)
+                    IdleLeftImage = EnemyIdleLeft[3];
+                if (IdleLeftSpriteNum == 5)
+                    IdleLeftImage = EnemyIdleLeft[4];
+                if (IdleLeftSpriteNum == 6)
+                    IdleLeftImage = EnemyIdleLeft[5];
+                if (IdleLeftSpriteNum == 7)
+                    IdleLeftImage = EnemyIdleLeft[6];
+                if (IdleLeftSpriteNum == 8)
+                    IdleLeftImage = EnemyIdleLeft[7];
+
+                if (HitRightSpriteNum == 1)
+                    HitRightImage = EnemyHitRight[0];
+
+                if (HitLeftSpriteNum == 1)
+                    HitLeftImage = EnemyHitLeft[0];
+
+                if (DeathRightSpriteNum == 1)
+                    DeathRightImage = EnemyDeathRight[0];
+                if (DeathRightSpriteNum == 2)
+                    DeathRightImage = EnemyDeathRight[1];
+                if (DeathRightSpriteNum == 3)
+                    DeathRightImage = EnemyDeathRight[2];
+                if (DeathRightSpriteNum == 4)
+                    DeathRightImage = EnemyDeathRight[3];
+                if (DeathRightSpriteNum == 5)
+                    DeathRightImage = EnemyDeathRight[4];
+                if (DeathRightSpriteNum == 6)
+                    DeathRightImage = EnemyDeathRight[5];
+                if (DeathRightSpriteNum == 7)
+                    DeathRightImage = EnemyDeathRight[6];
+                if (DeathRightSpriteNum == 8)
+                    DeathRightImage = EnemyDeathRight[7];
+
+                if (DeathLeftSpriteNum == 1)
+                    DeathLeftImage = EnemyDeathLeft[0];
+                if (DeathLeftSpriteNum == 2)
+                    DeathLeftImage = EnemyDeathLeft[1];
+                if (DeathLeftSpriteNum == 3)
+                    DeathLeftImage = EnemyDeathLeft[2];
+                if (DeathLeftSpriteNum == 4)
+                    DeathLeftImage = EnemyDeathLeft[3];
+                if (DeathLeftSpriteNum == 5)
+                    DeathLeftImage = EnemyDeathLeft[4];
+                if (DeathLeftSpriteNum == 6)
+                    DeathLeftImage = EnemyDeathLeft[5];
+                if (DeathLeftSpriteNum == 7)
+                    DeathLeftImage = EnemyDeathLeft[6];
+                if (DeathLeftSpriteNum == 8)
+                    DeathLeftImage = EnemyDeathLeft[7];
+
+                if (AttackRightSpriteNum == 1)
+                    AttackRightImage = EnemyAttackRight[0];
+                if (AttackRightSpriteNum == 2)
+                    AttackRightImage = EnemyAttackRight[1];
+                if (AttackRightSpriteNum == 3)
+                    AttackRightImage = EnemyAttackRight[2];
+                if (AttackRightSpriteNum == 4)
+                    AttackRightImage = EnemyAttackRight[3];
+                if (AttackRightSpriteNum == 5)
+                    AttackRightImage = EnemyAttackRight[4];
+                if (AttackRightSpriteNum == 6)
+                    AttackRightImage = EnemyAttackRight[5];
+                if (AttackRightSpriteNum == 7)
+                    AttackRightImage = EnemyAttackRight[6];
+                if (AttackRightSpriteNum == 8)
+                    AttackRightImage = EnemyAttackRight[7];
+                if (AttackRightSpriteNum == 9)
+                    AttackRightImage = EnemyAttackRight[8];
+                if (AttackRightSpriteNum == 10)
+                    AttackRightImage = EnemyAttackRight[9];
+
+                if (AttackLeftSpriteNum == 1)
+                    AttackLeftImage = EnemyAttackLeft[0];
+                if (AttackLeftSpriteNum == 2)
+                    AttackLeftImage = EnemyAttackLeft[1];
+                if (AttackLeftSpriteNum == 3)
+                    AttackLeftImage = EnemyAttackLeft[2];
+                if (AttackLeftSpriteNum == 4)
+                    AttackLeftImage = EnemyAttackLeft[3];
+                if (AttackLeftSpriteNum == 5)
+                    AttackLeftImage = EnemyAttackLeft[4];
+                if (AttackLeftSpriteNum == 6)
+                    AttackLeftImage = EnemyAttackLeft[5];
+                if (AttackLeftSpriteNum == 7)
+                    AttackLeftImage = EnemyAttackLeft[6];
+                if (AttackLeftSpriteNum == 8)
+                    AttackLeftImage = EnemyAttackLeft[7];
+                if (AttackLeftSpriteNum == 9)
+                    AttackLeftImage = EnemyAttackLeft[8];
+                if (AttackLeftSpriteNum == 10)
+                    AttackLeftImage = EnemyAttackLeft[9];
+                break;
+
+        }
     }
 
     public void deicidiMappaSpawn() {
@@ -690,7 +1221,7 @@ public class Enemy extends Enemy_Manager {
 
                 // Se ha ruotato più di 1 volte in un secondo, è incastrato!
                 if (sC > tollerance) {
-                    //System.out.println("INCASTRO");
+                    // System.out.println("INCASTRO");
                     SpwanEnemy();
                     sC = 0;
                 }
@@ -721,58 +1252,285 @@ public class Enemy extends Enemy_Manager {
     }
 
     private void updateHitAnimation() {
-        if (direction.equals("right") || direction.equals("up")) {
-            HitRightSpriteCounter++;
-            if (HitRightSpriteCounter > 4) {
-                HitRightSpriteNum++;
-                if (HitRightSpriteNum > 4)
-                    HitRightSpriteNum = 1;
-                HitRightSpriteCounter = 0;
-            }
-        } else {
-            HitLeftSpriteCounter++;
-            if (HitLeftSpriteCounter > 4) {
-                HitLeftSpriteNum++;
-                if (HitLeftSpriteNum > 4)
-                    HitLeftSpriteNum = 1;
-                HitLeftSpriteCounter = 0;
-            }
+
+        switch (this.name) {
+            case "Slime":
+                if (direction.equals("right") || direction.equals("up")) {
+                    HitRightSpriteCounter++;
+                    if (HitRightSpriteCounter > 4) {
+                        HitRightSpriteNum++;
+                        if (HitRightSpriteNum > 4)
+                            HitRightSpriteNum = 1;
+                        HitRightSpriteCounter = 0;
+                    }
+                } else {
+                    HitLeftSpriteCounter++;
+                    if (HitLeftSpriteCounter > 4) {
+                        HitLeftSpriteNum++;
+                        if (HitLeftSpriteNum > 4)
+                            HitLeftSpriteNum = 1;
+                        HitLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Mushroom":
+                if (direction.equals("right") || direction.equals("up")) {
+                    HitRightSpriteCounter++;
+                    if (HitRightSpriteCounter > 4) {
+                        HitRightSpriteNum++;
+                        if (HitRightSpriteNum > 4)
+                            HitRightSpriteNum = 1;
+                        HitRightSpriteCounter = 0;
+                    }
+                } else {
+                    HitLeftSpriteCounter++;
+                    if (HitLeftSpriteCounter > 4) {
+                        HitLeftSpriteNum++;
+                        if (HitLeftSpriteNum > 4)
+                            HitLeftSpriteNum = 1;
+                        HitLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Orc":
+                if (direction.equals("right") || direction.equals("up")) {
+                    HitRightSpriteCounter++;
+                    if (HitRightSpriteCounter > 4) {
+                        HitRightSpriteNum++;
+                        if (HitRightSpriteNum > 4)
+                            HitRightSpriteNum = 1;
+                        HitRightSpriteCounter = 0;
+                    }
+                } else {
+                    HitLeftSpriteCounter++;
+                    if (HitLeftSpriteCounter > 4) {
+                        HitLeftSpriteNum++;
+                        if (HitLeftSpriteNum > 4)
+                            HitLeftSpriteNum = 1;
+                        HitLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Hallokin":
+                if (direction.equals("right") || direction.equals("up")) {
+                    HitRightSpriteCounter++;
+                    if (HitRightSpriteCounter > 1) {
+                        HitRightSpriteNum++;
+                        if (HitRightSpriteNum > 1)
+                            HitRightSpriteNum = 1;
+                        HitRightSpriteCounter = 0;
+                    }
+                } else {
+                    HitLeftSpriteCounter++;
+                    if (HitLeftSpriteCounter > 1) {
+                        HitLeftSpriteNum++;
+                        if (HitLeftSpriteNum > 1)
+                            HitLeftSpriteNum = 1;
+                        HitLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Shadowed":
+                if (direction.equals("right") || direction.equals("up")) {
+                    HitRightSpriteCounter++;
+                    if (HitRightSpriteCounter > 1) {
+                        HitRightSpriteNum++;
+                        if (HitRightSpriteNum > 1)
+                            HitRightSpriteNum = 1;
+                        HitRightSpriteCounter = 0;
+                    }
+                } else {
+                    HitLeftSpriteCounter++;
+                    if (HitLeftSpriteCounter > 1) {
+                        HitLeftSpriteNum++;
+                        if (HitLeftSpriteNum > 1)
+                            HitLeftSpriteNum = 1;
+                        HitLeftSpriteCounter = 0;
+                    }
+                }
+                break;
         }
+
     }
 
     private void updateDeathAnimation() {
-        if (direction.equals("right") || direction.equals("up")) {
 
-            if (DeathRightSpriteNum < 6) {
-                DeathRightSpriteCounter++;
-                if (DeathRightSpriteCounter > 10) {
-                    DeathRightSpriteNum++;
-                    DeathRightSpriteCounter = 0;
-                }
-            }
+        switch (this.name) {
+            case "Slime":
+                if (direction.equals("right") || direction.equals("up")) {
 
-            else {
-                DeathRightSpriteCounter++;
-                if (DeathRightSpriteCounter > 60) {
-                    alive = false;
-                }
-            }
-        } else {
+                    if (DeathRightSpriteNum < 6) {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 10) {
+                            DeathRightSpriteNum++;
+                            DeathRightSpriteCounter = 0;
+                        }
+                    }
 
-            if (DeathLeftSpriteNum < 6) {
-                DeathLeftSpriteCounter++;
-                if (DeathLeftSpriteCounter > 10) {
-                    DeathLeftSpriteNum++;
-                    DeathLeftSpriteCounter = 0;
-                }
-            }
+                    else {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                } else {
 
-            else {
-                DeathLeftSpriteCounter++;
-                if (DeathLeftSpriteCounter > 60) {
-                    alive = false;
+                    if (DeathLeftSpriteNum < 6) {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 10) {
+                            DeathLeftSpriteNum++;
+                            DeathLeftSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
                 }
-            }
+                break;
+            case "Mushroom":
+                if (direction.equals("right") || direction.equals("up")) {
+
+                    if (DeathRightSpriteNum < 6) {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 10) {
+                            DeathRightSpriteNum++;
+                            DeathRightSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                } else {
+
+                    if (DeathLeftSpriteNum < 6) {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 10) {
+                            DeathLeftSpriteNum++;
+                            DeathLeftSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                }
+                break;
+            case "Orc":
+                if (direction.equals("right") || direction.equals("up")) {
+
+                    if (DeathRightSpriteNum < 4) {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 10) {
+                            DeathRightSpriteNum++;
+                            DeathRightSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                } else {
+
+                    if (DeathLeftSpriteNum < 4) {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 10) {
+                            DeathLeftSpriteNum++;
+                            DeathLeftSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                }
+                break;
+            case "Hallokin":
+                if (direction.equals("right") || direction.equals("up")) {
+
+                    if (DeathRightSpriteNum < 3) {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 10) {
+                            DeathRightSpriteNum++;
+                            DeathRightSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                } else {
+
+                    if (DeathLeftSpriteNum < 3) {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 10) {
+                            DeathLeftSpriteNum++;
+                            DeathLeftSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                }
+                break;
+            case "Shadowed":
+                if (direction.equals("right") || direction.equals("up")) {
+
+                    if (DeathRightSpriteNum < 5) {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 10) {
+                            DeathRightSpriteNum++;
+                            DeathRightSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                } else {
+
+                    if (DeathLeftSpriteNum < 5) {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 10) {
+                            DeathLeftSpriteNum++;
+                            DeathLeftSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                }
+                break;
         }
 
     }
@@ -813,78 +1571,282 @@ public class Enemy extends Enemy_Manager {
         }
 
         // aggiorna animazione
-        if (direction.equals("right") || direction.equals("up")) {
-            WalkRightSpriteCounter++;
-            if (WalkRightSpriteCounter > 10) {
-                WalkRightSpriteNum = (WalkRightSpriteNum % 8) + 1;
-                WalkRightSpriteCounter = 0;
-            }
-        } else {
-            WalkLeftSpriteCounter++;
-            if (WalkLeftSpriteCounter > 10) {
-                WalkLeftSpriteNum = (WalkLeftSpriteNum % 8) + 1;
-                WalkLeftSpriteCounter = 0;
-            }
+
+        switch (this.name) {
+            case "Slime":
+                if (direction.equals("right") || direction.equals("up")) {
+                    WalkRightSpriteCounter++;
+                    if (WalkRightSpriteCounter > 10) {
+                        WalkRightSpriteNum = (WalkRightSpriteNum % 8) + 1;
+                        WalkRightSpriteCounter = 0;
+                    }
+                } else {
+                    WalkLeftSpriteCounter++;
+                    if (WalkLeftSpriteCounter > 10) {
+                        WalkLeftSpriteNum = (WalkLeftSpriteNum % 8) + 1;
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Mushroom":
+                if (direction.equals("right") || direction.equals("up")) {
+                    WalkRightSpriteCounter++;
+                    if (WalkRightSpriteCounter > 10) {
+                        WalkRightSpriteNum = (WalkRightSpriteNum % 8) + 1;
+                        WalkRightSpriteCounter = 0;
+                    }
+                } else {
+                    WalkLeftSpriteCounter++;
+                    if (WalkLeftSpriteCounter > 10) {
+                        WalkLeftSpriteNum = (WalkLeftSpriteNum % 8) + 1;
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Orc":
+                if (direction.equals("right") || direction.equals("up")) {
+                    WalkRightSpriteCounter++;
+                    if (WalkRightSpriteCounter > 10) {
+                        WalkRightSpriteNum = (WalkRightSpriteNum % 8) + 1;
+                        WalkRightSpriteCounter = 0;
+                    }
+                } else {
+                    WalkLeftSpriteCounter++;
+                    if (WalkLeftSpriteCounter > 10) {
+                        WalkLeftSpriteNum = (WalkLeftSpriteNum % 8) + 1;
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Hallokin":
+                if (direction.equals("right") || direction.equals("up")) {
+                    WalkRightSpriteCounter++;
+                    if (WalkRightSpriteCounter > 10) {
+                        WalkRightSpriteNum = (WalkRightSpriteNum % 4) + 1;
+                        WalkRightSpriteCounter = 0;
+                    }
+                } else {
+                    WalkLeftSpriteCounter++;
+                    if (WalkLeftSpriteCounter > 10) {
+                        WalkLeftSpriteNum = (WalkLeftSpriteNum % 4) + 1;
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Shadowed":
+                if (direction.equals("right") || direction.equals("up")) {
+                    WalkRightSpriteCounter++;
+                    if (WalkRightSpriteCounter > 10) {
+                        WalkRightSpriteNum = (WalkRightSpriteNum % 8) + 1;
+                        WalkRightSpriteCounter = 0;
+                    }
+                } else {
+                    WalkLeftSpriteCounter++;
+                    if (WalkLeftSpriteCounter > 10) {
+                        WalkLeftSpriteNum = (WalkLeftSpriteNum % 8) + 1;
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
         }
 
     }
 
     public void attack() {
-        // Attacco a destra e su
-        if (direction.equals("right") || direction.equals("up")) {
-            AttackRightSpriteCounter++;
-            if (AttackRightSpriteCounter > 4) {
-                AttackRightSpriteNum++;
-                AttackRightSpriteCounter = 0;
 
-                if (AttackRightSpriteNum == 5) {
-                    pl.takeDamage(15);
-                }
-                // quando l'animazione finisce ricomincia
-                if (AttackRightSpriteNum > 8) {
-                    AttackRightSpriteNum = 1;
-                }
-            }
-        } else {
-            // Attacco a sinistra e giù
-            AttackLeftSpriteCounter++;
-            if (AttackLeftSpriteCounter > 8) {
-                AttackLeftSpriteNum++;
-                AttackLeftSpriteCounter = 0;
+        switch (this.name) {
+            case "Slime":
+                // Attacco a destra e su
+                if (direction.equals("right") || direction.equals("up")) {
+                    AttackRightSpriteCounter++;
+                    if (AttackRightSpriteCounter > 8) {
+                        AttackRightSpriteNum++;
+                        AttackRightSpriteCounter = 0;
 
-                if (AttackLeftSpriteNum == 5) {
-                    pl.takeDamage(15);
+                        if (AttackRightSpriteNum == 5) {
+                            pl.takeDamage(damage);
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackRightSpriteNum > 8) {
+                            AttackRightSpriteNum = 1;
+                        }
+                    }
+                } else {
+                    // Attacco a sinistra e giù
+                    AttackLeftSpriteCounter++;
+                    if (AttackLeftSpriteCounter > 8) {
+                        AttackLeftSpriteNum++;
+                        AttackLeftSpriteCounter = 0;
 
+                        if (AttackLeftSpriteNum == 5) {
+                            pl.takeDamage(damage);
+
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackLeftSpriteNum > 8) {
+                            AttackLeftSpriteNum = 1;
+                        }
+                    }
                 }
-                // quando l'animazione finisce ricomincia
-                if (AttackLeftSpriteNum > 8) {
-                    AttackLeftSpriteNum = 1;
+                break;
+            case "Mushroom":
+                // Attacco a destra e su
+                if (direction.equals("right") || direction.equals("up")) {
+                    AttackRightSpriteCounter++;
+                    if (AttackRightSpriteCounter > 8) {
+                        AttackRightSpriteNum++;
+                        AttackRightSpriteCounter = 0;
+
+                        if (AttackRightSpriteNum == 5) {
+                            pl.takeDamage(damage);
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackRightSpriteNum > 8) {
+                            AttackRightSpriteNum = 1;
+                        }
+                    }
+                } else {
+                    // Attacco a sinistra e giù
+                    AttackLeftSpriteCounter++;
+                    if (AttackLeftSpriteCounter > 8) {
+                        AttackLeftSpriteNum++;
+                        AttackLeftSpriteCounter = 0;
+
+                        if (AttackLeftSpriteNum == 5) {
+                            pl.takeDamage(damage);
+
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackLeftSpriteNum > 8) {
+                            AttackLeftSpriteNum = 1;
+                        }
+                    }
                 }
-            }
+                break;
+            case "Orc":
+                // Attacco a destra e su
+                if (direction.equals("right") || direction.equals("up")) {
+                    AttackRightSpriteCounter++;
+                    if (AttackRightSpriteCounter > 6) {
+                        AttackRightSpriteNum++;
+                        AttackRightSpriteCounter = 0;
+
+                        if (AttackRightSpriteNum == 4) {
+                            pl.takeDamage(damage);
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackRightSpriteNum > 6) {
+                            AttackRightSpriteNum = 1;
+                        }
+                    }
+                } else {
+                    // Attacco a sinistra e giù
+                    AttackLeftSpriteCounter++;
+                    if (AttackLeftSpriteCounter > 6) {
+                        AttackLeftSpriteNum++;
+                        AttackLeftSpriteCounter = 0;
+
+                        if (AttackLeftSpriteNum == 4) {
+                            pl.takeDamage(damage);
+
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackLeftSpriteNum > 6) {
+                            AttackLeftSpriteNum = 1;
+                        }
+                    }
+                }
+                break;
+            case "Hallokin":
+                // Attacco a destra e su
+                if (direction.equals("right") || direction.equals("up")) {
+                    AttackRightSpriteCounter++;
+                    if (AttackRightSpriteCounter > 6) {
+                        AttackRightSpriteNum++;
+                        AttackRightSpriteCounter = 0;
+
+                        if (AttackRightSpriteNum == 4) {
+                            pl.takeDamage(damage);
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackRightSpriteNum > 6) {
+                            AttackRightSpriteNum = 1;
+                        }
+                    }
+                } else {
+                    // Attacco a sinistra e giù
+                    AttackLeftSpriteCounter++;
+                    if (AttackLeftSpriteCounter > 6) {
+                        AttackLeftSpriteNum++;
+                        AttackLeftSpriteCounter = 0;
+
+                        if (AttackLeftSpriteNum == 4) {
+                            pl.takeDamage(damage);
+
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackLeftSpriteNum > 6) {
+                            AttackLeftSpriteNum = 1;
+                        }
+                    }
+                }
+                break;
+            case "Shadowed":
+                // Attacco a destra e su
+                if (direction.equals("right") || direction.equals("up")) {
+                    AttackRightSpriteCounter++;
+                    if (AttackRightSpriteCounter > 8) {
+                        AttackRightSpriteNum++;
+                        AttackRightSpriteCounter = 0;
+
+                        if (AttackRightSpriteNum == 6) {
+                            pl.takeDamage(damage);
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackRightSpriteNum > 8) {
+                            AttackRightSpriteNum = 1;
+                        }
+                    }
+                } else {
+                    // Attacco a sinistra e giù
+                    AttackLeftSpriteCounter++;
+                    if (AttackLeftSpriteCounter > 8) {
+                        AttackLeftSpriteNum++;
+                        AttackLeftSpriteCounter = 0;
+
+                        if (AttackLeftSpriteNum == 6) {
+                            pl.takeDamage(damage);
+
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackLeftSpriteNum > 8) {
+                            AttackLeftSpriteNum = 1;
+                        }
+                    }
+                }
+                break;
         }
+
     }
 
     public boolean takeDamage(int damage) {
-        if(tm.currentMap.equals(MapSpawn))
-        {
+        if (tm.currentMap.equals(MapSpawn)) {
             sd.setFile(8);
             sd.play();
             if (!invincible && !dying) {
-            life -= damage;
+                life -= damage;
 
-            invincible = true;
-            action = "hit";
+                invincible = true;
+                action = "hit";
 
-            if (life <= 0) {
-                life = 0;
-                die();
+                if (life <= 0) {
+                    life = 0;
+                    die();
+                }
+                return true;
             }
-            return true;
-        }
-        }
-        else
-        {
-            //System.out.println("nemico non colpito non stessa mappa");
+        } else {
+            // System.out.println("nemico non colpito non stessa mappa");
         }
         return false;
     }
@@ -899,93 +1861,431 @@ public class Enemy extends Enemy_Manager {
     }
 
     public void randomMove(String dir) {
-        if (dir == "up") {
-            if (WalkRightSpriteCounter > 5) {
-                if (WalkRightSpriteNum == 1) {
-                    WalkRightSpriteNum = 2;
-                } else if (WalkRightSpriteNum == 2) {
-                    WalkRightSpriteNum = 3;
-                } else if (WalkRightSpriteNum == 3) {
-                    WalkRightSpriteNum = 4;
-                } else if (WalkRightSpriteNum == 4) {
-                    WalkRightSpriteNum = 5;
-                } else if (WalkRightSpriteNum == 5) {
-                    WalkRightSpriteNum = 6;
-                } else if (WalkRightSpriteNum == 6) {
-                    WalkRightSpriteNum = 7;
-                } else if (WalkRightSpriteNum == 7) {
-                    WalkRightSpriteNum = 8;
-                } else if (WalkRightSpriteNum == 8) {
-                    WalkRightSpriteNum = 1;
+
+        switch (this.name) {
+            case "Slime":
+                if (dir == "up") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
                 }
-                WalkRightSpriteCounter = 0;
-            }
-        }
-        if (dir == "left") {
-            if (WalkLeftSpriteCounter > 5) {
-                if (WalkLeftSpriteNum == 1) {
-                    WalkLeftSpriteNum = 2;
-                } else if (WalkLeftSpriteNum == 2) {
-                    WalkLeftSpriteNum = 3;
-                } else if (WalkLeftSpriteNum == 3) {
-                    WalkLeftSpriteNum = 4;
-                } else if (WalkLeftSpriteNum == 4) {
-                    WalkLeftSpriteNum = 5;
-                } else if (WalkLeftSpriteNum == 5) {
-                    WalkLeftSpriteNum = 6;
-                } else if (WalkLeftSpriteNum == 6) {
-                    WalkLeftSpriteNum = 7;
-                } else if (WalkLeftSpriteNum == 7) {
-                    WalkLeftSpriteNum = 8;
-                } else if (WalkLeftSpriteNum == 8) {
-                    WalkLeftSpriteNum = 1;
+                if (dir == "left") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
                 }
-                WalkLeftSpriteCounter = 0;
-            }
-        }
-        if (dir == "right") {
-            if (WalkRightSpriteCounter > 5) {
-                if (WalkRightSpriteNum == 1) {
-                    WalkRightSpriteNum = 2;
-                } else if (WalkRightSpriteNum == 2) {
-                    WalkRightSpriteNum = 3;
-                } else if (WalkRightSpriteNum == 3) {
-                    WalkRightSpriteNum = 4;
-                } else if (WalkRightSpriteNum == 4) {
-                    WalkRightSpriteNum = 5;
-                } else if (WalkRightSpriteNum == 5) {
-                    WalkRightSpriteNum = 6;
-                } else if (WalkRightSpriteNum == 6) {
-                    WalkRightSpriteNum = 7;
-                } else if (WalkRightSpriteNum == 7) {
-                    WalkRightSpriteNum = 8;
-                } else if (WalkRightSpriteNum == 8) {
-                    WalkRightSpriteNum = 1;
+                if (dir == "right") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
                 }
-                WalkRightSpriteCounter = 0;
-            }
-        }
-        if (dir == "down") {
-            if (WalkLeftSpriteCounter > 5) {
-                if (WalkLeftSpriteNum == 1) {
-                    WalkLeftSpriteNum = 2;
-                } else if (WalkLeftSpriteNum == 2) {
-                    WalkLeftSpriteNum = 3;
-                } else if (WalkLeftSpriteNum == 3) {
-                    WalkLeftSpriteNum = 4;
-                } else if (WalkLeftSpriteNum == 4) {
-                    WalkLeftSpriteNum = 5;
-                } else if (WalkLeftSpriteNum == 5) {
-                    WalkLeftSpriteNum = 6;
-                } else if (WalkLeftSpriteNum == 6) {
-                    WalkLeftSpriteNum = 7;
-                } else if (WalkLeftSpriteNum == 7) {
-                    WalkLeftSpriteNum = 8;
-                } else if (WalkLeftSpriteNum == 8) {
-                    WalkLeftSpriteNum = 1;
+                if (dir == "down") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
                 }
-                WalkLeftSpriteCounter = 0;
-            }
+                break;
+            case "Mushroom":
+                if (dir == "up") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
+                }
+                if (dir == "left") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                if (dir == "right") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
+                }
+                if (dir == "down") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Orc":
+                if (dir == "up") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
+                }
+                if (dir == "left") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                if (dir == "right") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
+                }
+                if (dir == "down") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Hallokin":
+                if (dir == "up") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 1;
+                        }
+                    }
+                    WalkRightSpriteCounter = 0;
+                }
+
+                if (dir == "left") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                    }
+                    WalkLeftSpriteCounter = 0;
+                }
+
+                if (dir == "right") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
+                }
+
+                if (dir == "down") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Sadowed":
+                if (dir == "up") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                    }
+                    WalkRightSpriteCounter = 0;
+                }
+
+                if (dir == "left") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                if (dir == "right") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
+                }
+                if (dir == "down") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+            break;
+
         }
 
     }

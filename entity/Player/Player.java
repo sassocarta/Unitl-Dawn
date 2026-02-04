@@ -45,7 +45,7 @@ public class Player extends Entity {
     public boolean isGuarding = false;
 
     public int maxLife = 100;
-    public int life = 50;
+    public int life = maxLife;
 
     Sound hitSound;
     boolean attackSoundPlayed = false;
@@ -725,9 +725,9 @@ public class Player extends Entity {
                 attackRect.height = gp.tileSize * 2;
             }
 
-            for (int i = 0; i < gp.ENEMIES.enemies.length; i++) {
-                if (gp.ENEMIES.enemies[i] != null) {
-                    Enemy e = gp.ENEMIES.enemies[i];
+            for (int i = 0; i < gp.ENEMIES.enemies.size(); i++) {
+                if (gp.ENEMIES.enemies.get(i) != null) {
+                    Enemy e = gp.ENEMIES.enemies.get(i);
 
                     if (e.alive && attackRect.intersects(e.stayin)) {
                         e.takeDamage(Damage);

@@ -249,8 +249,8 @@ public class TR_menu {
 
     private Weapon getRandomWeapon() {
 
-        //possibilità di avere le lame del caos (0,2%)
-        int chance = (int) (Math.random() * 500);
+        //possibilità di avere le lame del caos (0,5%)
+        int chance = (int) (Math.random() * 200);
         
         //Se esce 67, prendi le lame del caos
         if (chance == 67) {

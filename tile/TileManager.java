@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import main.GamePanel;
 import main.Sound;
 
+import entity.NPCS.Enemy.Enemy_Vector_main;
+
 public class TileManager {
     // JPanel su qui lavora il gico
     GamePanel gp;
@@ -26,9 +28,12 @@ public class TileManager {
     // cicle del giorno (DAY) (NIGHT)
     public boolean npcForcingNight = false;
     // music (ON) (OFF) se riproduci musica o no
-    boolean music = false;
+    public boolean music = false;
     // aggiungo suono per transizione
     Sound transiton = new Sound();
+
+
+    boolean isAllDead;
 
     public TileManager(GamePanel gp, Player pl) {
         this.gp = gp;
@@ -62,7 +67,7 @@ public class TileManager {
             currentMap = "top";
             // metto il player alle cordinate che diano l'illusione si uscire dalla porta di
             // stanza top
-            pl.x = 300;
+            pl.x = pl.x;
             pl.y = 450;
             // poi setto che la musica da usare e la 3 (musica di transazione tra stanze)
             transiton.setFile(3);
@@ -73,7 +78,7 @@ public class TileManager {
         else if (pl.playerRow > 9 && currentMap.equals("top")) {
             LoadMap("/src/maps/center.txt");
             currentMap = "center";
-            pl.x = 300;
+            pl.x = pl.x;
             pl.y = 0;
             transiton.setFile(3);
             transiton.play();
@@ -81,41 +86,41 @@ public class TileManager {
             LoadMap("/src/maps/right.txt");
             currentMap = "right";
             pl.x = 600;
-            pl.y = 200;
+            pl.y = pl.y;
             transiton.setFile(3);
             transiton.play();
         } else if (pl.playerCol > 13 && currentMap.equals("right")) {
             LoadMap("/src/maps/center.txt");
             currentMap = "center";
             pl.x = -50;
-            pl.y = 200;
+            pl.y = pl.y;
             transiton.setFile(3);
             transiton.play();
         } else if (pl.playerCol > 13 && currentMap.equals("center")) {
             LoadMap("/src/maps/left.txt");
             currentMap = "left";
             pl.x = -50;
-            pl.y = 200;
+            pl.y = pl.y;
             transiton.setFile(3);
             transiton.play();
         } else if (pl.playerCol < -1 && currentMap.equals("left")) {
             LoadMap("/src/maps/center.txt");
             currentMap = "center";
             pl.x = 630;
-            pl.y = 200;
+            pl.y = pl.y;
             transiton.setFile(3);
             transiton.play();
         } else if (pl.playerRow > 9 && currentMap.equals("center")) {
             LoadMap("/src/maps/down.txt");
             currentMap = "down";
-            pl.x = 300;
+            pl.x = pl.x;
             pl.y = -60;
             transiton.setFile(3);
             transiton.play();
         } else if (pl.playerRow < -1 && currentMap.equals("down")) {
             LoadMap("/src/maps/center.txt");
             currentMap = "center";
-            pl.x = 300;
+            pl.x = pl.x;
             pl.y = 450;
             transiton.setFile(3);
             transiton.play();
@@ -263,29 +268,34 @@ public class TileManager {
     }
 
     public void CurrentCicleSet() {
-        // avvio la musica da far paritire in base al bg
-        // la musica DI BG
-        SetMUSIC();
-        if (npcForcingNight && gp.cicle.equals("DAY")) {
-            // se era giorno
-            if (npcForcingNight && gp.cicle.equals("DAY")) {
-                // notte
-                gp.cicle = "NIGHT";
-                // fermo musica giorno
-                gp.FermaMusica();
+        
+        //controlla se tutti i nemici sono morti
+        isAllDead = gp.ENEMIES.isAllDead();
 
-            }if(!npcForcingNight && gp.cicle.equals("NIGHT") ){
-                // se era notte metto giorno
-                gp.cicle = "DAY";
-                // fermo musica notte
-                gp.FermaMusica();
+        //
+        //Se la lista è vuota e è notte, diventa giorno
+        if (isAllDead && gp.cicle.equals("NIGHT")) {
+            npcForcingNight = false;
+            gp.cicle = "DAY";
+            gp.day++;//aumenta il giorno (variabile che serve a modificare la difficoltà)
 
-            }
-            // setto i tile in base al cicle cosi se e notte usiamo i tile di notte
+            gp.FermaMusica();
             GetTileBaseCicle();
-            // dico che non sta andando nessuna musica di BG
             music = false;
+            
+            transiton.setFile(3);
+            transiton.play();    
         }
+
+        //attivazione notte
+        if (npcForcingNight && gp.cicle.equals("DAY")) {
+            gp.cicle = "NIGHT";
+            gp.FermaMusica();  
+            GetTileBaseCicle();
+            music = false;     
+        }
+
+        SetMUSIC();
 
     }
 

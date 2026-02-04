@@ -369,32 +369,32 @@ public class Cnpc extends NPC_Manager implements Runnable{
     }
 
 
- // GAME LOOP
-   @Override
-public void run() {
-    
-    // ASPETTA finché il player o il suo rettangolo non sono pronti
-    //Ready STATE
-    while (pl == null || pl.PlInteractRect == null || gp.gameState != gp.playState) {
-        try {
-            Thread.sleep(100); // Aspetta 100ms e riprova
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    // GAME LOOP
+    @Override
+    public void run() {
+        
+        // ASPETTA finché il player o il suo rettangolo non sono pronti
+        //Ready STATE
+        while (pl == null || pl.PlInteractRect == null || gp.gameState != gp.playState) {
+            try {
+                Thread.sleep(100); // Aspetta 100ms e riprova
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-    }
 
-    while (true) {
-        
-        update();
-        
-        
-        try {
-            Thread.sleep(17);
-        } catch (InterruptedException e) {
-            break;
+        while (true) {
+            
+            update();
+            
+            
+            try {
+                Thread.sleep(17);
+            } catch (InterruptedException e) {
+                break;
+            }
         }
     }
-}
 
     public void update() {
     
