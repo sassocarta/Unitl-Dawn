@@ -9,7 +9,7 @@ import tile.TileManager;
 
 public class NPC_Vector_main {
 
-    NPC_Manager npcM;
+    public NPC_Manager npcM;
     //lista
     ArrayList<Cnpc> npcs = new ArrayList<>();
     GamePanel gp;

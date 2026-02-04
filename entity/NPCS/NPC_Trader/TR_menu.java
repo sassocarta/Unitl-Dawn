@@ -190,10 +190,6 @@ public class TR_menu {
                 if (chatImageStage == 2) g2.drawImage(chatt2, ChatX, ChatY, Chatsize, Chatsize, null);
                 if (chatImageStage == 3) g2.drawImage(chatt2, ChatX, ChatY, Chatsize, Chatsize, null); 
                 
-                // Suggerimento visivo per il giocatore
-                g2.setFont(new Font("Arial", Font.ITALIC, 12));
-                g2.setColor(Color.WHITE);
-                g2.drawString("Clicca per continuare...", 500, 480);
             }
         }
     }

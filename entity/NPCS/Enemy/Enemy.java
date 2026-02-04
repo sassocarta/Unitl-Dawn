@@ -306,6 +306,7 @@ public class Enemy extends Enemy_Manager {
                 return;
             }
 
+
             spriteSet();
             BufferedImage imageToDraw = null;
 
@@ -871,7 +872,6 @@ public class Enemy extends Enemy_Manager {
             sd.play();
             if (!invincible && !dying) {
             life -= damage;
-
             invincible = true;
             action = "hit";
 

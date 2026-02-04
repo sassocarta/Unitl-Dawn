@@ -356,13 +356,6 @@ public class Cnpc extends NPC_Manager implements Runnable{
         }
     }
 
-    public boolean tileValidi(int tileNum) {
-        if (tileNum == 0) {
-            return true;
-        }
-        return false;
-    }
-
     public void randomStarDirection() {
         int n = 1 + (int) (Math.random() * 4);
         NPCdirectionSet(n);

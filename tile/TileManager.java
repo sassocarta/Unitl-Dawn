@@ -272,13 +272,22 @@ public class TileManager {
                 // notte
                 gp.cicle = "NIGHT";
                 // fermo musica giorno
-                gp.FermaMusica();
+                if(music == true)
+                {
+                    gp.FermaMusica();
+                    music = false;
+                }
+
 
             }if(!npcForcingNight && gp.cicle.equals("NIGHT") ){
                 // se era notte metto giorno
                 gp.cicle = "DAY";
                 // fermo musica notte
-                gp.FermaMusica();
+                if(music == true)
+                {
+                    gp.FermaMusica();
+                    music = false;
+                }
 
             }
             // setto i tile in base al cicle cosi se e notte usiamo i tile di notte

@@ -156,8 +156,8 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2);
         Trader.draw(g2);
         TR_menu.draw(g2);
-        NPCS.draw(g2);
         cmp.draw(g2);
+        NPCS.draw(g2);
         ENEMIES.draw(g2);
         g2.dispose();
 

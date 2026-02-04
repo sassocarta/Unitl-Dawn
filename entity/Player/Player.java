@@ -49,6 +49,8 @@ public class Player extends Entity {
 
     Sound hitSound;
     boolean attackSoundPlayed = false;
+    public boolean drawDameg = false;
+    int contatore = 0;
 
     BufferedImage blR1, blR2, blR3, blL1, blL2, blL3;
     int BlockSpriteCounter = 0;
@@ -79,6 +81,7 @@ public class Player extends Entity {
     Rectangle attackRect = null;
 
     Weapon armaPosseduta;
+
 
     public Player(GamePanel gp, main.KeyHandler keyH2, main.MouseHandler mousH, Sound sd) {
         this.gp = gp;
@@ -686,6 +689,8 @@ public class Player extends Entity {
             sd.play();
             return;
         }
+
+
         life -= damage;
         sd.setFile(9);
         sd.play();
@@ -724,19 +729,19 @@ public class Player extends Entity {
                 attackRect.width = 50;
                 attackRect.height = gp.tileSize * 2;
             }
-
             for (int i = 0; i < gp.ENEMIES.enemies.length; i++) {
                 if (gp.ENEMIES.enemies[i] != null) {
                     Enemy e = gp.ENEMIES.enemies[i];
-
                     if (e.alive && attackRect.intersects(e.stayin)) {
                         e.takeDamage(Damage);
+                        drawDameg = true;
                         // System.out.println("Colpito nemico " + i + "! Vita rimanente: " + e.life);
                     }
                 }
             }
 
             attackRect = null;
+
         }
     }
 
