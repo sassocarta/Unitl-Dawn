@@ -32,7 +32,7 @@ public class NPC_Tio {
     Rectangle InteractSquare;
 
 
-    TileManager tm;
+    public TileManager tm;
     String MapSpaw;
     int col, row, tileNum;
 

@@ -99,14 +99,20 @@ public class Enemy_Manager {
     public Rectangle detectionRange;
     public TR_menu trm;
     public boolean uone = false;
-    public int maxLife = 50;
+    public int maxLife;
     public int life = maxLife;
     public boolean invincible = false;
     public int invincibleCounter = 0;
     public boolean dying = false;
     public boolean alive = true;
     public String action = "idle";
-    public int damage = 0;
+    public int damage;
+    public int drawMultiplier;
+    public int hitboxX;
+    public int hitboxY;
+    public int hitboxWidth;
+    public int hitboxHeight;
+    public String name;
 
     //variabili per lo spawn dei nemici
     public boolean posizionato;
