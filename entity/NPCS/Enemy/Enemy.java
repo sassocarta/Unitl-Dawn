@@ -101,16 +101,16 @@ public class Enemy extends Enemy_Manager {
         this.name = name;
         this.life = maxLife;
 
-        EnemyWalkRight = new BufferedImage[8];
-        EnemyWalkLeft = new BufferedImage[8];
-        EnemyIdleRight = new BufferedImage[6];
-        EnemyIdleLeft = new BufferedImage[6];
-        EnemyHitRight = new BufferedImage[4];
-        EnemyHitLeft = new BufferedImage[4];
-        EnemyDeathRight = new BufferedImage[6];
-        EnemyDeathLeft = new BufferedImage[6];
-        EnemyAttackRight = new BufferedImage[8];
-        EnemyAttackLeft = new BufferedImage[8];
+        EnemyWalkRight = new BufferedImage[NFWalkRight];
+        EnemyWalkLeft = new BufferedImage[NFWalkLeft];
+        EnemyIdleRight = new BufferedImage[NFIdleRight];
+        EnemyIdleLeft = new BufferedImage[NFIdleLeft];
+        EnemyHitRight = new BufferedImage[NFHitRight];
+        EnemyHitLeft = new BufferedImage[NFHitLeft];
+        EnemyDeathRight = new BufferedImage[NFDeathRight];
+        EnemyDeathLeft = new BufferedImage[NFDeathLeft];
+        EnemyAttackRight = new BufferedImage[NFAttackRight];
+        EnemyAttackLeft = new BufferedImage[NFAttackLeft];
 
         this.urlWalkRight = urlWalkRight;
         this.NFWalkRight = NFWalkRight;
@@ -324,7 +324,6 @@ public class Enemy extends Enemy_Manager {
             if (!tm.currentMap.equalsIgnoreCase(MapSpawn)) {
                 return;
             }
-
 
             spriteSet();
             BufferedImage imageToDraw = null;
@@ -1835,16 +1834,10 @@ public class Enemy extends Enemy_Manager {
             sd.setFile(8);
             sd.play();
             if (!invincible && !dying) {
-<<<<<<< HEAD
-            life -= damage;
-            invincible = true;
-            action = "hit";
-=======
-                life -= damage;
 
+                life -= damage;
                 invincible = true;
                 action = "hit";
->>>>>>> origin/main
 
                 if (life <= 0) {
                     life = 0;
@@ -2291,7 +2284,7 @@ public class Enemy extends Enemy_Manager {
                         WalkLeftSpriteCounter = 0;
                     }
                 }
-            break;
+                break;
 
         }
 

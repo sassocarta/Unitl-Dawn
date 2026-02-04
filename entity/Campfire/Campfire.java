@@ -1,10 +1,6 @@
 package entity.Campfire;
-<<<<<<< HEAD
-
 import java.awt.Color;
 import java.awt.Font;
-=======
->>>>>>> origin/main
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -164,7 +160,7 @@ public class Campfire {
             }
             spriteSet();
 
-            g2.drawImage(FrameToDraw, x, y, 80, 80, null);
+            g2.drawImage(FrameToDraw, x, y, gp.tileSize - 16,  gp.tileSize - 16, null);
         }
     }
 

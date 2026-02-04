@@ -729,17 +729,12 @@ public class Player extends Entity {
                 attackRect.width = 50;
                 attackRect.height = gp.tileSize * 2;
             }
-<<<<<<< HEAD
-            for (int i = 0; i < gp.ENEMIES.enemies.length; i++) {
-                if (gp.ENEMIES.enemies[i] != null) {
-                    Enemy e = gp.ENEMIES.enemies[i];
-=======
+
 
             for (int i = 0; i < gp.ENEMIES.enemies.size(); i++) {
                 if (gp.ENEMIES.enemies.get(i) != null) {
                     Enemy e = gp.ENEMIES.enemies.get(i);
 
->>>>>>> origin/main
                     if (e.alive && attackRect.intersects(e.stayin)) {
                         e.takeDamage(Damage);
                         drawDameg = true;

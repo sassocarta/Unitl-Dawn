@@ -12,8 +12,6 @@ import java.io.InputStreamReader;
 import main.GamePanel;
 import main.Sound;
 
-import entity.NPCS.Enemy.Enemy_Vector_main;
-
 public class TileManager {
     // JPanel su qui lavora il gico
     GamePanel gp;
@@ -268,7 +266,7 @@ public class TileManager {
     }
 
     public void CurrentCicleSet() {
-<<<<<<< HEAD
+/* 
         // avvio la musica da far paritire in base al bg
         // la musica DI BG
         SetMUSIC();
@@ -294,8 +292,8 @@ public class TileManager {
                     gp.FermaMusica();
                     music = false;
                 }
-=======
-        
+
+        */
         //controlla se tutti i nemici sono morti
         isAllDead = gp.ENEMIES.isAllDead();
 
@@ -305,7 +303,7 @@ public class TileManager {
             npcForcingNight = false;
             gp.cicle = "DAY";
             gp.day++;//aumenta il giorno (variabile che serve a modificare la difficoltà)
->>>>>>> origin/main
+
 
             gp.FermaMusica();
             GetTileBaseCicle();
