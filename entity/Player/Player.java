@@ -45,7 +45,7 @@ public class Player extends Entity {
     public boolean isGuarding = false;
 
     public int maxLife = 100;
-    public int life = maxLife;
+    public int life = 50;
 
     Sound hitSound;
     boolean attackSoundPlayed = false;

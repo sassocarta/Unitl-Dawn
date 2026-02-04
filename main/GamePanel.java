@@ -10,6 +10,7 @@ import java.awt.Font;
 import javax.swing.JPanel;
 
 import collision.CollisionManager;
+import entity.Campfire.Campfire;
 import entity.NPCS.NPC_Vector_main;
 import entity.NPCS.Enemy.Enemy_Vector_main;
 import entity.NPCS.NPC_Trader.NPC_Tio;
@@ -61,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
     public TR_menu TR_menu = new TR_menu(Trader, MouseH, KeyH, WP, speek, player);
     NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
     public Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM,TR_menu);
+    Campfire cmp = new Campfire(this, player, tileM);
     public String cicle;
 
     // set paleyer defoult posizione
@@ -139,6 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
             tileM.update(); 
             cl.update(); 
             ENEMIES.update();
+            cmp.update();
             Trader.update();
             TR_menu.update();
     }
@@ -154,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable {
         Trader.draw(g2);
         TR_menu.draw(g2);
         NPCS.draw(g2);
+        cmp.draw(g2);
         ENEMIES.draw(g2);
         g2.dispose();
 
