@@ -11,6 +11,7 @@ import tile.TileManager;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class Enemy_Vector_main {
     Random random = new Random();
     Enemy_Manager EM;
@@ -54,6 +55,7 @@ public class Enemy_Vector_main {
     int NFAttackLeft;
 
     int enemyType;
+    int aumentaRound = 0;
 
     public Enemy_Vector_main(GamePanel gp, Player pl, Sound sd, TileManager tm, TR_menu trm) {
 
@@ -78,31 +80,31 @@ public class Enemy_Vector_main {
         // modifica la difficoltà in base al giorno
         switch (gp.day) {
             case 0:
-                nEnemies = 10;
+                nEnemies = 1;
                 break;
             case 1:
-                nEnemies = 20;
+                nEnemies = 5;
                 break;
             case 2:
-                nEnemies = 30;
+                nEnemies = 8;
                 break;
             case 3:
-                nEnemies = 40;
+                nEnemies = 11;
                 break;
             case 4:
-                nEnemies = 50;
+                nEnemies = 13;
                 break;
             case 5:
-                nEnemies = 60;
+                nEnemies = 14;
                 break;
             case 6:
-                nEnemies = 70;
+                nEnemies = 15;
                 break;
             case 7:
-                nEnemies = 80;
+                nEnemies = 16;
                 break;
             case 8:
-                nEnemies = 90;
+                nEnemies = 8;
                 break;
             case 9:
                 // giorno 10 final boss (da implementare)
@@ -224,32 +226,43 @@ public class Enemy_Vector_main {
     }
 
     public void update() {
-        for (int i = 0; i < enemies.size(); i++) {
-            if (enemies.get(i) != null) {
-
-                if (enemies.get(i).alive = true) {
-                    enemies.get(i).update();
-                } else if (enemies.get(i).alive = false) {
-
-                    enemies.remove(i);
-                }
+      // 1. Aggiorna i nemici e rimuovi quelli morti
+    for (int i = enemies.size() - 1; i >= 0; i--) {
+        Enemy e = enemies.get(i);
+        if (e != null) {
+            if (e.alive) {
+                e.update();
+            } else {
+                enemies.remove(i);
             }
         }
-
-        isAllDead = gp.ENEMIES.isAllDead();
-
-        if (isAllDead) {
-            gp.Trader.tm.npcForcingNight = false;
-            gp.tileM.npcForcingNight = false;
-
-            gp.tileM.CurrentCicleSet();
-
-            gp.cicle = "DAY";
-            gp.FermaMusica();
-            gp.tileM.GetTileBaseCicle();
-            gp.tileM.music = false;
-        }
     }
+
+    // 2. AGGIORNA IL VALORE DELLA VARIABILE isAllDead
+    isAllDead = enemies.isEmpty(); 
+
+    // 3. Controlla il cambio di ciclo
+    if (isAllDead && gp.cicle.equals("NIGHT")) { 
+
+        gp.Trader.tm.npcForcingNight = false;
+        gp.tileM.npcForcingNight = false;
+        trm.tiocambiociclo = false;
+
+        gp.tileM.CurrentCicleSet();
+    }
+    else if(gp.cicle.equals("DAY") && trm.tiocambiociclo == true)
+    {
+        trm.tiocambiociclo = false;
+        gp.Trader.tm.npcForcingNight = true;
+        gp.tileM.npcForcingNight = true;
+
+        enemies.clear();
+        CreateNpcs();   
+
+        gp.tileM.CurrentCicleSet();
+    
+    }
+}
 
     public void draw(Graphics2D g2) {
         for (int i = 0; i < enemies.size(); i++) {

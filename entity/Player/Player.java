@@ -635,7 +635,20 @@ public class Player extends Entity {
         double healthRatio = (double) life / maxLife;
         int currentWidth = (int) (healthRatio * maxWidth);
 
-        g2.setColor(new Color(0, 143, 57));
+        if(life >= 80)
+        {
+           g2.setColor(new Color(0, 143, 57));
+        }
+        else if(life < 80 && life >40)
+        {
+            g2.setColor(Color.ORANGE);
+
+        }
+        else{
+             g2.setColor(Color.RED);
+        }
+
+
         g2.fillRect(xBar, yBar, currentWidth, height);
 
         g2.drawImage(barraVitaImg, xBar - 60, yBar - 23, 200, 65, null);

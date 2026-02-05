@@ -16,6 +16,7 @@ public class TR_menu {
     NPC_Tio Trader;
     MouseHandler Mh;
     main.KeyHandler Kh;
+    public boolean tiocambiociclo = false;
 
     public boolean isOpen = false;
     boolean eEraPrem = false;
@@ -83,17 +84,12 @@ public class TR_menu {
     public void update() {
         if (Trader.activeZone) {
             if (Kh.EPressed && !eEraPrem) {
-                Trader.tm.npcForcingNight = true;
+                tiocambiociclo = true;
                 isOpen = !isOpen;
 
                 chatImageStage = 1;
                 Chat1 = false;
                 chatting = 0;
-                
-                if (isOpen) {
-                    speek.setFile(6);
-                    speek.play();
-                }
             }
 
             if (isOpen) {

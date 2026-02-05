@@ -161,7 +161,6 @@ public class GamePanel extends JPanel implements Runnable {
         cmp.draw(g2);
         NPCS.draw(g2);
         ENEMIES.draw(g2);
-        g2.dispose();
 
         if (gameState == gameOverState) {
             String text = "GAME OVER: SEI MORTO";

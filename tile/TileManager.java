@@ -48,6 +48,8 @@ public class TileManager {
         gp.cicle = "DAY";
         // setto i tile per il ciclo in base a gp.cicle (IN QUESTO CASO USO I TILE PER
         // IL DAY)
+        gp.avviaMusica(5);
+        this.music = true;
         GetTileBaseCicle();
 
     }
@@ -266,84 +268,40 @@ public class TileManager {
     }
 
     public void CurrentCicleSet() {
-/* 
-        // avvio la musica da far paritire in base al bg
-        // la musica DI BG
-        SetMUSIC();
-        if (npcForcingNight && gp.cicle.equals("DAY")) {
-            // se era giorno
-            if (npcForcingNight && gp.cicle.equals("DAY")) {
-                // notte
-                gp.cicle = "NIGHT";
-                // fermo musica giorno
-                if(music == true)
-                {
-                    gp.FermaMusica();
-                    music = false;
-                }
 
-
-            }if(!npcForcingNight && gp.cicle.equals("NIGHT") ){
-                // se era notte metto giorno
-                gp.cicle = "DAY";
-                // fermo musica notte
-                if(music == true)
-                {
-                    gp.FermaMusica();
-                    music = false;
-                }
-
-        */
-        //controlla se tutti i nemici sono morti
         isAllDead = gp.ENEMIES.isAllDead();
 
         //
         //Se la lista è vuota e è notte, diventa giorno
         if (isAllDead && gp.cicle.equals("NIGHT")) {
-            npcForcingNight = false;
             gp.cicle = "DAY";
-            gp.day++;//aumenta il giorno (variabile che serve a modificare la difficoltà)
+            gp.day++;
 
-
+            npcForcingNight = false;
             gp.FermaMusica();
-            GetTileBaseCicle();
-            music = false;
-            
-            transiton.setFile(3);
-            transiton.play();    
+            gp.avviaMusica(5);
+            music = true; 
+
+            GetTileBaseCicle();  
+
         }
 
         //attivazione notte
-        if (npcForcingNight && gp.cicle.equals("DAY")) {
+        else if (npcForcingNight && gp.cicle.equals("DAY")) {
+
             gp.cicle = "NIGHT";
-            gp.FermaMusica();  
-            GetTileBaseCicle();
-            music = false;     
-        }
 
-        SetMUSIC();
-
-    }
-
-    public void SetMUSIC() {
-        // se il ciclo e uguale a day e non ce muscia
-        if (gp.cicle.equals("DAY") && !music) {
-            // faccio partire la muscia numero 2 (MUSICA BG DEL GIORNO)
-            gp.avviaMusica(5);
-            // ora sta andando della musica
-            music = true;
-        }
-
-        // se il ciclo e uguale a night e non ce muscia
-        if (gp.cicle.equals("NIGHT") && !music) {
-            // faccio partire la muscia numero 0 (MUSICA BG DEL NIGHT)
+            gp.FermaMusica();
             gp.avviaMusica(0);
-            // ora sta andando della musica
-            music = true;
+            music = true; 
+
+            GetTileBaseCicle();  
+
         }
 
     }
 
+   
     public void GetTileBaseCicle() {
         // se e giorno
         if (gp.cicle.equals("DAY")) {

@@ -50,12 +50,12 @@ public class weapons {
             e.printStackTrace();
         }
 
-        weapons.add(new Weapon("Axe", AxeBlocked, AxeUnlocked, 15, 15));
-        weapons.add(new Weapon("Blade", BladeBlocked, BladeUnlocked, 20, 20));
-        weapons.add(new Weapon("Chaos Blades", ChaosBladesBlocked, ChaosBladesUnlocked, 200, 100));
-        weapons.add(new Weapon("Hero sword", HeroSwordBlocked, HeroSwordUnlocked, 30, 40));
-        weapons.add(new Weapon("Morningstar", MorningstarBlocked, MorningstarUnlocked, 25, 30));
-        weapons.add(new Weapon("War Axe", WarAxeBlocked, WarAxeUnlocked, 35, 50));
+        weapons.add(new Weapon("Axe", AxeBlocked, AxeUnlocked, 15, 7));
+        weapons.add(new Weapon("Blade", BladeBlocked, BladeUnlocked, 20, 10));
+        weapons.add(new Weapon("Chaos Blades", ChaosBladesBlocked, ChaosBladesUnlocked, 200, 50));
+        weapons.add(new Weapon("Hero sword", HeroSwordBlocked, HeroSwordUnlocked, 30, 20));
+        weapons.add(new Weapon("Morningstar", MorningstarBlocked, MorningstarUnlocked, 25, 15));
+        weapons.add(new Weapon("War Axe", WarAxeBlocked, WarAxeUnlocked, 35, 25));
     }
 
 }
