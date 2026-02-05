@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.Color;
+import java.awt.Font;
 
 import entity.Coin.Coin;
 import entity.NPCS.NPC_Trader.TR_menu;
@@ -15,6 +16,7 @@ import main.Sound;
 import tile.TileManager;
 
 public class Enemy extends Enemy_Manager {
+
 
     // WalkRight
     String urlWalkRight;
@@ -91,6 +93,11 @@ public class Enemy extends Enemy_Manager {
         this.sd = sd;
         this.trm = trm;
 
+        StayinZone = new Rectangle(96, 96, 576, 384);
+        stayin = new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
+
+        detectionRange = new Rectangle(0, 0, 400, 400);
+
         this.hitboxX = hitboxX;
         this.hitboxY = hitboxY;
         this.hitboxWidth = hitboxWidth;
@@ -135,10 +142,7 @@ public class Enemy extends Enemy_Manager {
 
         coin = new Coin(pl, tm, sd);
 
-        StayinZone = new Rectangle(96, 96, 576, 384);
-        stayin = new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
-
-        detectionRange = new Rectangle(0, 0, 400, 400);
+        
 
         deicidiMappaSpawn();
         SpwanEnemy();
@@ -308,6 +312,11 @@ public class Enemy extends Enemy_Manager {
         GetImagesDeathLeft(NFDeathLeft, urlDeathLeft);
         GetImagesAttackRight(NFAttackRight, urlAttackRight);
         GetImagesAttackLeft(NFAttackLeft, urlAttackLeft);
+        try {
+            barraVitaImg = ImageIO.read(getClass().getResource("/src/Enemies/Boss/BarraVita.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -330,6 +339,9 @@ public class Enemy extends Enemy_Manager {
 
             switch (action) {
                 case "hit":
+                    g2.setFont(new Font("Arial", Font.BOLD, 12));
+                    g2.setColor(Color.RED);
+                    g2.drawString("- " + pl.Damage, this.x + 80, this.y +65);
                     if (direction.equals("right") || direction.equals("up")) {
                         imageToDraw = EnemyHitRight[HitRightSpriteNum - 1];
                     } else {
@@ -368,26 +380,68 @@ public class Enemy extends Enemy_Manager {
 
             // Disegna l'immagine scelta
             if (imageToDraw != null) {
-                g2.drawImage(imageToDraw, x, y, gp.tileSize * drawMultiplier, gp.tileSize * drawMultiplier, null);
+                switch(this.name){
+                    case"Slime":
+                        g2.drawImage(imageToDraw, x, y, gp.tileSize * drawMultiplier, gp.tileSize * drawMultiplier, null);
+                        break;
+                    case"Mushroom":
+                        g2.drawImage(imageToDraw, x+50, y+30, gp.tileSize * drawMultiplier, gp.tileSize * drawMultiplier, null);
+                        break;
+                    case"Orc":
+                        g2.drawImage(imageToDraw, x, y, gp.tileSize * drawMultiplier, gp.tileSize * drawMultiplier, null);
+                        break;
+                    case"Hallokin":
+                        g2.drawImage(imageToDraw, x, y, gp.tileSize * drawMultiplier, gp.tileSize * drawMultiplier, null);
+                        break;
+                    case"Shadowed":
+                        g2.drawImage(imageToDraw, x, y-70, gp.tileSize * drawMultiplier, gp.tileSize * drawMultiplier, null);
+                        break;
+                    case"Boss":
+                        g2.drawImage(imageToDraw, x-85, y-55, 48 * drawMultiplier, 30 * drawMultiplier, null);
+                        break;
+                }
+
             }
 
-            // Barra della vita
-            xBar = x + 70;
-            yBar = y + 70;
-            maxWidth = 50;
-            height = 5;
+            // Barra della vita ai mostri normali
+            if(this.name!="Boss"){
+                xBar = x + 70;
+                yBar = y + 70;
+                maxWidth = 50;
+                height = 5;
 
-            g2.setColor(new Color(50, 50, 50));
-            g2.fillRect(xBar, yBar, maxWidth, height);
+                g2.setColor(new Color(50, 50, 50));
+                g2.fillRect(xBar, yBar, maxWidth, height);
 
-            healthRatio = (double) life / maxLife;
-            currentWidth = (int) (healthRatio * maxWidth);
+                healthRatio = (double) life / maxLife;
+                currentWidth = (int) (healthRatio * maxWidth);
 
-            g2.setColor(new Color(203, 50, 52));
-            g2.fillRect(xBar, yBar, currentWidth, height);
+                g2.setColor(new Color(203, 50, 52));
+                g2.fillRect(xBar, yBar, currentWidth, height);
+            }else if(this.name=="Boss"){
+                //barra della vita boss
+                xBar = 190;
+                yBar = 30;
+                maxWidth = 400;
+                height = 10;
 
-            g2.setColor(Color.RED);
-            g2.draw(stayin);
+                g2.setColor(new Color(50, 50, 50));
+                g2.fillRect(xBar, yBar, maxWidth, height);
+
+                healthRatio = (double) life / maxLife;
+                currentWidth = (int) (healthRatio * maxWidth);
+
+                g2.setColor(new Color(203, 50, 52));
+                g2.fillRect(xBar, yBar, currentWidth, height);
+
+                g2.drawImage(barraVitaImg, xBar-100, yBar - 25, 600, 50 , null);
+            }
+            
+            //g2.setColor(Color.RED);
+            //g2.draw(stayin);
+
+            //g2.setColor(Color.BLUE);
+            //g2.drawRect(EnemyHitboxX, EnemyHitboxY, EnemyHitboxWidth, EnemyHitboxHeight);
         }
     }
 
@@ -970,12 +1024,6 @@ public class Enemy extends Enemy_Manager {
                     DeathRightImage = EnemyDeathRight[3];
                 if (DeathRightSpriteNum == 5)
                     DeathRightImage = EnemyDeathRight[4];
-                if (DeathRightSpriteNum == 6)
-                    DeathRightImage = EnemyDeathRight[5];
-                if (DeathRightSpriteNum == 7)
-                    DeathRightImage = EnemyDeathRight[6];
-                if (DeathRightSpriteNum == 8)
-                    DeathRightImage = EnemyDeathRight[7];
 
                 if (DeathLeftSpriteNum == 1)
                     DeathLeftImage = EnemyDeathLeft[0];
@@ -987,12 +1035,6 @@ public class Enemy extends Enemy_Manager {
                     DeathLeftImage = EnemyDeathLeft[3];
                 if (DeathLeftSpriteNum == 5)
                     DeathLeftImage = EnemyDeathLeft[4];
-                if (DeathLeftSpriteNum == 6)
-                    DeathLeftImage = EnemyDeathLeft[5];
-                if (DeathLeftSpriteNum == 7)
-                    DeathLeftImage = EnemyDeathLeft[6];
-                if (DeathLeftSpriteNum == 8)
-                    DeathLeftImage = EnemyDeathLeft[7];
 
                 if (AttackRightSpriteNum == 1)
                     AttackRightImage = EnemyAttackRight[0];
@@ -1035,6 +1077,258 @@ public class Enemy extends Enemy_Manager {
                     AttackLeftImage = EnemyAttackLeft[8];
                 if (AttackLeftSpriteNum == 10)
                     AttackLeftImage = EnemyAttackLeft[9];
+                break;
+            case "Boss":
+                if (WalkRightSpriteNum == 1)
+                    WalkRightImage = EnemyWalkRight[0];
+                if (WalkRightSpriteNum == 2)
+                    WalkRightImage = EnemyWalkRight[1];
+                if (WalkRightSpriteNum == 3)
+                    WalkRightImage = EnemyWalkRight[2];
+                if (WalkRightSpriteNum == 4)
+                    WalkRightImage = EnemyWalkRight[3];
+                if (WalkRightSpriteNum == 5)
+                    WalkRightImage = EnemyWalkRight[4];
+                if (WalkRightSpriteNum == 6)
+                    WalkRightImage = EnemyWalkRight[5];
+                if (WalkRightSpriteNum == 7)
+                    WalkRightImage = EnemyWalkRight[6];
+                if (WalkRightSpriteNum == 8)
+                    WalkRightImage = EnemyWalkRight[7];
+                if (WalkRightSpriteNum == 9)
+                    WalkRightImage = EnemyWalkRight[8];
+                if (WalkRightSpriteNum == 10)
+                    WalkRightImage = EnemyWalkRight[9];
+                if (WalkRightSpriteNum == 11)
+                    WalkRightImage = EnemyWalkRight[10];
+                if (WalkRightSpriteNum == 12)
+                    WalkRightImage = EnemyWalkRight[11];
+
+                if (WalkLeftSpriteNum == 1)
+                    WalkLeftImage = EnemyWalkLeft[0];
+                if (WalkLeftSpriteNum == 2)
+                    WalkLeftImage = EnemyWalkLeft[1];
+                if (WalkLeftSpriteNum == 3)
+                    WalkLeftImage = EnemyWalkLeft[2];
+                if (WalkLeftSpriteNum == 4)
+                    WalkLeftImage = EnemyWalkLeft[3];
+                if (WalkLeftSpriteNum == 5)
+                    WalkLeftImage = EnemyWalkLeft[4];
+                if (WalkLeftSpriteNum == 6)
+                    WalkLeftImage = EnemyWalkLeft[5];
+                if (WalkLeftSpriteNum == 7)
+                    WalkLeftImage = EnemyWalkLeft[6];
+                if (WalkLeftSpriteNum == 8)
+                    WalkLeftImage = EnemyWalkLeft[7];
+                if (WalkLeftSpriteNum == 9)
+                    WalkLeftImage = EnemyWalkLeft[8];
+                if (WalkLeftSpriteNum == 10)
+                    WalkLeftImage = EnemyWalkLeft[9];
+                if (WalkLeftSpriteNum == 11)
+                    WalkLeftImage = EnemyWalkLeft[10];
+                if (WalkLeftSpriteNum == 12)
+                    WalkLeftImage = EnemyWalkLeft[11];
+
+                if (IdleRightSpriteNum == 1)
+                    IdleRightImage = EnemyIdleRight[0];
+                if (IdleRightSpriteNum == 2)
+                    IdleRightImage = EnemyIdleRight[1];
+                if (IdleRightSpriteNum == 3)
+                    IdleRightImage = EnemyIdleRight[2];
+                if (IdleRightSpriteNum == 4)
+                    IdleRightImage = EnemyIdleRight[3];
+                if (IdleRightSpriteNum == 5)
+                    IdleRightImage = EnemyIdleRight[4];
+                if (IdleRightSpriteNum == 6)
+                    IdleRightImage = EnemyIdleRight[5];
+
+                if (IdleLeftSpriteNum == 1)
+                    IdleLeftImage = EnemyIdleLeft[0];
+                if (IdleLeftSpriteNum == 2)
+                    IdleLeftImage = EnemyIdleLeft[1];
+                if (IdleLeftSpriteNum == 3)
+                    IdleLeftImage = EnemyIdleLeft[2];
+                if (IdleLeftSpriteNum == 4)
+                    IdleLeftImage = EnemyIdleLeft[3];
+                if (IdleLeftSpriteNum == 5)
+                    IdleLeftImage = EnemyIdleLeft[4];
+                if (IdleLeftSpriteNum == 6)
+                    IdleLeftImage = EnemyIdleLeft[5];
+
+                if (HitRightSpriteNum == 1)
+                    HitRightImage = EnemyHitRight[0];
+                if (HitRightSpriteNum == 2)
+                    HitRightImage = EnemyHitRight[1];
+                if (HitRightSpriteNum == 3)
+                    HitRightImage = EnemyHitRight[2];
+                if (HitRightSpriteNum == 4)
+                    HitRightImage = EnemyHitRight[3];
+                if (HitRightSpriteNum == 5)
+                    HitRightImage = EnemyHitRight[4];
+
+                if (HitLeftSpriteNum == 1)
+                    HitLeftImage = EnemyHitLeft[0];
+                if (HitLeftSpriteNum == 2)
+                    HitLeftImage = EnemyHitLeft[1];
+                if (HitLeftSpriteNum == 3)
+                    HitLeftImage = EnemyHitLeft[2];
+                if (HitLeftSpriteNum == 4)
+                    HitLeftImage = EnemyHitLeft[3];
+                if (HitLeftSpriteNum == 5)
+                    HitLeftImage = EnemyHitLeft[4];
+                
+
+                if (DeathRightSpriteNum == 1)
+                    DeathRightImage = EnemyDeathRight[0];
+                if (DeathRightSpriteNum == 2)
+                    DeathRightImage = EnemyDeathRight[1];
+                if (DeathRightSpriteNum == 3)
+                    DeathRightImage = EnemyDeathRight[2];
+                if (DeathRightSpriteNum == 4)
+                    DeathRightImage = EnemyDeathRight[3];
+                if (DeathRightSpriteNum == 5)
+                    DeathRightImage = EnemyDeathRight[4];
+                if (DeathRightSpriteNum == 6)
+                    DeathRightImage = EnemyDeathRight[5];
+                if (DeathRightSpriteNum == 7)
+                    DeathRightImage = EnemyDeathRight[6];
+                if (DeathRightSpriteNum == 8)
+                    DeathRightImage = EnemyDeathRight[7];
+                if (DeathRightSpriteNum == 9)
+                    DeathRightImage = EnemyDeathRight[8];
+                if (DeathRightSpriteNum == 10)
+                    DeathRightImage = EnemyDeathRight[9];
+                if (DeathRightSpriteNum == 11)
+                    DeathRightImage = EnemyDeathRight[10];
+                if (DeathRightSpriteNum == 12)
+                    DeathRightImage = EnemyDeathRight[11];
+                if (DeathRightSpriteNum == 13)
+                    DeathRightImage = EnemyDeathRight[12];
+                if (DeathRightSpriteNum == 14)
+                    DeathRightImage = EnemyDeathRight[13];
+                if (DeathRightSpriteNum == 15)
+                    DeathRightImage = EnemyDeathRight[14];
+                if (DeathRightSpriteNum == 16)
+                    DeathRightImage = EnemyDeathRight[15];
+                if (DeathRightSpriteNum == 17)
+                    DeathRightImage = EnemyDeathRight[16];
+                if (DeathRightSpriteNum == 18)
+                    DeathRightImage = EnemyDeathRight[17];
+                if (DeathRightSpriteNum == 19)
+                    DeathRightImage = EnemyDeathRight[18];
+                if (DeathRightSpriteNum == 20)
+                    DeathRightImage = EnemyDeathRight[19];
+                if (DeathRightSpriteNum == 21)
+                    DeathRightImage = EnemyDeathRight[20];
+                if (DeathRightSpriteNum == 22)
+                    DeathRightImage = EnemyDeathRight[21];
+
+                if (DeathLeftSpriteNum == 1)
+                    DeathLeftImage = EnemyDeathLeft[0];
+                if (DeathLeftSpriteNum == 2)
+                    DeathLeftImage = EnemyDeathLeft[1];
+                if (DeathLeftSpriteNum == 3)
+                    DeathLeftImage = EnemyDeathLeft[2];
+                if (DeathLeftSpriteNum == 4)
+                    DeathLeftImage = EnemyDeathLeft[3];
+                if (DeathLeftSpriteNum == 5)
+                    DeathLeftImage = EnemyDeathLeft[4];
+                if (DeathLeftSpriteNum == 6)
+                    DeathLeftImage = EnemyDeathLeft[5];
+                if (DeathLeftSpriteNum == 7)
+                    DeathLeftImage = EnemyDeathLeft[6];
+                if (DeathLeftSpriteNum == 8)
+                    DeathLeftImage = EnemyDeathLeft[7];
+                if (DeathLeftSpriteNum == 9)
+                    DeathLeftImage = EnemyDeathLeft[8];
+                if (DeathLeftSpriteNum == 10)
+                    DeathLeftImage = EnemyDeathLeft[9];
+                if (DeathLeftSpriteNum == 11)
+                    DeathLeftImage = EnemyDeathLeft[10];
+                if (DeathLeftSpriteNum == 12)
+                    DeathLeftImage = EnemyDeathLeft[11];
+                if (DeathLeftSpriteNum == 13)
+                    DeathLeftImage = EnemyDeathLeft[12];
+                if (DeathLeftSpriteNum == 14)
+                    DeathLeftImage = EnemyDeathLeft[13];
+                if (DeathLeftSpriteNum == 15)
+                    DeathLeftImage = EnemyDeathLeft[14];
+                if (DeathLeftSpriteNum == 16)
+                    DeathLeftImage = EnemyDeathLeft[15];
+                if (DeathLeftSpriteNum == 17)
+                    DeathLeftImage = EnemyDeathLeft[16];
+                if (DeathLeftSpriteNum == 18)
+                    DeathLeftImage = EnemyDeathLeft[17];
+                if (DeathLeftSpriteNum == 19)
+                    DeathLeftImage = EnemyDeathLeft[18];
+                if (DeathLeftSpriteNum == 20)
+                    DeathLeftImage = EnemyDeathLeft[19];
+                if (DeathLeftSpriteNum == 21)
+                    DeathLeftImage = EnemyDeathLeft[20];
+                if (DeathLeftSpriteNum == 22)
+                    DeathLeftImage = EnemyDeathLeft[21];
+
+                if (AttackRightSpriteNum == 1)
+                    AttackRightImage = EnemyAttackRight[0];
+                if (AttackRightSpriteNum == 2)
+                    AttackRightImage = EnemyAttackRight[1];
+                if (AttackRightSpriteNum == 3)
+                    AttackRightImage = EnemyAttackRight[2];
+                if (AttackRightSpriteNum == 4)
+                    AttackRightImage = EnemyAttackRight[3];
+                if (AttackRightSpriteNum == 5)
+                    AttackRightImage = EnemyAttackRight[4];
+                if (AttackRightSpriteNum == 6)
+                    AttackRightImage = EnemyAttackRight[5];
+                if (AttackRightSpriteNum == 7)
+                    AttackRightImage = EnemyAttackRight[6];
+                if (AttackRightSpriteNum == 8)
+                    AttackRightImage = EnemyAttackRight[7];
+                if (AttackRightSpriteNum == 9)
+                    AttackRightImage = EnemyAttackRight[8];
+                if (AttackRightSpriteNum == 10)
+                    AttackRightImage = EnemyAttackRight[9];
+                if (AttackRightSpriteNum == 11)
+                    AttackRightImage = EnemyAttackRight[10];
+                if (AttackRightSpriteNum == 12)
+                    AttackRightImage = EnemyAttackRight[11];
+                if (AttackRightSpriteNum == 13)
+                    AttackRightImage = EnemyAttackRight[12];
+                if (AttackRightSpriteNum == 14)
+                    AttackRightImage = EnemyAttackRight[13];
+                if (AttackRightSpriteNum == 15)
+                    AttackRightImage = EnemyAttackRight[14];
+
+                if (AttackLeftSpriteNum == 1)
+                    AttackLeftImage = EnemyAttackLeft[0];
+                if (AttackLeftSpriteNum == 2)
+                    AttackLeftImage = EnemyAttackLeft[1];
+                if (AttackLeftSpriteNum == 3)
+                    AttackLeftImage = EnemyAttackLeft[2];
+                if (AttackLeftSpriteNum == 4)
+                    AttackLeftImage = EnemyAttackLeft[3];
+                if (AttackLeftSpriteNum == 5)
+                    AttackLeftImage = EnemyAttackLeft[4];
+                if (AttackLeftSpriteNum == 6)
+                    AttackLeftImage = EnemyAttackLeft[5];
+                if (AttackLeftSpriteNum == 7)
+                    AttackLeftImage = EnemyAttackLeft[6];
+                if (AttackLeftSpriteNum == 8)
+                    AttackLeftImage = EnemyAttackLeft[7];
+                if (AttackLeftSpriteNum == 9)
+                    AttackLeftImage = EnemyAttackLeft[8];
+                if (AttackLeftSpriteNum == 10)
+                    AttackLeftImage = EnemyAttackLeft[9];
+                if (AttackLeftSpriteNum == 11)
+                    AttackLeftImage = EnemyAttackLeft[10];
+                if (AttackLeftSpriteNum == 12)
+                    AttackLeftImage = EnemyAttackLeft[11];
+                if (AttackLeftSpriteNum == 13)
+                    AttackLeftImage = EnemyAttackLeft[12];
+                if (AttackLeftSpriteNum == 14)
+                    AttackLeftImage = EnemyAttackLeft[13];
+                if (AttackLeftSpriteNum == 15)
+                    AttackLeftImage = EnemyAttackLeft[14];
                 break;
 
         }
@@ -1349,6 +1643,25 @@ public class Enemy extends Enemy_Manager {
                     }
                 }
                 break;
+            case "Boss":
+                if (direction.equals("right") || direction.equals("up")) {
+                    HitRightSpriteCounter++;
+                    if (HitRightSpriteCounter > 5) {
+                        HitRightSpriteNum++;
+                        if (HitRightSpriteNum > 5)
+                            HitRightSpriteNum = 1;
+                        HitRightSpriteCounter = 0;
+                    }
+                } else {
+                    HitLeftSpriteCounter++;
+                    if (HitLeftSpriteCounter > 5) {
+                        HitLeftSpriteNum++;
+                        if (HitLeftSpriteNum > 5)
+                            HitLeftSpriteNum = 1;
+                        HitLeftSpriteCounter = 0;
+                    }
+                }
+                break;
         }
 
     }
@@ -1501,7 +1814,7 @@ public class Enemy extends Enemy_Manager {
 
                     if (DeathRightSpriteNum < 5) {
                         DeathRightSpriteCounter++;
-                        if (DeathRightSpriteCounter > 10) {
+                        if (DeathRightSpriteCounter > 5) {
                             DeathRightSpriteNum++;
                             DeathRightSpriteCounter = 0;
                         }
@@ -1517,7 +1830,42 @@ public class Enemy extends Enemy_Manager {
 
                     if (DeathLeftSpriteNum < 5) {
                         DeathLeftSpriteCounter++;
-                        if (DeathLeftSpriteCounter > 10) {
+                        if (DeathLeftSpriteCounter > 5) {
+                            DeathLeftSpriteNum++;
+                            DeathLeftSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                }
+                break;
+            case "Boss":
+                if (direction.equals("right") || direction.equals("up")) {
+
+                    if (DeathRightSpriteNum < 22) {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 5) {
+                            DeathRightSpriteNum++;
+                            DeathRightSpriteCounter = 0;
+                        }
+                    }
+
+                    else {
+                        DeathRightSpriteCounter++;
+                        if (DeathRightSpriteCounter > 60) {
+                            alive = false;
+                        }
+                    }
+                } else {
+
+                    if (DeathLeftSpriteNum < 22) {
+                        DeathLeftSpriteCounter++;
+                        if (DeathLeftSpriteCounter > 5) {
                             DeathLeftSpriteNum++;
                             DeathLeftSpriteCounter = 0;
                         }
@@ -1644,6 +1992,21 @@ public class Enemy extends Enemy_Manager {
                     WalkLeftSpriteCounter++;
                     if (WalkLeftSpriteCounter > 10) {
                         WalkLeftSpriteNum = (WalkLeftSpriteNum % 8) + 1;
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+            case "Boss":
+                if (direction.equals("right") || direction.equals("up")) {
+                    WalkRightSpriteCounter++;
+                    if (WalkRightSpriteCounter > 5) {
+                        WalkRightSpriteNum = (WalkRightSpriteNum % 12) + 1;
+                        WalkRightSpriteCounter = 0;
+                    }
+                } else {
+                    WalkLeftSpriteCounter++;
+                    if (WalkLeftSpriteCounter > 5) {
+                        WalkLeftSpriteNum = (WalkLeftSpriteNum % 12) + 1;
                         WalkLeftSpriteCounter = 0;
                     }
                 }
@@ -1825,6 +2188,40 @@ public class Enemy extends Enemy_Manager {
                     }
                 }
                 break;
+            case "Boss":
+                // Attacco a destra e su
+                if (direction.equals("right") || direction.equals("up")) {
+                    AttackRightSpriteCounter++;
+                    if (AttackRightSpriteCounter > 3) {
+                        AttackRightSpriteNum++;
+                        AttackRightSpriteCounter = 0;
+
+                        if (AttackRightSpriteNum == 10) {
+                            pl.takeDamage(damage);
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackRightSpriteNum > 15) {
+                            AttackRightSpriteNum = 1;
+                        }
+                    }
+                } else {
+                    // Attacco a sinistra e giù
+                    AttackLeftSpriteCounter++;
+                    if (AttackLeftSpriteCounter > 3) {
+                        AttackLeftSpriteNum++;
+                        AttackLeftSpriteCounter = 0;
+
+                        if (AttackLeftSpriteNum == 10) {
+                            pl.takeDamage(damage);
+
+                        }
+                        // quando l'animazione finisce ricomincia
+                        if (AttackLeftSpriteNum > 15) {
+                            AttackLeftSpriteNum = 1;
+                        }
+                    }
+                }
+                break;
         }
 
     }
@@ -1855,7 +2252,21 @@ public class Enemy extends Enemy_Manager {
         dying = true;
         if (onespawn == false) {
             onespawn = true;
-            coin.CoinSpawn(x + 85, y + 83);
+
+            nCoins = rand.nextInt(3) + 1;
+
+            if(nCoins==1){
+                coin.CoinSpawn(x + 85, y + 83);
+            }
+            if(nCoins==2){
+                coin.CoinSpawn(x + 85, y + 83);
+                coin.CoinSpawn(x + 90, y + 90);
+            }
+            if(nCoins==3){
+                coin.CoinSpawn(x + 85, y + 83);
+                coin.CoinSpawn(x + 90, y + 90);
+                coin.CoinSpawn(x + 80, y + 75);
+            }
         }
         action = "death";
     }
@@ -2194,7 +2605,7 @@ public class Enemy extends Enemy_Manager {
                     }
                 }
                 break;
-            case "Sadowed":
+            case "Shadowed":
                 if (dir == "up") {
                     if (WalkRightSpriteCounter > 5) {
                         if (WalkRightSpriteNum == 1) {
@@ -2286,6 +2697,130 @@ public class Enemy extends Enemy_Manager {
                 }
                 break;
 
+            case "Boss":
+                if (dir == "up") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 9;
+                        } else if (WalkRightSpriteNum == 9) {
+                            WalkRightSpriteNum = 10;
+                        } else if (WalkRightSpriteNum == 10) {
+                            WalkRightSpriteNum = 11;
+                        } else if (WalkRightSpriteNum == 11) {
+                            WalkRightSpriteNum = 12;
+                        } else if (WalkRightSpriteNum == 12) {
+                            WalkRightSpriteNum = 1;
+                        }
+                    }
+                    WalkRightSpriteCounter = 0;
+                }
+
+                if (dir == "left") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 9;
+                        } else if (WalkLeftSpriteNum == 9) {
+                            WalkLeftSpriteNum = 10;
+                        } else if (WalkLeftSpriteNum == 10) {
+                            WalkLeftSpriteNum = 11;
+                        } else if (WalkLeftSpriteNum == 11) {
+                            WalkLeftSpriteNum = 12;
+                        } else if (WalkLeftSpriteNum == 12) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                if (dir == "right") {
+                    if (WalkRightSpriteCounter > 5) {
+                        if (WalkRightSpriteNum == 1) {
+                            WalkRightSpriteNum = 2;
+                        } else if (WalkRightSpriteNum == 2) {
+                            WalkRightSpriteNum = 3;
+                        } else if (WalkRightSpriteNum == 3) {
+                            WalkRightSpriteNum = 4;
+                        } else if (WalkRightSpriteNum == 4) {
+                            WalkRightSpriteNum = 5;
+                        } else if (WalkRightSpriteNum == 5) {
+                            WalkRightSpriteNum = 6;
+                        } else if (WalkRightSpriteNum == 6) {
+                            WalkRightSpriteNum = 7;
+                        } else if (WalkRightSpriteNum == 7) {
+                            WalkRightSpriteNum = 8;
+                        } else if (WalkRightSpriteNum == 8) {
+                            WalkRightSpriteNum = 9;
+                        } else if (WalkRightSpriteNum == 9) {
+                            WalkRightSpriteNum = 10;
+                        } else if (WalkRightSpriteNum == 10) {
+                            WalkRightSpriteNum = 11;
+                        } else if (WalkRightSpriteNum == 11) {
+                            WalkRightSpriteNum = 12;
+                        } else if (WalkRightSpriteNum == 12) {
+                            WalkRightSpriteNum = 1;
+                        }
+                        WalkRightSpriteCounter = 0;
+                    }
+                }
+                if (dir == "down") {
+                    if (WalkLeftSpriteCounter > 5) {
+                        if (WalkLeftSpriteNum == 1) {
+                            WalkLeftSpriteNum = 2;
+                        } else if (WalkLeftSpriteNum == 2) {
+                            WalkLeftSpriteNum = 3;
+                        } else if (WalkLeftSpriteNum == 3) {
+                            WalkLeftSpriteNum = 4;
+                        } else if (WalkLeftSpriteNum == 4) {
+                            WalkLeftSpriteNum = 5;
+                        } else if (WalkLeftSpriteNum == 5) {
+                            WalkLeftSpriteNum = 6;
+                        } else if (WalkLeftSpriteNum == 6) {
+                            WalkLeftSpriteNum = 7;
+                        } else if (WalkLeftSpriteNum == 7) {
+                            WalkLeftSpriteNum = 8;
+                        } else if (WalkLeftSpriteNum == 8) {
+                            WalkLeftSpriteNum = 9;
+                        } else if (WalkLeftSpriteNum == 9) {
+                            WalkLeftSpriteNum = 10;
+                        } else if (WalkLeftSpriteNum == 10) {
+                            WalkLeftSpriteNum = 11;
+                        } else if (WalkLeftSpriteNum == 11) {
+                            WalkLeftSpriteNum = 12;
+                        } else if (WalkLeftSpriteNum == 12) {
+                            WalkLeftSpriteNum = 1;
+                        }
+                        WalkLeftSpriteCounter = 0;
+                    }
+                }
+                break;
+
         }
 
     }
@@ -2333,10 +2868,48 @@ public class Enemy extends Enemy_Manager {
     // Controlla collisioni
     public boolean checkCollision() {
         // hitbox
-        EnemyHitboxX = x + 84;
-        EnemyHitboxY = y + 97;
-        EnemyHitboxWidth = 20;
-        EnemyHitboxHeight = 20;
+        
+
+        switch(this.name){
+            case "Slime":
+                EnemyHitboxX = x + 84;
+                EnemyHitboxY = y + 97;
+                EnemyHitboxWidth = 20;
+                EnemyHitboxHeight = 20;
+                break;
+            case "Mushroom":
+                EnemyHitboxX = x + 84;
+                EnemyHitboxY = y + 97;
+                EnemyHitboxWidth = 20;
+                EnemyHitboxHeight = 20;
+                break;
+            case "Orc":
+                EnemyHitboxX = x + 84;
+                EnemyHitboxY = y + 97;
+                EnemyHitboxWidth = 20;
+                EnemyHitboxHeight = 20;
+                break;
+            case "Hallokin":
+                EnemyHitboxX = x + 84;
+                EnemyHitboxY = y + 97;
+                EnemyHitboxWidth = 20;
+                EnemyHitboxHeight = 20;
+                break;
+            case "Shadowed":
+                EnemyHitboxX = x + 84;
+                EnemyHitboxY = y + 97;
+                EnemyHitboxWidth = 20;
+                EnemyHitboxHeight = 20;
+                break;
+            case "Boss":
+                EnemyHitboxX = x + 75;
+                EnemyHitboxY = y + 120;
+                EnemyHitboxWidth = 50;
+                EnemyHitboxHeight = 60;
+                break;
+        }
+
+        
 
         // lati della hitbox
         leftCol = EnemyHitboxX / gp.tileSize;
@@ -2352,7 +2925,7 @@ public class Enemy extends Enemy_Manager {
     // controlla se è in un tile non camminabile
     private boolean isSolidTile(int col, int row) {
         // controllo sui limiti della mappa
-        if (col < 0 || col >= tm.maptileNum.length || row < 0 || row >= tm.maptileNum[0].length) {
+        if (col < 0 || col >= tm.maptileNum.length || row < 0 || row >= tm.maptileNum.length) {
             return true;
         }
 
