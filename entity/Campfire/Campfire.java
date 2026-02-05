@@ -154,33 +154,39 @@ public class Campfire {
             // scritta +5 qunado vai al falò
             if (pl.PlInteractRect.intersects(HealRect) && pl.life < 100 && stampaPlusvita == true) {
                 // Suggerimento visivo per il giocatore
-                g2.setFont(new Font("Arial", Font.BOLD, 14));
+                g2.setFont(new Font("Arial", Font.BOLD, 12));
                 g2.setColor(Color.GREEN);
-                g2.drawString("+ " + heal, pl.x + 113, pl.y + 90);
+                g2.drawString("+ " + heal, pl.x + 90, pl.y +70);
             }
             spriteSet();
 
-            g2.drawImage(FrameToDraw, x, y, gp.tileSize - 16,  gp.tileSize - 16, null);
+            g2.drawImage(FrameToDraw, x, y, 80,  80, null);
         }
     }
 
     public void SpwanCampFire() {
-        int tileNum;
-        int col;
-        int row;
-        do {
-            this.x = StayinZone.x + (int) (Math.random() * (StayinZone.width - gp.tileSize));
-            this.y = StayinZone.y + (int) (Math.random() * (StayinZone.height - gp.tileSize));
-            col = x / gp.tileSize;
-            row = y / gp.tileSize;
-
-            tileNum = tm.maptileNum[col][row];
-            System.out.println(tileNum);
-        } while (tileNum == 1 || tileNum == 2 || tileNum == 5);
-
-        this.x = col * gp.tileSize;
-        this.y = row * gp.tileSize;
-
+        switch(this.MapSpaw){
+            case "center":
+                this.x=100;
+                this.y=300;
+                break;
+            case "down":
+                this.x=550;
+                this.y=70;
+                break;
+            case "left":
+                this.x=600;
+                this.y=300;
+                break;
+            case "right":
+                this.x=500;
+                this.y=400;
+                break;
+            case "top":
+                this.x=100;
+                this.y=200;
+                break;
+        }
     }
 
     public void spriteSet() {

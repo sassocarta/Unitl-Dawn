@@ -2,6 +2,7 @@ package entity.NPCS.Enemy;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import entity.NPCS.NPC_Trader.TR_menu;
 import entity.Player.Player;
@@ -113,6 +114,7 @@ public class Enemy_Manager {
     public int hitboxWidth;
     public int hitboxHeight;
     public String name;
+    Random rand = new Random();
 
     //variabili per lo spawn dei nemici
     public boolean posizionato;
@@ -135,6 +137,7 @@ public class Enemy_Manager {
     public int endRow;
     public boolean collisione;
     public int tileID;
+    public int nCoins;
 
     //variabili per AI namici
     public int oldX;
@@ -164,6 +167,9 @@ public class Enemy_Manager {
     public int sC = 0; // Cambio direzione
     public int sT = 0; // reset contatore tot secondi
     public int tollerance = 1;
+
+    //barra vita boss
+    public BufferedImage barraVitaImg;
 
     
 }

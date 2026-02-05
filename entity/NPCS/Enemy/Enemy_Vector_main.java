@@ -109,15 +109,34 @@ public class Enemy_Vector_main {
             case 9:
                 // giorno 10 final boss (da implementare)
                 nEnemies = 50; // nemici di "accompagnamento" al boss
+                enemies.add(new Enemy(gp, pl, sd, tm, trm, 12, "/src/Enemies/Boss/RIGHT/BossWalk/", // walk right
+                            12, "/src/Enemies/Boss/LEFT/BossWalk/", // walk left
+                            6, "/src/Enemies/Boss/RIGHT/BossIdle/", // Idle right
+                            6, "/src/Enemies/Boss/LEFT/BossIdle/", // idle left
+                            5, "/src/Enemies/Boss/RIGHT/BossHit/", // hit right
+                            5, "/src/Enemies/Boss/LEFT/BossHit/", // hit left
+                            22, "/src/Enemies/Boss/RIGHT/BossDeath/", // death right
+                            22, "/src/Enemies/Boss/LEFT/BossDeath/", // death left
+                            15, "/src/Enemies/Boss/RIGHT/BossAttack/", // attack right
+                            15, "/src/Enemies/Boss/LEFT/BossAttack/",  // attack left
+                            "Boss",
+                            0,
+                            0,
+                            60,
+                            100,
+                            500,
+                            50,
+                            8)); // attack left);
                 break;
         }
 
         for (int i = 0; i < nEnemies; i++) {
             //4-5 PROBLEMI
-            enemyType = random.nextInt(3) + 1;
+            enemyType = random.nextInt(5) + 1;
 
             switch (enemyType) {
                 case 1:// Slime
+                    
                     enemies.add(new Enemy(gp, pl, sd, tm, trm, 8, "/src/Enemies/Slime/RIGHT/SlimeWalk/", // walk right
                             8, "/src/Enemies/Slime/LEFT/SlimeWalk/", // walk left
                             6, "/src/Enemies/Slime/RIGHT/SlimeIdle/", // Idle right
@@ -127,7 +146,7 @@ public class Enemy_Vector_main {
                             6, "/src/Enemies/Slime/RIGHT/SlimeDeath/", // death right
                             6, "/src/Enemies/Slime/LEFT/SlimeDeath/", // death left
                             8, "/src/Enemies/Slime/RIGHT/SlimeAttack/", // attack right
-                            8, "/src/Enemies/Slime/LEFT/SlimeAttack/",
+                            8, "/src/Enemies/Slime/LEFT/SlimeAttack/",  // attack left;
                             "Slime",
                             0,
                             0,
@@ -135,7 +154,7 @@ public class Enemy_Vector_main {
                             48,
                             50,
                             10,
-                            4)); // attack left);
+                            4));
                     break;
                 case 2:// Hallokin
 
@@ -149,7 +168,7 @@ public class Enemy_Vector_main {
                             3, "/src/Enemies/Hallokin/RIGHT/HallokinDeath/", // death right
                             3, "/src/Enemies/Hallokin/LEFT/HallokinDeath/", // death left
                             6, "/src/Enemies/Hallokin/RIGHT/HallokinAttack/", // attack right
-                            6, "/src/Enemies/Hallokin/LEFT/HallokinAttack/",
+                            6, "/src/Enemies/Hallokin/LEFT/HallokinAttack/",  // attack left;
                             "Hallokin",
                             0,
                             0,
@@ -157,7 +176,7 @@ public class Enemy_Vector_main {
                             48,
                             50,
                             30,
-                            4)); // attack left);
+                            4));
                     break;
                 case 3:// Orc
                     enemies.add(new Enemy(gp, pl, sd, tm, trm, 8, "/src/Enemies/Orc/RIGHT/OrcWalk/", // walk right
@@ -169,7 +188,7 @@ public class Enemy_Vector_main {
                             4, "/src/Enemies/Orc/RIGHT/OrcDeath/", // death right
                             4, "/src/Enemies/Orc/LEFT/OrcDeath/", // death left
                             6, "/src/Enemies/Orc/RIGHT/OrcAttack/", // attack right
-                            6, "/src/Enemies/Orc/LEFT/OrcAttack/",
+                            6, "/src/Enemies/Orc/LEFT/OrcAttack/",  // attack left;
                             "Orc",
                             0,
                             0,
@@ -177,7 +196,7 @@ public class Enemy_Vector_main {
                             48,
                             90,
                             20,
-                            4)); // attack left);
+                            4));
                     break;
                 case 4:// Mushroom
                     enemies.add(new Enemy(gp, pl, sd, tm, trm, 8, "/src/Enemies/Mushroom/RIGHT/MushroomWalk/", // walk
@@ -190,7 +209,7 @@ public class Enemy_Vector_main {
                             6, "/src/Enemies/Mushroom/RIGHT/MushroomDeath/", // death right
                             6, "/src/Enemies/Mushroom/LEFT/MushroomDeath/", // death left
                             8, "/src/Enemies/Mushroom/RIGHT/MushroomAttack/", // attack right
-                            8, "/src/Enemies/Mushroom/LEFT/MushroomAttack/",
+                            8, "/src/Enemies/Mushroom/LEFT/MushroomAttack/",  // attack left;
                             "Mushroom",
                             0,
                             0,
@@ -198,7 +217,7 @@ public class Enemy_Vector_main {
                             48,
                             70,
                             15,
-                            2)); // attack left);
+                            2));
                     break;
                 case 5:// Shadowed
                     enemies.add(new Enemy(gp, pl, sd, tm, trm, 9, "/src/Enemies/Shadowed/RIGHT/ShadowedWalk/", // walk
@@ -208,10 +227,10 @@ public class Enemy_Vector_main {
                             8, "/src/Enemies/Shadowed/LEFT/ShadowedIdle/", // idle left
                             1, "/src/Enemies/Shadowed/RIGHT/ShadowedHit/", // hit right
                             1, "/src/Enemies/Shadowed/LEFT/ShadowedHit/", // hit left
-                            4, "/src/Enemies/Shadowed/RIGHT/ShadowedDeath/", // death right
-                            4, "/src/Enemies/Shadowed/LEFT/ShadowedDeath/", // death left
+                            5, "/src/Enemies/Shadowed/RIGHT/ShadowedDeath/", // death right
+                            5, "/src/Enemies/Shadowed/LEFT/ShadowedDeath/", // death left
                             10, "/src/Enemies/Shadowed/RIGHT/ShadowedAttack/", // attack right
-                            10, "/src/Enemies/Shadowed/LEFT/ShadowedAttack/",
+                            10, "/src/Enemies/Shadowed/LEFT/ShadowedAttack/",  // attack left;
                             "Shadowed",
                             0,
                             0,
@@ -219,7 +238,7 @@ public class Enemy_Vector_main {
                             48,
                             100,
                             20,
-                            4)); // attack left);
+                            4));
                     break;
             }
         }
