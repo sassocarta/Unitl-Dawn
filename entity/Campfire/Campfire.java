@@ -160,7 +160,7 @@ public class Campfire {
             }
             spriteSet();
 
-            g2.drawImage(FrameToDraw, x, y, 80,  80, null);
+            g2.drawImage(FrameToDraw, x, y, 40,  40, null);
         }
     }
 
