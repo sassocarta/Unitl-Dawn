@@ -80,7 +80,7 @@ public class Enemy_Vector_main {
         // modifica la difficoltà in base al giorno
         switch (gp.day) {
             case 0:
-                nEnemies = 1;
+                nEnemies = 3;
                 break;
             case 1:
                 nEnemies = 5;
@@ -104,11 +104,11 @@ public class Enemy_Vector_main {
                 nEnemies = 16;
                 break;
             case 8:
-                nEnemies = 8;
+                nEnemies = 17;
                 break;
             case 9:
                 // giorno 10 final boss (da implementare)
-                nEnemies = 50; // nemici di "accompagnamento" al boss
+                nEnemies = 8; // nemici di "accompagnamento" al boss
                 enemies.add(new Enemy(gp, pl, sd, tm, trm, 12, "/src/Enemies/Boss/RIGHT/BossWalk/", // walk right
                             12, "/src/Enemies/Boss/LEFT/BossWalk/", // walk left
                             6, "/src/Enemies/Boss/RIGHT/BossIdle/", // Idle right

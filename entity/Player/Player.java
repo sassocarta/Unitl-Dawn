@@ -44,7 +44,7 @@ public class Player extends Entity {
     public int attackNum = 1;
     public boolean isGuarding = false;
 
-    public int maxLife = 10000;
+    public int maxLife = 100;
     public int life = maxLife;
 
     Sound hitSound;

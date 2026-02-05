@@ -271,15 +271,11 @@ public class TileManager {
 
         isAllDead = gp.ENEMIES.isAllDead();
 
-        //
         //Se la lista è vuota e è notte, diventa giorno
         if (isAllDead && gp.cicle.equals("NIGHT")) {
             gp.cicle = "DAY";
             gp.day++;
-
             npcForcingNight = false;
-            gp.FermaMusica();
-            gp.avviaMusica(5);
             music = true; 
 
             GetTileBaseCicle();  
@@ -290,9 +286,6 @@ public class TileManager {
         else if (npcForcingNight && gp.cicle.equals("DAY")) {
 
             gp.cicle = "NIGHT";
-
-            gp.FermaMusica();
-            gp.avviaMusica(0);
             music = true; 
 
             GetTileBaseCicle();  
