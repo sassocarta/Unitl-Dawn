@@ -226,7 +226,7 @@ public class TR_menu {
         
         // Prezzo
         g2.setColor(new Color(123, 63, 0));
-        g2.drawString(weapon.price + " monete", x + 20, y + size + 100);
+        g2.drawString(weapon.price + " coins", x + 20, y + size + 100);
     }
     
     public void RandomWp() {

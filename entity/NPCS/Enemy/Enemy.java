@@ -50,7 +50,9 @@ public class Enemy extends Enemy_Manager {
     int NFAttackLeft;
 
     // Coin
-    Coin coin;
+    Coin coin1;
+    Coin coin2;
+    Coin coin3;
     boolean onespawn = false;
 
     public Enemy(GamePanel gp,
@@ -140,7 +142,9 @@ public class Enemy extends Enemy_Manager {
         this.urlAttackLeft = urlAttackLeft;
         this.NFAttackLeft = NFAttackLeft;
 
-        coin = new Coin(pl, tm, sd);
+        coin1 = new Coin(pl, tm, sd);
+        coin2 = new Coin(pl, tm, sd);
+        coin3 = new Coin(pl, tm, sd);
 
         
 
@@ -321,8 +325,16 @@ public class Enemy extends Enemy_Manager {
 
     public void draw(Graphics2D g2) {
 
-        if (onespawn == true && coin.takeit == false && tm.currentMap.equalsIgnoreCase(MapSpawn)) {
-            coin.draw(g2);
+        if (onespawn == true && coin1.takeit == false && tm.currentMap.equalsIgnoreCase(MapSpawn)) {
+            coin1.draw(g2);
+        }
+
+        if (onespawn == true && coin2.takeit == false && tm.currentMap.equalsIgnoreCase(MapSpawn)) {
+            coin2.draw(g2);
+        }
+
+        if (onespawn == true && coin3.takeit == false && tm.currentMap.equalsIgnoreCase(MapSpawn)) {
+            coin3.draw(g2);
         }
 
         if (!alive)
@@ -1469,11 +1481,27 @@ public class Enemy extends Enemy_Manager {
 
         if (gp.cicle.equals("NIGHT") && !trm.isOpen) {
 
-            if (onespawn == true && coin.presounavolta == false) {
-                if (pl.PlInteractRect.intersects(coin.pickupZone)) {
-                    coin.takeit = true;
-                    coin.aumentaNcoin();
-                    coin.presounavolta = true;
+            if (onespawn == true && coin1.presounavolta == false) {
+                if (pl.PlInteractRect.intersects(coin1.pickupZone)) {
+                    coin1.takeit = true;
+                    coin1.aumentaNcoin();
+                    coin1.presounavolta = true;
+                }
+            }
+
+            if (onespawn == true && coin2.presounavolta == false) {
+                if (pl.PlInteractRect.intersects(coin2.pickupZone)) {
+                    coin2.takeit = true;
+                    coin2.aumentaNcoin();
+                    coin2.presounavolta = true;
+                }
+            }
+
+            if (onespawn == true && coin3.presounavolta == false) {
+                if (pl.PlInteractRect.intersects(coin3.pickupZone)) {
+                    coin3.takeit = true;
+                    coin3.aumentaNcoin();
+                    coin3.presounavolta = true;
                 }
             }
 
@@ -2253,19 +2281,19 @@ public class Enemy extends Enemy_Manager {
         if (onespawn == false) {
             onespawn = true;
 
-            nCoins = rand.nextInt(3) + 1;
+            nCoins = rand.nextInt(100) + 1;
 
-            if(nCoins==1){
-                coin.CoinSpawn(x + 85, y + 83);
+            if(nCoins<=60){
+                coin1.CoinSpawn(x + 85, y + 83);
             }
-            if(nCoins==2){
-                coin.CoinSpawn(x + 85, y + 83);
-                coin.CoinSpawn(x + 90, y + 90);
+            if(nCoins>60&&nCoins<=90){
+                coin1.CoinSpawn(x + 85, y + 83);
+                coin2.CoinSpawn(x + 85, y +83);
             }
-            if(nCoins==3){
-                coin.CoinSpawn(x + 85, y + 83);
-                coin.CoinSpawn(x + 90, y + 90);
-                coin.CoinSpawn(x + 80, y + 75);
+            if(nCoins>90){
+                coin1.CoinSpawn(x + 85, y + 83);
+                coin2.CoinSpawn(x + 85, y + 83);
+                coin3.CoinSpawn(x + 85, y + 83);
             }
         }
         action = "death";

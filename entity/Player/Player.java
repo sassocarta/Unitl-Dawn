@@ -25,11 +25,12 @@ public class Player extends Entity {
 
     Sound sd;
 
-    public int Damage = 10;
+    public int Damage = 100;
     public boolean invincible = false;
     public int invincibleCounter = 0;
     private BufferedImage barraVitaImg;
     private BufferedImage coin;
+    private BufferedImage nightCounter;
 
     private BufferedImage axe;
     private BufferedImage blade;
@@ -236,6 +237,8 @@ public class Player extends Entity {
             barraVitaImg = ImageIO.read(getClass().getResource("/src/Player/BarraVita.png"));
 
             coin = ImageIO.read(getClass().getResource("/src/Coin/tile2.png"));
+
+            nightCounter = ImageIO.read(getClass().getResource("/src/Player/nightCounter.png"));
 
             axe = ImageIO.read(getClass().getResource("/src/weapons/axeGUI.png"));
             blade = ImageIO.read(getClass().getResource("/src/weapons/bladeGUI.png"));
@@ -639,7 +642,7 @@ public class Player extends Entity {
         {
            g2.setColor(new Color(0, 143, 57));
         }
-        else if(life < 80 && life >40)
+        else if(life < 80 && life >=30)
         {
             g2.setColor(Color.ORANGE);
 
@@ -694,6 +697,15 @@ public class Player extends Entity {
         } else {
             g2.drawImage(empty, 660, 460, 100, 100, null);
         }
+
+        //Numero notte
+        int xnotte = 640;
+        int ynotte = 40;
+        int nNotti = gp.day+1;
+        g2.drawImage(nightCounter, xnotte-17, ynotte-33, 130, 50, null);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 25F));
+        g2.setColor(new Color(255, 215, 0));
+        g2.drawString("Night " + nNotti, xnotte, ynotte);
     }
 
     public void takeDamage(int damage) {
