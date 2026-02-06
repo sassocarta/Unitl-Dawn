@@ -62,20 +62,22 @@ public class GamePanel extends JPanel implements Runnable {
     // FPS
     public int FPS = 60;
 
-    public MouseHandler MouseH = new MouseHandler(); // aggiungo un MouseHendler
-    public Thread gamThread; // thread del game loop
-    public Sound soundBG = new Sound(); // aggiungo il suono del BG
-    public KeyHandler KeyH = new KeyHandler(this); // aggiungo un KeyHendler
-    public Player player = new Player(this, KeyH, MouseH,soundBG); // aggiugo Player
-    public TileManager tileM = new TileManager(this, player); // aggiugo TileManager
-    public CollisionManager cl = new CollisionManager(player, tileM, this);
-    public NPC_Tio Trader = new NPC_Tio(this,player, soundBG, tileM);
+    public Player player;// aggiugo Player
+    public TileManager tileM; // aggiugo TileManager
+    public CollisionManager cl;
+    public NPC_Tio Trader;
+    public TR_menu TR_menu;
+    public NPC_Vector_main NPCS;
+    public Enemy_Vector_main ENEMIES;
+    public Campfire cmp;
+
+    public MouseHandler MouseH = new MouseHandler();// aggiungo un MouseHendler
+    public Sound soundBG = new Sound();// aggiungo il suono del BG
+    public KeyHandler KeyH = new KeyHandler(this);// aggiungo un KeyHendler
     public weapons WP = new weapons();
-    public Sound speek = new Sound(); // aggiungo il suono del BG
-    public TR_menu TR_menu = new TR_menu(Trader, MouseH, KeyH, WP, speek, player);
-    public NPC_Vector_main NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
-    public Enemy_Vector_main ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM,TR_menu);
-    public Campfire cmp = new Campfire(this, player, tileM);
+    public Sound speek = new Sound();// aggiungo il suono del BG
+
+    public Thread gamThread; // thread del game loop
     public String cicle;
 
     // set paleyer defoult posizione
@@ -84,17 +86,22 @@ public class GamePanel extends JPanel implements Runnable {
     int paleyerSpeed = 4;
 
     public GamePanel() {
-        // set la dimensione della classe JPanel
+        
+        
         this.setPreferredSize(new Dimension(ScreeWidth, ScreeHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(KeyH);
-        this.addMouseListener((MouseListener) MouseH); // aggiungo a questo JPnale il Mouse lissener (MouseH)
+        this.addMouseListener((MouseListener) MouseH);
         this.addMouseMotionListener(MouseH);
         this.setFocusable(true);
-        StartNPCthread();
-        loadImages();
+
+        loadImages(); 
+        
+        resetGame(); 
+        
         gameState = mainMenuState;
+        
     }
 
     private void loadImages() {
@@ -120,7 +127,25 @@ public class GamePanel extends JPanel implements Runnable {
         NPCS.StartThread();
     }
 
-    
+    public void resetGame() {
+        //inizializza il giocatore
+        player = new Player(this, KeyH, MouseH, soundBG); 
+        
+        //inizializza il mondo e le entità
+        tileM = new TileManager(this, player);
+        cl = new CollisionManager(player, tileM, this);
+        Trader = new NPC_Tio(this, player, soundBG, tileM);
+        TR_menu = new TR_menu(Trader, MouseH, KeyH, WP, speek, player);
+        NPCS = new NPC_Vector_main(this, player, soundBG, tileM);
+        ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM, TR_menu);
+        cmp = new Campfire(this, player, tileM);
+        
+        // Reset variabili di gioco
+        day = 0;
+        
+        // Se necessario, riavvia i thread degli NPC
+        StartNPCthread();
+    }
 
     // GAME LOOP
     @Override
@@ -168,6 +193,7 @@ public class GamePanel extends JPanel implements Runnable {
                 
                 // Pulsante PLAY
                 if (isMouseOver(550, 300, 140, 60)) {
+                    resetGame();
                     gameState = playState;
                     avviaMusica(0); // Avvia la musica del gioco se necessario
                     MouseH.leftPressed = false; // Reset per evitare click multipli
