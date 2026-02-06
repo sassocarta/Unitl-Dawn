@@ -2278,6 +2278,7 @@ public class Enemy extends Enemy_Manager {
 
     public void die() {
         dying = true;
+
         if (onespawn == false) {
             onespawn = true;
 
@@ -2285,18 +2286,24 @@ public class Enemy extends Enemy_Manager {
 
             if(nCoins<=60){
                 coin1.CoinSpawn(x + 85, y + 83);
+                coin2.CoinSpawn(x + 10000, y + 10000);
+                coin3.CoinSpawn(x + 10000, y + 10000);
             }
             if(nCoins>60&&nCoins<=90){
                 coin1.CoinSpawn(x + 85, y + 83);
-                coin2.CoinSpawn(x + 85, y +83);
+                coin2.CoinSpawn(x + 95, y +90);
+                coin3.CoinSpawn(x + 10000, y + 10000);
             }
             if(nCoins>90){
                 coin1.CoinSpawn(x + 85, y + 83);
-                coin2.CoinSpawn(x + 85, y + 83);
-                coin3.CoinSpawn(x + 85, y + 83);
+                coin2.CoinSpawn(x + 95, y + 90);
+                coin3.CoinSpawn(x + 75, y + 95);
             }
         }
+
         action = "death";
+
+        
     }
 
     public void randomMove(String dir) {

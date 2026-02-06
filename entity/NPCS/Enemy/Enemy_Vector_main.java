@@ -252,6 +252,11 @@ public class Enemy_Vector_main {
             if (e.alive) {
                 e.update();
             } else {
+                
+                if(enemies.get(i).name=="Boss"){
+                    gp.gameState = 4;
+                }
+
                 enemies.remove(i);
             }
         }
@@ -291,7 +296,7 @@ public class Enemy_Vector_main {
         }
     }
 
-    public boolean isAllDead() {
+    public boolean isAllDead(){
         return enemies.isEmpty();
     }
 }

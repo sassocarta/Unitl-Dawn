@@ -163,17 +163,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() { 
         if (gameState == mainMenuState) {
-            // Controlliamo se l'utente ha cliccato il tasto sinistro
+            // Controlla se l'utente ha cliccato il tasto sinistro
             if (MouseH.leftPressed) { 
                 
-                // Pulsante PLAY: x=600, y=400 (Assumendo larghezza 150 e altezza 40)
+                // Pulsante PLAY
                 if (isMouseOver(550, 300, 140, 60)) {
                     gameState = playState;
                     avviaMusica(0); // Avvia la musica del gioco se necessario
                     MouseH.leftPressed = false; // Reset per evitare click multipli
                 }
                 
-                // Pulsante EXIT: x=600, y=450
+                // Pulsante EXIT
                 else if (isMouseOver(558, 380, 140, 60)) {
                     System.exit(0);
                 }
@@ -191,7 +191,36 @@ public class GamePanel extends JPanel implements Runnable {
                 else if (isMouseOver(320, 300, 140, 60)) {
                     gameState = mainMenuState;
                     MouseH.leftPressed = false;
-                    // Qui potresti voler resettare la posizione del player o fermare la musica
+                }
+            }
+        }
+
+        if (gameState == gameOverState) {
+            if (MouseH.leftPressed) {
+                // Pulsante menu
+                if (isMouseOver(320, 300, 140, 60)) {
+                    gameState = mainMenuState;
+                    MouseH.leftPressed = false;
+                }
+                // Pulsante exit
+                else if (isMouseOver(323, 380, 140, 60)) {
+                    System.exit(0);
+                    MouseH.leftPressed = false;
+                }
+            }
+        }
+
+        if (gameState == winState) {
+            if (MouseH.leftPressed) {
+                // Pulsante menu
+                if (isMouseOver(320, 300, 140, 60)) {
+                    gameState = mainMenuState;
+                    MouseH.leftPressed = false;
+                }
+                // Pulsante exit
+                else if (isMouseOver(323, 380, 140, 60)) {
+                    System.exit(0);
+                    MouseH.leftPressed = false;
                 }
             }
         }
@@ -233,68 +262,74 @@ public class GamePanel extends JPanel implements Runnable {
             ENEMIES.draw(g2);
             
             if (gameState == gameOverState) {
-                String text = "GAME OVER: SEI MORTO";
-                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F)); // Font grande e grassetto
-                
-                // Calcolo per centrare il testo
-                int x = getXforCenteredText(text, g2);
-                int y = ScreeHeight / 2;
+                // 1. Oscura lo schermo
+                g2.setColor(new Color(0, 0, 0, 150));
+                g2.fillRect(0, 0, ScreeWidth, ScreeHeight);
 
+                //testo
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
+                String text = "GAME OVER";
+                int x = getXforCenteredText(text, g2);
                 // Ombra del testo (per leggerlo meglio)
                 g2.setColor(Color.black);
-                g2.drawString(text, x + 3, y + 3);
+                g2.drawString(text, x + 3, 263);
+                // Testo principale
+                g2.setColor(Color.RED);
+                g2.drawString(text, x, 260);
+                
 
-                // Testo principale (Rosso sangue)
-                g2.setColor(Color.red);
-                g2.drawString(text, x, y);
+                // Pulsante Continue
+                if (btnMenuImg != null) g2.drawImage(btnMenuImg, 320, 300, 140, 60,  null);
+
+                // Pulsante Menu
+                if (btnExitImg != null) g2.drawImage(btnExitImg, 323, 380, 140, 60, null);
             }
 
             if (gameState == winState) {
-                String text = "WIN!!!";
-                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F)); // Font grande e grassetto
-                
-                // Calcolo per centrare il testo
-                int x = getXforCenteredText(text, g2);
-                int y = ScreeHeight / 2;
+                // 1. Oscura lo schermo
+                g2.setColor(new Color(0, 0, 0, 150));
+                g2.fillRect(0, 0, ScreeWidth, ScreeHeight);
 
+                //testo
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
+                String text = "WIN!";
+                int x = getXforCenteredText(text, g2);
                 // Ombra del testo (per leggerlo meglio)
                 g2.setColor(Color.black);
-                g2.drawString(text, x + 3, y + 3);
-
-                // Testo principale (Rosso sangue)
+                g2.drawString(text, x + 3, 263);
+                // Testo principale
                 g2.setColor(Color.GREEN);
-                g2.drawString(text, x, y);
+                g2.drawString(text, x, 260);
+                
+
+                // Pulsante Continue
+                if (btnMenuImg != null) g2.drawImage(btnMenuImg, 320, 300, 140, 60,  null);
+
+                // Pulsante Menu
+                if (btnExitImg != null) g2.drawImage(btnExitImg, 323, 380, 140, 60, null);
             }
 
             if (gameState == pauseState) {
-                drawPauseScreen(g2);
+                // 1. Oscura lo schermo
+                g2.setColor(new Color(0, 0, 0, 150));
+                g2.fillRect(0, 0, ScreeWidth, ScreeHeight);
+
+                //testo
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
+                g2.setColor(Color.YELLOW);
+                String text = "PAUSE";
+                int x = getXforCenteredText(text, g2);
+                g2.drawString(text, x, 260);
+
+                // Pulsante Continue
+                if (btnMenuImg != null) g2.drawImage(btnMenuImg, 320, 300, 140, 60,  null);
+
+                // Pulsante Menu
+                if (btnContinueImg != null) g2.drawImage(btnContinueImg, 290, 380, 200, 60, null);
             }
         }
         
         g2.dispose();
-    }
-
-    public void drawPauseScreen(Graphics2D g2) {
-        // 1. Oscura lo schermo
-        g2.setColor(new Color(0, 0, 0, 150));
-        g2.fillRect(0, 0, ScreeWidth, ScreeHeight);
-
-        //testo
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
-        g2.setColor(Color.YELLOW);
-        String text = "PAUSE";
-        int x = getXforCenteredText(text, g2);
-        g2.drawString(text, x, 260);
-
-
-
-
-        // Pulsante Continue
-        if (btnMenuImg != null) g2.drawImage(btnMenuImg, 320, 300, 140, 60,  null);
-
-        // Pulsante Menu
-        if (btnContinueImg != null) g2.drawImage(btnContinueImg, 290, 380, 200, 60, null);
-        
     }
 
     //Metodo per centrare le scritte su schermo
