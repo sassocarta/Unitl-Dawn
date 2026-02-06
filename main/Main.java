@@ -1,6 +1,7 @@
 package main;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-
+import java.awt.image.BufferedImage;
 
 
 public class Main {
@@ -28,7 +29,16 @@ public class Main {
         // finestra visibile
         window.setVisible(true);
 
-        // startiamo subito il thread
+        //icona app
+        try {
+            BufferedImage icon = ImageIO.read(Main.class.getResource("/src/menu/AppIcon.png"));
+            window.setIconImage(icon);
+        } catch (Exception e) {
+            System.out.println("Errore nel caricamento dell'icona: " + e.getMessage());
+        }
+
+
+        // startiamo il thread
         gamePanel.StartGameThread();
 
     }

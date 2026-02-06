@@ -25,7 +25,7 @@ public class Player extends Entity {
 
     Sound sd;
 
-    public int Damage = 100;
+    public int Damage = 10;
     public boolean invincible = false;
     public int invincibleCounter = 0;
     private BufferedImage barraVitaImg;
