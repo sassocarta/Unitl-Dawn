@@ -1,3 +1,11 @@
+/**
+* @version 1.0
+* @file Sound.java 
+* 
+* @brief File che contiene la classe Sound
+*
+*/
+
 package main;
 import java.net.URL;
 
@@ -5,15 +13,28 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+/** 
+* @class Sound
+* 
+* @brief Classe che gestisce i souni nel gioco
+* 
+* Questa classe serve per caricare i suoni nel gioco e per farli partire durante il gioco
+*/ 
+
 public class Sound {
 
-    // Oggetto Clip che gestisce la riproduzione dell’audio
+    /** Oggetto Clip che gestisce la riproduzione dell’audio */
     Clip clip;
 
-    // Array di URL che contengono i percorsi dei file audio
+    /** Array di URL che contengono i percorsi dei file audio */
     URL soundURL[] = new URL[30];
 
-    // Costruttore della classe Sound
+
+    /**
+     @brief Costruttore della classe Sound.
+
+    Costruttore della classe Sound che inserisce i file audio nell'array soundURL
+    */
     public Sound() {
         try {
             // Caricamento dei file audio dalla cartella delle risorse
@@ -36,7 +57,14 @@ public class Sound {
         }
     }
 
-    // Imposta il file audio da riprodurre usando l'indice dell'array
+
+    /**
+     @brief Imposta il file audio da riprodurre usando l'indice dell'array.
+
+    Metodo che carica l'audio del file.
+    Il file lo brende dal vettore basandosi sull'indice in parametro
+    @param  i indice del vettore da cui prendere il file
+    */
     public void setFile(int i) {
         try {
             // Ottiene lo stream audio dal file WAV
@@ -53,7 +81,12 @@ public class Sound {
         }
     }
 
-    // Riproduce il suono una sola volta
+
+    /**
+     @brief Riproduce il suono.
+
+    Metodo che riproduce una sola volta il suono caricato
+    */
     public void play() {
 
         // Se il clip non è stato inizializzato, esce dal metodo
@@ -70,12 +103,21 @@ public class Sound {
         clip.start();
     }
 
-    // Riproduce il suono in loop continuo
+
+    /**
+     @brief Riproduce il suono in loop continuo.
+
+    Metodo che riproduce in loop continuo il suono caricato
+    */
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    // Ferma la riproduzione del suono
+    /**
+     @brief Ferma la riproduzione del suono.
+
+    Metodo che ferma la riproduzione del suono in esecuzione
+    */
     public void stop() {
         clip.stop();
     }

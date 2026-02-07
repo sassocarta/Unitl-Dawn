@@ -1,22 +1,61 @@
+/**
+* @version 1.0
+* @file KeyHandler.java 
+* 
+* @brief File che contiene la classe KayHandler
+*
+*/
+
 package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
+/** 
+* @class KayHandler
+* 
+* @brief Classe che gestisce gli input della tastiera
+* 
+* Questa classe serve controllare i tasti della tastiera e i loro input
+*/
+
 public class KeyHandler implements KeyListener {
+
+    /** variabili che controllano se i tasti W, A, S, D, E, 1, 2, 3 sono stati premuti*/
     public boolean upPressed, dowPressed, leftPressed, rightPressed, EPressed, Pressed1, Pressed2, Pressed3;
 
+    /** JPanel su qui lavora il gico */
     GamePanel gp;
 
+    
+    /**
+     @brief Costruttore del KayHandler.
+     
+     Costruttore del KayHandler
+    @param  gp JPanel su qui lavora il gico
+    */
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
     }
-
+    
+    /**
+     @brief Controlla se un tasto della tastiera è stato premuto.
+     
+     questo metodo controlla se uno dei tasti della tastiera è stato premuto attraverso keyEvent
+    @param  e libreria esterna che permette il controllo della tastiera
+    */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /**
+     @brief Controlla se un tasto della tastiera è stato premuto.
+     
+     questo metodo controlla se uno dei tasti della tastiera è stato premuto attraverso keyEvent
+    @param  e libreria esterna che permette il controllo della tastiera
+    */
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -57,6 +96,14 @@ public class KeyHandler implements KeyListener {
             }
         }
     }
+
+
+    /**
+     @brief Controlla se un tasto della tastiera è stato rilasciato.
+     
+     questo metodo controlla se uno dei tasti della tastiera è stato rilasciato attraverso keyEvent
+    @param  e libreria esterna che permette il controllo della tastiera
+    */
 
     @Override
     public void keyReleased(KeyEvent e) {

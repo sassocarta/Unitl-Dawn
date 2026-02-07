@@ -1,3 +1,11 @@
+/**
+* @version 1.0
+* @file TileManager.java 
+* 
+* @brief Contiene classe TileManager: Classe che stampa i Tile di Tile.java leggendo file di testo
+*
+*/
+
 package tile;
 
 import java.io.BufferedReader;
@@ -12,27 +20,43 @@ import java.io.InputStreamReader;
 import main.GamePanel;
 import main.Sound;
 
+
+/** 
+* @class TileManager
+* 
+* @brief Classe che stampa i Tile di Tile.java leggendo file di testo
+* 
+* Questa classe permette di stampare a schermo le caselle della mappa.
+* Ogni tipo di casella equivale a un numero.
+* Il tipo di Casella viene letto da file di testo esterni che contengono tutti i numeri posizionati in base alla posizione che dovra avere la casella sullo schermo.
+*/ 
 public class TileManager {
-    // JPanel su qui lavora il gico
+    /** JPanel su qui lavora il gico */
     GamePanel gp;
-    // Plaeyr
+    /** Player */
     Player pl;
-    // vettore di immagini
+    /** Vettore della immagini dei tile */
     Tile[] tile;
-    // matrice di posizionameto Tile
+    /** matrice di posizionameto dei Tile */
     public int maptileNum[][];
-    // mappa che e attualmete visualizzata
+    /** mappa attualmente visualizzata su schermo */
     public String currentMap = "";
-    // cicle del giorno (DAY) (NIGHT)
+    /** Ciclo giorno/notte */
     public boolean npcForcingNight = false;
-    // music (ON) (OFF) se riproduci musica o no
+    /** Riproduzi musica */
     public boolean music = false;
-    // aggiungo suono per transizione
+    /** suono di transizione tra mappe */
     Sound transiton = new Sound();
+    /** valiebile per controllare se tutti i mostri sono morti */
+    public boolean isAllDead;
 
+    /**
+     @brief costruttore.
 
-    boolean isAllDead;
-
+    Costruttore di TileManager
+    @param  gp JPanel su qui lavora il gico
+    @param  pl Player
+    */
     public TileManager(GamePanel gp, Player pl) {
         this.gp = gp;
         // assegno lunghezza vettore
@@ -54,6 +78,11 @@ public class TileManager {
 
     }
 
+    /**
+     @brief Update.
+
+    Metodo update che aggiorna l'oggetto a ogni frame.
+    */
     public void update() {
         // OGNI SECONDO
         // poi controllo se devo cambiare i tile da usare per disegnare la mappa
@@ -128,6 +157,12 @@ public class TileManager {
 
     }
 
+    /**
+     @brief Metodo che crea le caselle della notte e ci inserisce le immagini.
+
+    Questo metodo serve a creare GLi oggetti tile della notte e a inserirli nel vettore di caselle.
+    Successivamente per ogni tile inserisce l'immagine
+    */
     public void GetTileImgNight() {
         // carico nel vettore i tile che devo usare (LA VERSIONE NOTTURNA)
         // /Asset/Tile/NIGHT
@@ -160,6 +195,12 @@ public class TileManager {
 
     }
 
+    /**
+     @brief Metodo che crea le caselle del giorno e ci inserisce le immagini.
+
+    Questo metodo serve a creare GLi oggetti tile del giorno e a inserirli nel vettore di caselle.
+    Successivamente per ogni tile inserisce l'immagine
+    */
     public void GetTileImgDay() {
         try {
             // carico nel vettore i tile che devo usare (LA VERSIONE GIORNO) /Asset/Tile/DAY
@@ -190,6 +231,12 @@ public class TileManager {
         }
     }
 
+    /**
+    @brief Metodo che inserisce le caselle nella matrice.
+
+    Questo metodo serve per inserire nella matrice i numeri delle caselle.
+    @param  Map la mappa da caricare e da stampare
+    */
     public void LoadMap(String Map) {
         try {
             InputStream is = getClass().getResourceAsStream(Map);
@@ -219,6 +266,12 @@ public class TileManager {
         }
     }
 
+    /**
+    @brief Metodo che stampa su schermo le caselle basandosi sulla matrice.
+
+    Questo metodo serve per stampare tutte le caselle. Prende il  numero della casella dalla matrice e stampa quella casella.
+    @param  g2 strumento per stampare in 2d
+    */
     public void draw(Graphics2D g2) {
 
         // Indice della colonna corrente della mappa
@@ -267,6 +320,12 @@ public class TileManager {
         }
     }
 
+    /**
+    @brief Metodo che cambia ciclo giorno/notte.
+
+    Questo metodo serve per cambiare tempo nel gioco.>
+    Quando viene richiamato, se è giorno fa diventare notte e se è notte fa diventare giorno.
+    */
     public void CurrentCicleSet() {
 
         isAllDead = gp.ENEMIES.isAllDead();
@@ -294,7 +353,11 @@ public class TileManager {
 
     }
 
-   
+    /**
+    @brief Metodo che prende le immagini dei tile in base al tempo.
+
+    Questo metodo serve per prendere le immagini dei tile in base al temp nel gioco. se è notte prende i tile della notte mentre se è giorno prende i tile del giorno.
+    */
     public void GetTileBaseCicle() {
         // se e giorno
         if (gp.cicle.equals("DAY")) {

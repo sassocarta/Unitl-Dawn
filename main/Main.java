@@ -1,44 +1,72 @@
+/**
+* @version 1.0
+* @file Main.java 
+* 
+* @brief File che contiene il main del programma
+*
+*/
+
 package main;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import java.awt.image.BufferedImage;
 
+/** 
+* @class Main
+* 
+* @brief Classe che gestisce il programma
+* 
+* Questa classe serve per far partire il programma creando la finestra e inserendo il pannello con il gioco all'interno della finestra
+*/
 
+
+/** @mainpage Main
+* viene creata la finestra con dentro il pannello
+* viene creata l'immagine icona dell'applicazione che verrà visualizzata nella barra delle applicazioni
+* viene fatto partire il thread del gioco
+*/
 public class Main {
 
     public static void main(String[] args) {
 
-        // nuova finestra
+        /** Crea nuova finestra */
         JFrame window = new JFrame(); 
-        // close operation X finstra = out
+
+        /** Imposta chiusura finestra */
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // dimesione fissa, non modificabile
+
+        /** Imposta dimensione finestra */
         window.setResizable(false);
-        // titolo
-        window.setTitle("PROVA2.GAME");
-        // aggiungiamo al JFrame il nostro Jpanel(GamePanel)
+
+        /** Imposta titolo finestra */
+        window.setTitle("Until Down");
+
+        
+        /** Creazione del pannello di gioco */
         GamePanel gamePanel = new GamePanel();
 
+        /** Aggiunta del pannello di gioco alla finestra */
         window.add(gamePanel);
 
-        // per vedere il Jpanel sul Jframe
+        /** Fai vedere il Jpanel sul Jframe */
         window.pack();
 
-        // spaw delle finestra = centro schermo
+        /** Spawn della finestra al centro dello schermo */
         window.setLocationRelativeTo(null);
-        // finestra visibile
+
+        /** Rendi la finestra visibile */
         window.setVisible(true);
 
-        //icona app
+        //Icona applicazione
         try {
             BufferedImage icon = ImageIO.read(Main.class.getResource("/src/menu/AppIcon.png"));
+            /** Imposta icona applicazione */
             window.setIconImage(icon);
         } catch (Exception e) {
             System.out.println("Errore nel caricamento dell'icona: " + e.getMessage());
         }
 
-
-        // startiamo il thread
+        /** Inizio thread del gamePanel */
         gamePanel.StartGameThread();
 
     }
