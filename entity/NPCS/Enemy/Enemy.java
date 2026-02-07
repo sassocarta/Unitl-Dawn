@@ -15,8 +15,10 @@ import main.GamePanel;
 import main.Sound;
 import tile.TileManager;
 
-public class Enemy extends Enemy_Manager {
+public class Enemy extends Enemy_Manager implements Runnable{
 
+    private Thread enemyThread;
+    int tick = 0;
 
     // WalkRight
     String urlWalkRight;
@@ -153,6 +155,40 @@ public class Enemy extends Enemy_Manager {
         GetAllEnemyImages();
         randomStarDirection();
         spriteSet();
+
+        startThread();
+    }
+
+    public void startThread() {
+        if (enemyThread == null) {
+            enemyThread = new Thread(this);
+            enemyThread.start();
+        }
+    }
+
+    @Override
+    public void run() {
+        //aspetta che il gioco sia pronto
+        while (pl == null || gp.gameState != gp.playState) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Loop di aggiornamento
+        while (enemyThread != null) {
+            if (this.MapSpawn.equals(tm.currentMap)) {
+                update();
+            }
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
     }
 
     public void GetImagesWalkRight(int NFWalkRight, String urlWalkRight) {
@@ -368,7 +404,7 @@ public class Enemy extends Enemy_Manager {
                     }
                     break;
                 case "walk":
-                    if (direction.equals("right") || direction.equals("up")) {
+                    if (direction.equals( "right") || direction.equals("up")) {
                         imageToDraw = EnemyWalkRight[WalkRightSpriteNum - 1];
                     } else {
                         imageToDraw = EnemyWalkLeft[WalkLeftSpriteNum - 1];

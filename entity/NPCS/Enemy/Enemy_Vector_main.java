@@ -244,49 +244,50 @@ public class Enemy_Vector_main {
         }
     }
 
+
     public void update() {
       // 1. Aggiorna i nemici e rimuovi quelli morti
-    for (int i = enemies.size() - 1; i >= 0; i--) {
-        Enemy e = enemies.get(i);
-        if (e != null) {
-            if (e.alive) {
-                e.update();
-            } else {
-                
-                if(enemies.get(i).name=="Boss"){
-                    gp.gameState = 4;
-                }
+        for (int i = enemies.size() - 1; i >= 0; i--) {
+            Enemy e = enemies.get(i);
+            if (e != null) {
+                if (e.alive) {
+                    e.update();
+                } else {
+                    
+                    if(e.name=="Boss"){
+                        gp.gameState = 4;
+                    }
 
-                enemies.remove(i);
+                    enemies.remove(i);
+                }
             }
         }
+
+        // 2. AGGIORNA IL VALORE DELLA VARIABILE isAllDead
+        isAllDead = enemies.isEmpty(); 
+
+        // 3. Controlla il cambio di ciclo
+        if (isAllDead && gp.cicle.equals("NIGHT")) { 
+
+            gp.Trader.tm.npcForcingNight = false;
+            gp.tileM.npcForcingNight = false;
+            trm.tiocambiociclo = false;
+
+            gp.tileM.CurrentCicleSet();
+        }
+        else if(gp.cicle.equals("DAY") && trm.tiocambiociclo == true)
+        {
+            trm.tiocambiociclo = false;
+            gp.Trader.tm.npcForcingNight = true;
+            gp.tileM.npcForcingNight = true;
+
+            enemies.clear();
+            CreateNpcs();   
+
+            gp.tileM.CurrentCicleSet();
+        
+        }
     }
-
-    // 2. AGGIORNA IL VALORE DELLA VARIABILE isAllDead
-    isAllDead = enemies.isEmpty(); 
-
-    // 3. Controlla il cambio di ciclo
-    if (isAllDead && gp.cicle.equals("NIGHT")) { 
-
-        gp.Trader.tm.npcForcingNight = false;
-        gp.tileM.npcForcingNight = false;
-        trm.tiocambiociclo = false;
-
-        gp.tileM.CurrentCicleSet();
-    }
-    else if(gp.cicle.equals("DAY") && trm.tiocambiociclo == true)
-    {
-        trm.tiocambiociclo = false;
-        gp.Trader.tm.npcForcingNight = true;
-        gp.tileM.npcForcingNight = true;
-
-        enemies.clear();
-        CreateNpcs();   
-
-        gp.tileM.CurrentCicleSet();
-    
-    }
-}
 
     public void draw(Graphics2D g2) {
         for (int i = 0; i < enemies.size(); i++) {

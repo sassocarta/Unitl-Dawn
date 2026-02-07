@@ -143,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
         // Reset variabili di gioco
         day = 0;
         
-        // Se necessario, riavvia i thread degli NPC
+        // thread degli NPC
         StartNPCthread();
     }
 
