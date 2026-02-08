@@ -1,3 +1,10 @@
+/**
+* @version 1.0
+* @file GamePanel.java 
+* 
+* @brief File che contiene la classe GamePanel
+*
+*/
 package main;
 
 import java.awt.Color;
@@ -22,88 +29,169 @@ import tile.TileManager;
 import java.awt.image.BufferedImage;
 
 
+/** 
+* @class GamePanel
+* 
+* @brief Classe che gestisce il pannello di gioco
+* 
+* Questa classe serve a gestire il pannello di gioco.
+* Crea il gioco all'interno del pannello e ne gestisce gli stati.
+*/
 public class GamePanel extends JPanel implements Runnable {
 
-    // SCREEN SETTINGS
-    // final = cosnt
+    /** dimensione fissa delle caselle di gioco*/
+    public final int originalTileSize = 16;
 
-    /*
-     * ha una dimensione fissa (es. 16×16 pixel)
-     * rappresenta un pezzo del mondo di gioco (erba, muro, acqua, strada…)
-     */
+    /** moltiplicatore della dimensione delle caselle di gioco*/
+    public final int scale = 3;
 
-    public final int originalTileSize = 16; // 16x16 tile //standard size per npc player pezzi mappa etc..
-    public final int scale = 3; // scale 16x3(scale) = 48
+    /** dimensione finale moltiplicata delle caselle di gioco*/
+    public final int tileSize = originalTileSize * scale;
 
-    public final int tileSize = originalTileSize * scale; // 48x48
+    /** numero di caselle in una riga*/
     public final int MaxScreenCol = 16;
-    public final int MaxScreenRow = 12; // 16 tile orizzontali, e 12 tile verticali, ogni tile gia come detto prima
-    // 48x48
 
-    // dimesione dello schermo
+    /** numero di caselle in una colonna*/
+    public final int MaxScreenRow = 12;
+
+    /** Larghezza dello schermo*/
     public final int ScreeWidth = tileSize * MaxScreenCol; // 768 pixels
+
+    /** Altezza dello schermo*/
     public final int ScreeHeight = tileSize * MaxScreenRow; // 576 pixel
 
+    /** Stato del gioco*/
     public int gameState;
+
+    /** Stato menù principale*/
     public final int mainMenuState = 0;
+
+    /** Stato gioco*/
     public final int playState = 1;
+
+    /** Stato game over*/
     public final int gameOverState = 2;
+
+    /** Stato pausa*/
     public final int pauseState = 3;
+
+    /** Stato vittoria*/
     public final int winState = 4;
 
+    /** Immagine sfondo del menu*/
     BufferedImage menuBg;
+
+    /** immagine del pulsante PLAY*/
     BufferedImage btnPlayImg;
+
+    /** immagine del pulsante EXIT*/
     BufferedImage btnExitImg;
+
+    /** immagine del pulsante MENU*/
     BufferedImage btnMenuImg;
+
+    /** immagine del pulsante CONTINUE*/
     BufferedImage btnContinueImg;
 
+    /** Numero di giorni*/
     public int day=0;
 
-    // FPS
+    /** FPS*/
     public int FPS = 60;
 
-    public Player player;// aggiugo Player
-    public TileManager tileM; // aggiugo TileManager
+    /** Player*/
+    public Player player;
+
+    /** Tile Manager*/
+    public TileManager tileM;
+
+    /** Collision Manager*/
     public CollisionManager cl;
+
+    /** Mercante*/
     public NPC_Tio Trader;
+
+    /** Shop del mercante*/
     public TR_menu TR_menu;
+
+    /** Personaggi del giorno*/
     public NPC_Vector_main NPCS;
+
+    /** Mostri della notte*/
     public Enemy_Vector_main ENEMIES;
+
+    /** Campfire*/
     public Campfire cmp;
 
-    public MouseHandler MouseH = new MouseHandler();// aggiungo un MouseHendler
-    public Sound soundBG = new Sound();// aggiungo il suono del BG
-    public KeyHandler KeyH = new KeyHandler(this);// aggiungo un KeyHendler
-    public weapons WP = new weapons();
-    public Sound speek = new Sound();// aggiungo il suono del BG
+    /** MouseHandler*/
+    public MouseHandler MouseH = new MouseHandler();
 
-    public Thread gamThread; // thread del game loop
+    /** Musica di sfondo*/
+    public Sound soundBG = new Sound();
+
+    /** KeyHandler*/
+    public KeyHandler KeyH = new KeyHandler(this);
+
+    /** Armi nel gioco*/
+    public weapons WP = new weapons();
+
+    /** Suono di interazione NPC e mercante*/
+    public Sound speek = new Sound();
+
+    /** Thread del game loop*/
+    public Thread gamThread;
+
+    /** Ciclo giorno/notte*/
     public String cicle;
 
-    // set paleyer defoult posizione
+    /** Posizione spawn X del player*/
     int playerX = 100;
+
+    /** Posizione spawn Y del player*/
     int playerY = 100;
+
+    /** Velocità del player*/
     int paleyerSpeed = 4;
 
+
+    /**
+     @brief Costruttore della classe gamePanel.
+     
+     questo metodo è il costruttore che crea il gamePanel
+    */
     public GamePanel() {
         
-        
+        //imposta la dimensione del pannello
         this.setPreferredSize(new Dimension(ScreeWidth, ScreeHeight));
+        //imposta il colore di sfondo
         this.setBackground(Color.black);
+        
         this.setDoubleBuffered(true);
+        //aggiunge il keyListener
         this.addKeyListener(KeyH);
+        //aggiunge il Mouse Listener
         this.addMouseListener((MouseListener) MouseH);
+        //aggiunge il movimento del mouse di Mouse Listener
         this.addMouseMotionListener(MouseH);
+        //imposta la visualizzazione del pannello
         this.setFocusable(true);
 
+        //carica le immagini necessarie
         loadImages(); 
         
+        //imposta il gioco
         resetGame(); 
         
+        //imposta lo stato del gioco a stato menu principale
         gameState = mainMenuState;
         
     }
 
+    /**
+     @brief Carica immagini.
+     
+     questo metodo serve per caricare le immagini mettendole in variabili bufferedImage
+    */
     private void loadImages() {
     try {
         menuBg = ImageIO.read(getClass().getResourceAsStream("/src/menu/SfondoMenu.png"));
@@ -116,17 +204,32 @@ public class GamePanel extends JPanel implements Runnable {
     }
 }
 
+    /**
+     @brief Comincia il thread del gioco.
+     
+     questo metodo serve per far cominciare il thread del gioco
+    */
     public void StartGameThread() {
         // passimao la classe Jpanel a questo thread
         gamThread = new Thread(this);
         gamThread.start();
     }
 
+    /**
+     @brief Comincia il thread degli NPC.
+     
+     questo metodo serve per far cominciare il thread delle entità del giorno
+    */
     public void StartNPCthread()
     {
         NPCS.StartThread();
     }
 
+    /**
+     @brief Imposta il gioco.
+     
+     questo metodo serve per impostare tutti i valori del gioco quando si preme il pulsante PLAY nel menu principale
+    */
     public void resetGame() {
         //inizializza il giocatore
         player = new Player(this, KeyH, MouseH, soundBG); 
@@ -140,14 +243,17 @@ public class GamePanel extends JPanel implements Runnable {
         ENEMIES = new Enemy_Vector_main(this, player, soundBG, tileM, TR_menu);
         cmp = new Campfire(this, player, tileM);
         
-        // Reset variabili di gioco
         day = 0;
         
         // thread degli NPC
         StartNPCthread();
     }
 
-    // GAME LOOP
+    /**
+     @brief Run.
+     
+     questo metodo è quello del thread della classe
+    */
     @Override
     public void run() {
         // finche questo game thread esiste
@@ -186,6 +292,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     @brief Update.
+     
+     questo metodo serve per aggiornare lo stato dell'oggetto ogni frame (sessanta volte al secondo)
+    */
     public void update() { 
         if (gameState == mainMenuState) {
             // Controlla se l'utente ha cliccato il tasto sinistro
@@ -208,12 +319,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == pauseState) {
             if (MouseH.leftPressed) {
-                // Pulsante RIPRENDI (Resume)
+                // Pulsante CONTINUE
                 if (isMouseOver(290, 380, 200, 60)) {
                     gameState = playState;
                     MouseH.leftPressed = false;
                 }
-                // Pulsante TORNA AL MENU (Quit to Menu)
+                // Pulsante MENU
                 else if (isMouseOver(320, 300, 140, 60)) {
                     gameState = mainMenuState;
                     MouseH.leftPressed = false;
@@ -263,22 +374,41 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     @brief Controlla la posizione del mouse.
+     
+     questo metodo serve per controllare se la posizine del click del mouse è all'interno di un rettangolo passato per parametro
+
+     @param x x del rettangolo
+     @param y y del rettangolo
+     @param width larghezza del rettangolo
+     @param height altezza del rettangolo
+
+     @return ritorna true se il mouse è all'interno del rettangolo
+    */
     private boolean isMouseOver(int x, int y, int width, int height) {
-        return MouseH.mouseX >= x && MouseH.mouseX <= x + width &&
-            MouseH.mouseY >= y && MouseH.mouseY <= y + height;
+        return MouseH.mouseX >= x && MouseH.mouseX <= x + width && MouseH.mouseY >= y && MouseH.mouseY <= y + height;
     }
 
+    /**
+     @brief Paint Component.
+     
+     questo metodo serve per disegnare a schermo i frame dell'oggetto.
+
+     @param g strumento per disegnare a schermo
+    */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
         if (gameState == mainMenuState) {
+            //disegna il menu
             if (menuBg != null) g2.drawImage(menuBg, 0, 0, ScreeWidth, ScreeHeight, null);
             if (btnPlayImg != null) g2.drawImage(btnPlayImg, 550, 300, 140, 60,  null);
             if (btnExitImg != null) g2.drawImage(btnExitImg, 558, 380, 140, 60, null);
         } 
         else {
-            // Disegna il gioco solo se non sei nel menu
+            // Disegna il gioco
             tileM.draw(g2);
             player.draw(g2);
             Trader.draw(g2);
@@ -288,22 +418,22 @@ public class GamePanel extends JPanel implements Runnable {
             ENEMIES.draw(g2);
             
             if (gameState == gameOverState) {
-                // 1. Oscura lo schermo
+                //disegna il game over
+
+                //Oscura lo schermo
                 g2.setColor(new Color(0, 0, 0, 150));
                 g2.fillRect(0, 0, ScreeWidth, ScreeHeight);
-
                 //testo
                 g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
                 String text = "GAME OVER";
                 int x = getXforCenteredText(text, g2);
-                // Ombra del testo (per leggerlo meglio)
+                // Ombra del testo
                 g2.setColor(Color.black);
                 g2.drawString(text, x + 3, 263);
                 // Testo principale
                 g2.setColor(Color.RED);
                 g2.drawString(text, x, 260);
                 
-
                 // Pulsante Continue
                 if (btnMenuImg != null) g2.drawImage(btnMenuImg, 320, 300, 140, 60,  null);
 
@@ -312,10 +442,11 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if (gameState == winState) {
-                // 1. Oscura lo schermo
+                //disegna la vittoria
+
+                //Oscura lo schermo
                 g2.setColor(new Color(0, 0, 0, 150));
                 g2.fillRect(0, 0, ScreeWidth, ScreeHeight);
-
                 //testo
                 g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
                 String text = "WIN!";
@@ -327,7 +458,6 @@ public class GamePanel extends JPanel implements Runnable {
                 g2.setColor(Color.GREEN);
                 g2.drawString(text, x, 260);
                 
-
                 // Pulsante Continue
                 if (btnMenuImg != null) g2.drawImage(btnMenuImg, 320, 300, 140, 60,  null);
 
@@ -336,10 +466,11 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if (gameState == pauseState) {
-                // 1. Oscura lo schermo
+                //disegna la pausa
+
+                //Oscura lo schermo
                 g2.setColor(new Color(0, 0, 0, 150));
                 g2.fillRect(0, 0, ScreeWidth, ScreeHeight);
-
                 //testo
                 g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
                 g2.setColor(Color.YELLOW);
@@ -358,12 +489,29 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    //Metodo per centrare le scritte su schermo
+    /**
+     @brief Centra scritta a schermo.
+     
+     questo metodo serve per disegnare una scritta centrata nello schermo
+
+     @param text testo da centrare nello schermo
+     @param g strumento per disegnare a schermo
+
+     @return ritorna coordinate x e y della scritta centrata
+    */
     public int getXforCenteredText(String text, Graphics2D g2) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return ScreeWidth / 2 - length / 2;
     }
 
+    /**
+     @brief Avvia musica.
+     
+     questo metodo serve per avviare un sound e eseguirno in loop. 
+     il sound da avviare pene preso dal vettore della clase SOund.java attraverso l'indice in parametro
+
+     @param i indice del vettora da cui prendere il sound
+    */
     public void avviaMusica(int i) {
         
         soundBG.setFile(i);// setta il file con numero int i
@@ -371,6 +519,11 @@ public class GamePanel extends JPanel implements Runnable {
         soundBG.loop();// lo mette in loop
     }
 
+    /**
+     @brief Ferma musica.
+     
+     questo metodo serve per fermare tutti i suoni che sono in esecuzione.
+    */
     public void FermaMusica() {
         soundBG.stop(); // ferma il file musicale riprodotto
     }

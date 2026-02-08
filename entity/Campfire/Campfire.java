@@ -1,3 +1,11 @@
+/**
+* @version 1.0
+* @file Campfire.java 
+* 
+* @brief File che contiene la classe Campfire
+*
+*/
+
 package entity.Campfire;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,34 +17,74 @@ import entity.Player.Player;
 import main.GamePanel;
 import tile.TileManager;
 
+/** 
+* @class Campfire
+* 
+* @brief Classe che gestisce i falò nel gioco
+* 
+* Questa classe serve a spawnare dei falò nel gioco che permetto di rigenerare la vita
+*/
 public class Campfire {
+    /** Rettangolo in cui si può rigenerare la vita*/
     Rectangle HealRect;
-    Rectangle StayinZone;
+
+    /** GamePanel*/
     GamePanel gp;
+
+    /** TileManager*/
     TileManager tm;
+
+    /** PLayer*/
     Player pl;
+
+    /** Path delle immagini*/
     String urlCampFire = "/src/CampFire/campfire";
+
+    /** Mappa di spawn*/
     String MapSpaw = "";
 
+    /** coordinata x*/
     public int x;
+
+    /** coordinata y*/
     public int y;
+
+    /** tsto di incremento vita*/
     boolean stampaPlusvita = false;
+
+    /** incremento di vita*/
     int heal = 5;
 
+    /** tempo di distanza tra un incremento di vita e quello dopo*/
     int contatore = 0;
 
+    /** contatore di frame*/
     public int CampFireSpriteCounter = 0;
+
+    /** numero di frame*/
     public int CampFireSpriteNum = 1;
 
+    /** frame da disegnare*/
     BufferedImage FrameToDraw;
+
+    /** vettore di frame*/
     BufferedImage[] CampFireFrames;
 
+    /**
+     @brief Costruttore della classe Campfire.
+     
+     questo metodo è il costruttore che crea il falò
+
+     @param pl player
+     @param tm tileManager
+     @param gp gamePanel
+
+    */
     public Campfire(GamePanel gp, Player pl, TileManager tm) {
         this.gp = gp;
         this.pl = pl;
         this.tm = tm;
         HealRect = new Rectangle(0, 0, 150, 150);
-        StayinZone = new Rectangle(96, 96, 576, 384);
         CampFireFrames = new BufferedImage[14];
         GetCampfireImages();
         deicidiMappaSpawn();
@@ -44,11 +92,24 @@ public class Campfire {
 
     }
 
+    /**
+     @brief Sceglie la mappa in cui spawnare.
+     
+     questo metodo sceglie randomicamente la mappa in cui spawnerà il falò
+
+    */
     public void deicidiMappaSpawn() {
         int n = 1 + (int) (Math.random() * 5);
         MapSpawSet(n);
     }
 
+    /**
+     @brief imposta la mappa in cui spawnare.
+     
+     questo metodo imposta la mappa in cui spawnerà il falò basandosi sul numero randomico di decidiMappaSpawn
+
+     @param n numero di mappa randomico
+    */
     public void MapSpawSet(int n) {
         switch (n) {
             case 1:
@@ -70,6 +131,11 @@ public class Campfire {
 
     }
 
+    /**
+     @brief Carica immagini.
+     
+     questo metodo serve per caricare le immagini mettendole nel vettore di immagini
+    */
     public void GetCampfireImages() {
         try {
             for (int i = 0; i < 14; i++) {
@@ -82,6 +148,11 @@ public class Campfire {
         }
     }
 
+    /**
+     @brief Update.
+     
+     questo metodo serve per aggiornare lo stato dell'oggetto ogni frame (sessanta volte al secondo)
+    */
     public void update() {
         if (gp.cicle.equals("DAY")) {
             HealRect.x = x - 50;
@@ -107,6 +178,11 @@ public class Campfire {
         }
     }
 
+    /**
+     @brief Metodo per animare l'oggetto.
+     
+     questo metodo serve per modificare il frame dell'oggetto e renderlo animato.
+    */
     public void moveFrame() {
         CampFireSpriteCounter++;
         if (CampFireSpriteCounter > 5) {
@@ -144,6 +220,13 @@ public class Campfire {
         }
     }
 
+    /**
+     @brief Draw.
+     
+     questo metodo serve per disegnare a schermo i frame dell'oggetto.
+
+     @param g strumento per disegnare a schermo
+    */
     public void draw(Graphics2D g2) {
 
         if (gp.cicle == "DAY") {
@@ -164,6 +247,11 @@ public class Campfire {
         }
     }
 
+    /**
+     @brief metodo per spawnare il falò.
+     
+     questo metodo spawna il campfire in base alla mappa scelta
+    */
     public void SpwanCampFire() {
         switch(this.MapSpaw){
             case "center":
@@ -189,6 +277,11 @@ public class Campfire {
         }
     }
 
+    /**
+     @brief metodo per stampare il frame corrente a schermo.
+     
+     questo metodo imposta il frame da stampare basandosi sulle variabili CampFireSpriteCounter e CampFireSpriteNum
+    */
     public void spriteSet() {
         if (CampFireSpriteNum == 1)
             FrameToDraw = CampFireFrames[0];

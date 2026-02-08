@@ -1,26 +1,48 @@
+/**
+* @version 1.0
+* @file Entity.java 
+* 
+* @brief File che contiene la classe Entity
+*
+*/
+
 package entity.Player;
 
 import java.awt.image.BufferedImage;
 
-//superclasse per tutte le entita
-
+/** 
+* @class Entity
+* 
+* @brief Classe che permette di creare tutte le entità
+* 
+* Questa classe è la superclasse per tutte le entita.
+* da qui tutte le entità ereditano degli attributi.
+*/
 public class Entity {
-    // posizione del entita
+    /** posizione dell'entità*/
     public int x, y;
-    // velocita entita
+
+    /** velocità dell'entità*/
     public int speed;
-    // immagini su qui caricheremo le immagini in png
-    // MOVIMENTI
-    public BufferedImage rg1, rg2, rg3, rg4, rg5, rg6, rg7, rg8, lf1, lf2, lf3, lf4, lf5, lf6, lf7, lf8,
-            // ATTACCHI
-            rgA1, rgA2, rgA3, rgA4, rgA5, rgA6, rgA7, rgA8, lfA1, lfA2, lfA3, lfA4, lfA5, lfA6, lfA7, lfA8;
-    // direzione (tipo di animazione (left) (right))
+
+    /** immagini dei movimenti su cui verranno caricate le immagini PNG*/
+    public BufferedImage rg1, rg2, rg3, rg4, rg5, rg6, rg7, rg8, lf1, lf2, lf3, lf4, lf5, lf6, lf7, lf8, rgA1, rgA2, rgA3, rgA4, rgA5, rgA6, rgA7, rgA8, lfA1, lfA2, lfA3, lfA4, lfA5, lfA6, lfA7, lfA8;
+    
+    /** direzione dell'entità*/
     public String direction;
 
+    /** attacco dell'entità*/
     public String Attack;
-    public int SpriteCounter = 0;
-    public int SpriteNum = 1;
-    public int AttackSpriteCounter = 0;
-    public int AttackSpriteNum = 1;
 
+    /** contatore dei frame di movimento dell'entità*/
+    public int SpriteCounter = 0;
+
+    /** numero di frame di movimento dell'entità*/
+    public int SpriteNum = 1;
+
+    /** contatore dei frame di attacco dell'entità*/
+    public int AttackSpriteCounter = 0;
+
+    /** numero di frame di attacco dell'entità*/
+    public int AttackSpriteNum = 1;
 }
