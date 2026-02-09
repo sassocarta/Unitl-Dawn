@@ -55,10 +55,9 @@ public class NPC_Vector_main {
 
     public void StartThread()
     {
-        //1controllo se anche 1 npc stia parlando
+        
         for(Cnpc n : npcs) {
             Thread thread = new Thread(n);
-        // Avvio il thread: questo chiamerà internamente il metodo run() di Cnpc
         thread.start();
         }
 

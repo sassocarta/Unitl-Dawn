@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 
 import entity.Player.Player;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import main.GamePanel;
@@ -56,6 +57,7 @@ public class NPC_Tio {
     public NPC_Tio(GamePanel gp,Player pl, Sound interactSound, TileManager tm) {
         idel = new BufferedImage[3];
         jump = new BufferedImage[2];
+        InteractSquare = new Rectangle(0,0, 100,100);
         this.pl = pl;
         InteractSound = interactSound;
         this.tm = tm;
@@ -111,8 +113,9 @@ public class NPC_Tio {
             g2.drawImage(BtnImage,col * gp.tileSize + 50,row * gp.tileSize + 20 ,gp.tileSize * 2 ,gp.tileSize  * 2, null);  
         }
 
+        //g2.setColor(Color.RED);
         //g2.draw(InteractSquare);
-        //g2.draw(pl.PlInteractRect);
+        
     }
 
     public void MapSpawSet(int n) {
@@ -204,7 +207,8 @@ public class NPC_Tio {
 
     public void inActivatingRect()
     {
-        InteractSquare = new Rectangle(col*gp.tileSize + 45 ,row*gp.tileSize + 50, 100,100);
+        InteractSquare.x = col*gp.tileSize + 45;
+        InteractSquare.y = row*gp.tileSize + 50;
 
         if(InteractSquare.intersects(pl.PlInteractRect))
         {

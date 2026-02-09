@@ -1,0 +1,16 @@
+UNTIL DAWN
+
+1.COMANDI
+
+	-WASD per muoversi
+	-left mouse click per difendersi con scudo
+	-right mouse click per attaccare i mob
+	-E per entrare e uscire nel da TIO SCHOP (la rana blu)
+	-right mouse click su TIO shop per scegliere l'arma che si vuole comprare
+
+2.HOW TO PLAY
+
+il gioco si sviluppa su 2 cicli… Giorno e Notte, di giorno vari NPC saranno felici di parlare con te con una piccola possibilità di lasciare una monetina, di giorno ci sarà anche un campfire che permettere di curarsi se si prende danno durante la notte, ma come si entra nella notte?, parlando con TIO ovvero la rana blu, tio permette di comprare armi da utilizzare per la notte ed e la fonte di accesso per le varie notti, di notte molteplici mostri sono al agguato per fermarvi dal raggiungere la vostra missione. alla 10 notte un il BOSS vi attende per un epica battaglia al ultimo sangue.
+
+IL GIOCO E ANCORA IN FASE DI SVILUPPO PERCIO LA PRESENSZA DI BUG NON E POCA…
+

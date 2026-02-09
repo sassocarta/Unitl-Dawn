@@ -94,6 +94,8 @@ public class Player extends Entity {
         yBar = gp.ScreeHeight - 50;
         maxWidth = 130;
         height = 20;
+        
+        PlInteractRect = new Rectangle(0,0, 48, 48);
 
         setDefaultValues();
         getPlayerImg();
@@ -306,7 +308,9 @@ public class Player extends Entity {
             gp.gameState = gp.gameOverState;
         }
 
-        PlInteractRect = new Rectangle(x + 70, y + 78, 48, 48);
+        PlInteractRect.x = x + 70;
+        PlInteractRect.y =  y + 78;
+
         playerCol = x / gp.tileSize;
         playerRow = y / gp.tileSize;
 
