@@ -72,8 +72,8 @@ public class TileManager {
         gp.cicle = "DAY";
         // setto i tile per il ciclo in base a gp.cicle (IN QUESTO CASO USO I TILE PER
         // IL DAY)
-        gp.avviaMusica(5);
-        this.music = true;
+        //gp.avviaMusica(5);
+        //this.music = true;
         GetTileBaseCicle();
 
     }
@@ -335,7 +335,7 @@ public class TileManager {
             gp.cicle = "DAY";
             gp.day++;
             npcForcingNight = false;
-            music = true; 
+            //music = true; 
 
             GetTileBaseCicle();  
 
@@ -345,7 +345,7 @@ public class TileManager {
         else if (npcForcingNight && gp.cicle.equals("DAY")) {
 
             gp.cicle = "NIGHT";
-            music = true; 
+            //music = true; 
 
             GetTileBaseCicle();  
 

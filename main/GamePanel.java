@@ -299,6 +299,11 @@ public class GamePanel extends JPanel implements Runnable {
     */
     public void update() { 
         if (gameState == mainMenuState) {
+
+            //imposto la musica
+            //avviaMusica(10);
+
+
             // Controlla se l'utente ha cliccato il tasto sinistro
             if (MouseH.leftPressed) { 
                 
@@ -306,7 +311,6 @@ public class GamePanel extends JPanel implements Runnable {
                 if (isMouseOver(550, 300, 140, 60)) {
                     resetGame();
                     gameState = playState;
-                    avviaMusica(0); // Avvia la musica del gioco se necessario
                     MouseH.leftPressed = false; // Reset per evitare click multipli
                 }
                 
@@ -363,6 +367,16 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         if (gameState == playState) {
+
+            /* 
+            if(cicle=="DAY"){
+                //imposto la musica
+                avviaMusica(5);
+            }else if(cicle=="NIGHT"){
+                //imposto la musica
+                avviaMusica(0);
+            }
+            */
             player.update(); 
             tileM.update(); 
             cl.update(); 
